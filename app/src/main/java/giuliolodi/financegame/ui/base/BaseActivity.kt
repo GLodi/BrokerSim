@@ -10,7 +10,7 @@ import giuliolodi.financegame.di.module.ActivityModule
 import giuliolodi.financegame.utils.CommonUtils
 import giuliolodi.financegame.utils.NetworkUtils
 
-open class BaseActivity : AppCompatActivity(), BaseContract.View, BaseFragment.Callback {
+open class BaseActivity : AppCompatActivity(), BaseContract.View {
 
     private lateinit var mActivityComponent: ActivityComponent
     private lateinit var mProgressDialog: ProgressDialog
@@ -44,10 +44,8 @@ open class BaseActivity : AppCompatActivity(), BaseContract.View, BaseFragment.C
         return NetworkUtils.isNetworkAvailable(applicationContext)
     }
 
-    override fun onFragmentAttached() {
-    }
-
-    override fun onFragmentDetached(tag: String) {
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 }
