@@ -1,10 +1,10 @@
 package giuliolodi.financegame.ui.main
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import giuliolodi.financegame.R
+import giuliolodi.financegame.ui.base.BaseActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
