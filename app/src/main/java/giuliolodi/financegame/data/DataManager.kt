@@ -1,6 +1,8 @@
 package giuliolodi.financegame.data
 
-interface DataManager {
+import giuliolodi.financegame.data.api.ApiHelper
+
+interface DataManager : ApiHelper {
 
 
 

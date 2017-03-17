@@ -2,11 +2,13 @@ package giuliolodi.financegame.ui.main
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.widget.LinearLayout
 import giuliolodi.financegame.R
 import giuliolodi.financegame.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_activity_content.*
+import yahoofinance.Stock
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainContract.View {
@@ -23,6 +25,8 @@ class MainActivity : BaseActivity(), MainContract.View {
 
         mPresenter.onAttach(this)
 
+        mPresenter.subscribe()
+
     }
 
     private fun initLayout() {
@@ -30,13 +34,12 @@ class MainActivity : BaseActivity(), MainContract.View {
 
         main_activity_fab.setOnClickListener { view -> Snackbar.make(view, "Prova", Snackbar.LENGTH_LONG).show() }
 
-        main_activity_content_rv.setHasFixedSize(true)
-        val layoutManager = GridLayoutManager(this, 2)
-        main_activity_content_rv.layoutManager = layoutManager
-        main_activity_content_rv.setHasFixedSize(true)
+        main_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
+        main_activity_content_rv.adapter = MainAdapter()
     }
 
-    override fun showContent() {
+    override fun showContent(stocks: List<Stock>) {
+        (main_activity_content_rv.adapter as MainAdapter).addStocks(stocks)
     }
 
     override fun onDestroy() {

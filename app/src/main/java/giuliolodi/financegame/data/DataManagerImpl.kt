@@ -3,6 +3,8 @@ package giuliolodi.financegame.data
 import android.content.Context
 import giuliolodi.financegame.data.api.ApiHelper
 import giuliolodi.financegame.di.AppContext
+import io.reactivex.Observable
+import yahoofinance.Stock
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,6 +18,10 @@ class DataManagerImpl : DataManager {
     constructor(@AppContext context: Context, apiHelper: ApiHelper) {
         mContext = context
         mApiHelper = apiHelper
+    }
+
+    override fun getStock(stockName: String): Observable<Stock> {
+        return mApiHelper.getStock(stockName)
     }
 
 }
