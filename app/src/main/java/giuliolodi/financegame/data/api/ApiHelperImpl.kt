@@ -3,9 +3,6 @@ package giuliolodi.financegame.data.api
 import android.content.Context
 import giuliolodi.financegame.di.AppContext
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.toMaybe
-import io.reactivex.rxkotlin.toSingle
-import io.reactivex.schedulers.Schedulers
 import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import javax.inject.Inject
@@ -20,7 +17,7 @@ class ApiHelperImpl : ApiHelper {
     }
 
     override fun getStock(stockName: String): Observable<Stock> {
-        return YahooFinance.get(stockName).toSingle().toObservable()
+        return Observable.defer{ Observable.just(YahooFinance.get(stockName)) }
     }
 
 }

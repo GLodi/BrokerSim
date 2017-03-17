@@ -14,7 +14,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         fun bind (stock: Stock) = with(itemView) {
-            item_stock_name.text = stock.name
+            item_stock_name.text = stock.toString()
         }
     }
 
