@@ -15,9 +15,15 @@ class MainActivity : BaseActivity(), MainContract.View {
 
         getActivityComponent().inject(this)
 
+        initLayout()
+
         mPresenter.onAttach(this)
 
         mPresenter.subscribe()
+
+    }
+
+    private fun initLayout() {
 
     }
 
