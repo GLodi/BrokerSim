@@ -24,4 +24,8 @@ class DataManagerImpl : DataManager {
         return mApiHelper.getStock(stockName)
     }
 
+    override fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>> {
+        return mApiHelper.getStockList(stockList)
+    }
+
 }

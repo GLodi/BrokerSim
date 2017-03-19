@@ -7,4 +7,6 @@ interface ApiHelper {
 
     fun getStock(stockName: String): Observable<Stock>
 
+    fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>>
+
 }

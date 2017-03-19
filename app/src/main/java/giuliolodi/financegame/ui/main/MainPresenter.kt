@@ -17,8 +17,9 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
 
     override fun subscribe() {
+        val ar: Array<String> = arrayOf("GOOGL", "INTC")
         getCompositeDisposable().add(getDataManager()
-                .getStock("INTC")
+                .getStockList(ar)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -27,10 +28,8 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                 ))
     }
 
-    fun onSuccess(stock: Stock) {
+    fun onSuccess(stock: Map<String, Stock>) {
         val stocks: ArrayList<Stock> = ArrayList()
-        stocks.add(stock)
-        getView().showContent(stocks)
     }
 
     fun onError(throwable: Throwable) {
