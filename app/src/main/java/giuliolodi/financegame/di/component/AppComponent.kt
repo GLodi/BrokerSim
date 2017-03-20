@@ -23,6 +23,4 @@ interface AppComponent {
 
     fun dataManager(): DataManager
 
-    fun realm(): Realm
-
 }

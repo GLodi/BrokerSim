@@ -8,6 +8,8 @@ import giuliolodi.financegame.data.DataManager
 import giuliolodi.financegame.data.DataManagerImpl
 import giuliolodi.financegame.data.api.ApiHelper
 import giuliolodi.financegame.data.api.ApiHelperImpl
+import giuliolodi.financegame.data.db.DbHelper
+import giuliolodi.financegame.data.db.DbHelperImpl
 import giuliolodi.financegame.di.AppContext
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -37,6 +39,12 @@ class AppModule(private val application: Application) {
     @Singleton
     fun provideApiHelper(apiHelperImpl: ApiHelperImpl): ApiHelper {
         return apiHelperImpl
+    }
+
+    @Provides
+    @Singleton
+    fun provideDbHelper(dbHelperImpl: DbHelperImpl): DbHelper {
+        return dbHelperImpl
     }
 
     @Provides
