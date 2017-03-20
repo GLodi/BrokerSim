@@ -9,6 +9,8 @@ import giuliolodi.financegame.data.DataManagerImpl
 import giuliolodi.financegame.data.api.ApiHelper
 import giuliolodi.financegame.data.api.ApiHelperImpl
 import giuliolodi.financegame.di.AppContext
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import javax.inject.Singleton
 
 @Module
@@ -35,6 +37,11 @@ class AppModule(private val application: Application) {
     @Singleton
     fun provideApiHelper(apiHelperImpl: ApiHelperImpl): ApiHelper {
         return apiHelperImpl
+    }
+
+    @Provides
+    fun provideRealm(): Realm {
+        return Realm.getDefaultInstance()
     }
 
 }

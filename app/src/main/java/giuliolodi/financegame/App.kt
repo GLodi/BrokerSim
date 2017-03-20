@@ -4,6 +4,7 @@ import android.app.Application
 import giuliolodi.financegame.di.component.AppComponent
 import giuliolodi.financegame.di.component.DaggerAppComponent
 import giuliolodi.financegame.di.module.AppModule
+import io.realm.Realm
 
 class App : Application() {
 
@@ -11,6 +12,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        Realm.init(this)
 
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))

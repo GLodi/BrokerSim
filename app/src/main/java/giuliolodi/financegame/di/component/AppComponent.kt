@@ -7,6 +7,7 @@ import giuliolodi.financegame.App
 import giuliolodi.financegame.data.DataManager
 import giuliolodi.financegame.di.AppContext
 import giuliolodi.financegame.di.module.AppModule
+import io.realm.Realm
 import javax.inject.Singleton
 
 @Singleton
@@ -21,5 +22,7 @@ interface AppComponent {
     fun application(): Application
 
     fun dataManager(): DataManager
+
+    fun realm(): Realm
 
 }
