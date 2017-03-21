@@ -4,7 +4,9 @@ import android.app.Application
 import giuliolodi.financegame.di.component.AppComponent
 import giuliolodi.financegame.di.component.DaggerAppComponent
 import giuliolodi.financegame.di.module.AppModule
+import giuliolodi.financegame.model.StockDb
 import io.realm.Realm
+import io.realm.RealmConfiguration
 
 class App : Application() {
 
@@ -21,6 +23,10 @@ class App : Application() {
 
         mAppComponent.inject(this)
 
+        Realm.setDefaultConfiguration(RealmConfiguration.Builder()
+                .initialData { realm -> realm.createObject(StockDb::class.java, "GOOGL") }
+                .deleteRealmIfMigrationNeeded()
+                .build())
     }
 
     fun getAppComponent(): AppComponent {
