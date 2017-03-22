@@ -4,6 +4,7 @@ import android.content.Context
 import giuliolodi.financegame.data.api.ApiHelper
 import giuliolodi.financegame.data.db.DbHelper
 import giuliolodi.financegame.di.AppContext
+import giuliolodi.financegame.model.StockDb
 import io.reactivex.Observable
 import yahoofinance.Stock
 import javax.inject.Inject
@@ -29,6 +30,10 @@ class DataManagerImpl : DataManager {
 
     override fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>> {
         return mApiHelper.getStockList(stockList)
+    }
+
+    override fun getStoredStocks(): Observable<List<StockDb>> {
+        return mDbHelper.getStoredStocks()
     }
 
 }

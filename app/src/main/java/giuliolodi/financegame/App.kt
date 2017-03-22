@@ -15,16 +15,23 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Realm.init(this)
-
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
                 .build()
 
         mAppComponent.inject(this)
 
+        initRealm()
+    }
+
+    fun initRealm() {
+        Realm.init(this)
+        var defaultList: List<String> = listOf("GOOG", "GOOGL", "INTC", "AMZN", "AAPL", "YHOO")
         Realm.setDefaultConfiguration(RealmConfiguration.Builder()
-                .initialData { realm -> realm.createObject(StockDb::class.java, "GOOGL") }
+                .initialData { realm ->
+                    for (item in defaultList)
+                        realm.createObject(StockDb::class.java, item)
+                }
                 .deleteRealmIfMigrationNeeded()
                 .build())
     }

@@ -2,6 +2,7 @@ package giuliolodi.financegame.ui.main
 
 import android.util.Log
 import giuliolodi.financegame.data.DataManager
+import giuliolodi.financegame.model.StockDb
 import giuliolodi.financegame.ui.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -26,6 +27,14 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                         { stock -> onSuccess(stock) },
                         { throwable -> onError(throwable) }
                 ))
+        getCompositeDisposable().add(getDataManager()
+                .getStoredStocks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { stockDbList -> onSuccessStored(stockDbList) },
+                        { throwable -> onError(throwable) }
+                ))
     }
 
     fun onSuccess(stock: Map<String, Stock>) {
@@ -34,6 +43,10 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
 
     fun onError(throwable: Throwable) {
         Log.e(TAG, throwable.message, throwable)
+    }
+
+    fun onSuccessStored(stockList: List<StockDb>) {
+        val a = 0
     }
 
 }
