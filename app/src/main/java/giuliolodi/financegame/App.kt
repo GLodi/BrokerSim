@@ -26,12 +26,9 @@ class App : Application() {
 
     fun initRealm() {
         Realm.init(this)
-        var defaultList: List<String> = listOf("GOOG", "GOOGL", "INTC", "AMZN", "AAPL", "YHOO")
+        val defaultList: List<String> = listOf("GOOG", "GOOGL", "INTC", "AMZN", "AAPL", "YHOO")
         Realm.setDefaultConfiguration(RealmConfiguration.Builder()
-                .initialData { realm ->
-                    for (item in defaultList)
-                        realm.createObject(StockDb::class.java, item)
-                }
+                .initialData { realm -> for (item in defaultList) realm.createObject(StockDb::class.java, item) }
                 .deleteRealmIfMigrationNeeded()
                 .build())
     }

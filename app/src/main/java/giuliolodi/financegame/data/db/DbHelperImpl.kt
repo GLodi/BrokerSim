@@ -5,7 +5,6 @@ import giuliolodi.financegame.di.AppContext
 import giuliolodi.financegame.model.StockDb
 import io.reactivex.Observable
 import io.realm.Realm
-import io.realm.RealmResults
 import javax.inject.Inject
 
 class DbHelperImpl: DbHelper {
