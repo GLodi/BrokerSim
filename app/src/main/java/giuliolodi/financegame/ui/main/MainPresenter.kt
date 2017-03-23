@@ -8,6 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import yahoofinance.Stock
+import java.util.*
 import javax.inject.Inject
 
 class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Presenter<V> {
@@ -29,6 +30,7 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                 ))
         getCompositeDisposable().add(getDataManager()
                 .getStoredStocks()
+                .map { unsortedList ->  }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
