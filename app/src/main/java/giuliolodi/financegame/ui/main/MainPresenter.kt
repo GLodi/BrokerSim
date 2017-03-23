@@ -46,7 +46,7 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
     }
 
     fun onSuccessStored(stockList: List<StockDb>) {
-        val a = 0
+        getView().showContent(stockList)
     }
 
 }

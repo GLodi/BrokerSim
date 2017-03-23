@@ -64,6 +64,10 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.5'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
+    // Stuff
+    compile 'com.github.akashandroid90:imageletter:1.8@aar'
+    compile 'com.vstechlab.easyfonts:easyfonts:1.0.0'
+
     // Test
     testCompile 'junit:junit:4.12'
     testCompile 'org.jetbrains.spek:spek-api:1.1.0-beta3'

@@ -3,12 +3,11 @@ package giuliolodi.financegame.ui.main
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.LinearLayout
 import giuliolodi.financegame.R
+import giuliolodi.financegame.model.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_activity_content.*
-import yahoofinance.Stock
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainContract.View {
@@ -38,7 +37,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         main_activity_content_rv.adapter = MainAdapter()
     }
 
-    override fun showContent(stocks: List<Stock>) {
+    override fun showContent(stocks: List<StockDb>) {
         (main_activity_content_rv.adapter as MainAdapter).addStocks(stocks)
     }
 

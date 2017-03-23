@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/item_padding_sides"
+    android:paddingRight="@dimen/item_padding_sides"
+    android:paddingTop="@dimen/item_padding_top_bottom"
+    android:paddingBottom="@dimen/item_padding_top_bottom">
+
+    <com.github.akashandroid90.imageletter.MaterialLetterIcon
+        android:id="@+id/item_stock_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:shape_type="circle"/>
 
     <TextView
         android:id="@+id/item_stock_name"
+        android:text="StockName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/item_padding_sides"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"/>
 
 </LinearLayout>

@@ -4,17 +4,20 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.vstechlab.easyfonts.EasyFonts
 import giuliolodi.financegame.R
+import giuliolodi.financegame.model.StockDb
 import kotlinx.android.synthetic.main.item_stock.view.*
-import yahoofinance.Stock
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    private var stocks: List<Stock> = ArrayList()
+    private var stocks: List<StockDb> = ArrayList()
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
-        fun bind (stock: Stock) = with(itemView) {
-            item_stock_name.text = stock.toString()
+        fun bind (stock: StockDb) = with(itemView) {
+            item_stock_name.text = stock.symbol
+            item_stock_name.typeface = EasyFonts.robotoRegular(context)
+            item_stock_icon.letter = stock.symbol
         }
     }
 
@@ -31,7 +34,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
         return stocks.size
     }
 
-    fun addStocks(stocks: List<Stock>) {
+    fun addStocks(stocks: List<StockDb>) {
         this.stocks = stocks
         notifyDataSetChanged()
     }
