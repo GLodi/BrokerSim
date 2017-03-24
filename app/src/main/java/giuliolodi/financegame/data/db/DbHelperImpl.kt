@@ -18,11 +18,12 @@ class DbHelperImpl: DbHelper {
         mRealm = realm
     }
 
+    override fun getStoredStockBySymbol(symbol: String): Observable<StockDb> {
+        return Observable.just(mRealm.where(StockDb::class.java).contains("symbol", symbol).findFirst())
+    }
+
     override fun getStoredStocks(): Observable<List<StockDb>> {
-        val list: ArrayList<StockDb> = ArrayList()
-        Observable.just(mRealm.where(StockDb::class.java).findAll())
-                .subscribe { results -> for (item in results) list.add(item) }
-        return Observable.just(list)
+        return Observable.just(mRealm.where(StockDb::class.java).findAllSorted("symbol").toList())
     }
 
 }

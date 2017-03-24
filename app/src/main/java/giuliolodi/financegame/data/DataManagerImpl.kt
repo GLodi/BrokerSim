@@ -32,6 +32,10 @@ class DataManagerImpl : DataManager {
         return mApiHelper.getStockList(stockList)
     }
 
+    override fun getStoredStockBySymbol(symbol: String): Observable<StockDb> {
+        return mDbHelper.getStoredStockBySymbol(symbol)
+    }
+
     override fun getStoredStocks(): Observable<List<StockDb>> {
         return mDbHelper.getStoredStocks()
     }

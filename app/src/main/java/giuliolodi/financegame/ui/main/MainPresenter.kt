@@ -30,13 +30,24 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                 ))
         getCompositeDisposable().add(getDataManager()
                 .getStoredStocks()
-                .map { unsortedList ->  }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { stockDbList -> onSuccessStored(stockDbList) },
+                        { stockDbList -> getView().showContent(stockDbList) },
                         { throwable -> onError(throwable) }
                 ))
+        getCompositeDisposable().add(getDataManager()
+                .getStoredStockBySymbol("AAPL")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { stock -> onSuccessSingle(stock) },
+                        { throwable -> onError(throwable) }
+                ))
+    }
+
+    fun onSuccessSingle(stockDb: StockDb) {
+        val a = 0
     }
 
     fun onSuccess(stock: Map<String, Stock>) {
@@ -45,10 +56,6 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
 
     fun onError(throwable: Throwable) {
         Log.e(TAG, throwable.message, throwable)
-    }
-
-    fun onSuccessStored(stockList: List<StockDb>) {
-        getView().showContent(stockList)
     }
 
 }
