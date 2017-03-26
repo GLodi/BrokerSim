@@ -9,5 +9,4 @@ interface ApiHelper {
 
     fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>>
 
-    fun updateStocks()
 }

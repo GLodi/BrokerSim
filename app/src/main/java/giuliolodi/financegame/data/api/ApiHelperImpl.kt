@@ -27,7 +27,4 @@ class ApiHelperImpl : ApiHelper {
         return Observable.defer { Observable.just(YahooFinance.get(stockList)) }
     }
 
-    override fun updateStocks() {
-    }
-
 }

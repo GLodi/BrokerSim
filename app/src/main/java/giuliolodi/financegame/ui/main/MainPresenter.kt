@@ -48,7 +48,7 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                         { throwable -> Log.e(TAG, throwable.message, throwable) }
                 ))
                 */
-
+        getDataManager().updateStocks()
     }
 
     fun onSuccessSingle(stockDb: StockDb) {
