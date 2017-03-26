@@ -40,4 +40,8 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getStoredStocks()
     }
 
+    override fun updateStocks() {
+        return mApiHelper.updateStocks()
+    }
+
 }
