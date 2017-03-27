@@ -45,6 +45,10 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getStoredStocks()
     }
 
+    override fun updateStock(stock: Stock, stockSymbol: String) {
+        return mDbHelper.updateStock(stock, stockSymbol)
+    }
+
     override fun updateStocks() {
         var storredStocks: List<StockDb> = ArrayList()
         var storredStocksStrings: ArrayList<String> = ArrayList()
@@ -66,7 +70,7 @@ class DataManagerImpl : DataManager {
     }
 
     fun checkStocks(stocks: Array<String>, storredStocks: List<StockDb>) {
-        var map: Map<String, Stock>
+        var map: Map<String, Stock>? = null
         mApiHelper.getStockList(stocks)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -74,6 +78,14 @@ class DataManagerImpl : DataManager {
                         { mappedList -> map = mappedList },
                         { throwable -> Log.e(TAG, throwable.message, throwable) }
                 )
+        var downloadedStocks: List<Stock> = map!!.values.toList()
+        for (stockDb in storredStocks) {
+            for (stock in downloadedStocks) {
+                if (!stockDb.equalsToStock(stock)) {
+                    updateStock(stock, stockDb.symbol)
+                }
+            }
+        }
     }
 
 }

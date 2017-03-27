@@ -5,8 +5,15 @@ import yahoofinance.Stock
 
 interface ApiHelper {
 
-    fun getStock(stockName: String): Observable<Stock>
+    /**
+     * Returns a stock downloaded through YahooFinance API. Need to pass the symbol.
+     */
+    fun getStock(stockSymbol: String): Observable<Stock>
 
-    fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>>
+    /**
+     * Returns a list of stock downloaded through YahooFinance API.
+     * It needs an array of symbols.
+     */
+    fun getStockList(stock: Array<String>): Observable<Map<String, Stock>>
 
 }

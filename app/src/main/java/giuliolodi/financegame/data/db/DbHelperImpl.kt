@@ -5,6 +5,7 @@ import giuliolodi.financegame.di.AppContext
 import giuliolodi.financegame.model.StockDb
 import io.reactivex.Observable
 import io.realm.Realm
+import yahoofinance.Stock
 import javax.inject.Inject
 
 class DbHelperImpl: DbHelper {
@@ -24,6 +25,9 @@ class DbHelperImpl: DbHelper {
 
     override fun getStoredStocks(): Observable<List<StockDb>> {
         return Observable.just(mRealm.where(StockDb::class.java).findAllSorted("symbol").toList())
+    }
+
+    override fun updateStock(stock: Stock, stockDbSymbol: String) {
     }
 
 }

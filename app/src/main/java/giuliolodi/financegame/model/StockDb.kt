@@ -2,6 +2,7 @@ package giuliolodi.financegame.model
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import yahoofinance.Stock
 
 open class StockDb (
 
@@ -12,4 +13,12 @@ open class StockDb (
 
         open var currency: String = ""
 
-) : RealmObject()
+) : RealmObject() {
+
+    fun equalsToStock(stock: Stock): Boolean {
+        return (symbol == stock.symbol
+                && name == stock.name
+                && currency == stock.currency)
+    }
+
+}
