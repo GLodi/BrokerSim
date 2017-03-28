@@ -69,9 +69,9 @@ class DataManagerImpl : DataManager {
 
     }
 
-    fun downloadStocks(stocks: Array<String>, storredStocks: List<StockDb>) {
+    fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDb>) {
         var downloadedStocks: List<Stock>? = null
-        mApiHelper.getStockList(stocks)
+        mApiHelper.getStockList(storredStocksStrings)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { checkstocks(storredStocks, downloadedStocks!!) }
@@ -84,9 +84,8 @@ class DataManagerImpl : DataManager {
     fun checkstocks(storredStocks: List<StockDb>, downloadedStocks: List<Stock>) {
         for (stockDb in storredStocks) {
             for (stock in downloadedStocks) {
-                if (!stockDb.equalsToStock(stock)) {
+                if (stockDb.symbol == stock.symbol && !stockDb.equalsToStock(stock))
                     updateStock(stock, stockDb)
-                }
             }
         }
     }

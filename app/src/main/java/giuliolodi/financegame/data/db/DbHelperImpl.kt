@@ -28,8 +28,10 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun updateStock(stock: Stock, stockDb: StockDb) {
+        mRealm.beginTransaction()
         stockDb.copy(stock)
         mRealm.insertOrUpdate(stockDb)
+        mRealm.commitTransaction()
     }
 
 }

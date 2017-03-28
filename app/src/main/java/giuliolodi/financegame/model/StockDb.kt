@@ -16,8 +16,7 @@ open class StockDb (
 ) : RealmObject() {
 
     fun equalsToStock(stock: Stock): Boolean {
-        return (symbol == stock.symbol
-                && name == stock.name
+        return (name == stock.name
                 && currency == stock.currency)
     }
 
