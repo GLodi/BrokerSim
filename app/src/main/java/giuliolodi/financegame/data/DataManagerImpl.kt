@@ -29,8 +29,8 @@ class DataManagerImpl : DataManager {
         mDbHelper = dbHelper
     }
 
-    override fun getStock(stockName: String): Observable<Stock> {
-        return mApiHelper.getStock(stockName)
+    override fun getStock(stockSymbol: String): Observable<Stock> {
+        return mApiHelper.getStock(stockSymbol)
     }
 
     override fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>> {
@@ -45,8 +45,8 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getStoredStocks()
     }
 
-    override fun updateStock(stock: Stock, stockSymbol: String) {
-        return mDbHelper.updateStock(stock, stockSymbol)
+    override fun updateStock(stock: Stock, stockDb: StockDb) {
+        return mDbHelper.updateStock(stock, stockDb)
     }
 
     override fun updateStocks() {
@@ -55,7 +55,7 @@ class DataManagerImpl : DataManager {
         mDbHelper.getStoredStocks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { checkStocks(storredStocksStrings.toTypedArray(), storredStocks) }
+                .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocks) }
                 .subscribe (
                         { stocksDb ->
                             storredStocks = stocksDb
@@ -69,20 +69,23 @@ class DataManagerImpl : DataManager {
 
     }
 
-    fun checkStocks(stocks: Array<String>, storredStocks: List<StockDb>) {
-        var map: Map<String, Stock>? = null
+    fun downloadStocks(stocks: Array<String>, storredStocks: List<StockDb>) {
+        var downloadedStocks: List<Stock>? = null
         mApiHelper.getStockList(stocks)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { checkstocks(storredStocks, downloadedStocks!!) }
                 .subscribe(
-                        { mappedList -> map = mappedList },
+                        { mappedList -> downloadedStocks = mappedList!!.values.toList() },
                         { throwable -> Log.e(TAG, throwable.message, throwable) }
                 )
-        var downloadedStocks: List<Stock> = map!!.values.toList()
+    }
+
+    fun checkstocks(storredStocks: List<StockDb>, downloadedStocks: List<Stock>) {
         for (stockDb in storredStocks) {
             for (stock in downloadedStocks) {
                 if (!stockDb.equalsToStock(stock)) {
-                    updateStock(stock, stockDb.symbol)
+                    updateStock(stock, stockDb)
                 }
             }
         }

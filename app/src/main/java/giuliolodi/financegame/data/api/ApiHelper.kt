@@ -14,6 +14,6 @@ interface ApiHelper {
      * Returns a list of stock downloaded through YahooFinance API.
      * It needs an array of symbols.
      */
-    fun getStockList(stock: Array<String>): Observable<Map<String, Stock>>
+    fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>>
 
 }

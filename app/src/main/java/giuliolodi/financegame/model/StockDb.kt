@@ -21,4 +21,9 @@ open class StockDb (
                 && currency == stock.currency)
     }
 
+    fun copy(stock: Stock) {
+        name = stock.name
+        currency = stock.currency
+    }
+
 }

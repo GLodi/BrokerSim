@@ -19,8 +19,8 @@ class ApiHelperImpl : ApiHelper {
         mRealm = realm
     }
 
-    override fun getStock(stockName: String): Observable<Stock> {
-        return Observable.defer { Observable.just(YahooFinance.get(stockName)) }
+    override fun getStock(stockSymbol: String): Observable<Stock> {
+        return Observable.defer { Observable.just(YahooFinance.get(stockSymbol)) }
     }
 
     override fun getStockList(stockList: Array<String>): Observable<Map<String,Stock>> {

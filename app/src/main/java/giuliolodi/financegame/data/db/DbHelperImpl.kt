@@ -27,7 +27,9 @@ class DbHelperImpl: DbHelper {
         return Observable.just(mRealm.where(StockDb::class.java).findAllSorted("symbol").toList())
     }
 
-    override fun updateStock(stock: Stock, stockDbSymbol: String) {
+    override fun updateStock(stock: Stock, stockDb: StockDb) {
+        stockDb.copy(stock)
+        mRealm.insertOrUpdate(stockDb)
     }
 
 }

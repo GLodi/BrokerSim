@@ -17,9 +17,8 @@ interface DbHelper {
     fun getStoredStocks(): Observable<List<StockDb>>
 
     /**
-     * In order to update a stockDb, you need to pass the stock (finance) from which
-     * you extract the data, along with the symbol of the stockDb that you want to update
+     * Copy a given stock into a stockDb and update the db
      */
-    fun updateStock(stock: Stock, stockDbSymbol: String)
+    fun updateStock(stock: Stock, stockDb: StockDb)
 
 }
