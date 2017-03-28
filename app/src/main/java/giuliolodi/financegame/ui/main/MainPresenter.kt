@@ -28,15 +28,7 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                         { stock -> onSuccess(stock) },
                         { throwable -> Log.e(TAG, throwable.message, throwable) }
                 ))
-        getCompositeDisposable().add(getDataManager()
-                .getStoredStocks()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { stockDbList -> getView().showContent(stockDbList) },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }
-                ))
-        getDataManager().updateStocks()
+        updateStocks()
     }
 
     fun onSuccessSingle(stockDb: StockDb) {
@@ -45,6 +37,56 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
 
     fun onSuccess(stock: Map<String, Stock>) {
         val stocks: ArrayList<Stock> = ArrayList()
+    }
+
+    fun updateStocks() {
+        getView().showLoading()
+        var storredStocks: List<StockDb> = ArrayList()
+        var storredStocksStrings: ArrayList<String> = ArrayList()
+        getDataManager().getStoredStocks()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocks) }
+                .subscribe (
+                        { stocksDb ->
+                            storredStocks = stocksDb
+                            for (s in stocksDb) {
+                                storredStocksStrings.add(s.symbol)
+
+                            }
+                        },
+                        { throwable -> Log.e(TAG, throwable.message, throwable) }
+                )
+
+    }
+
+    fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDb>) {
+        var downloadedStocks: List<Stock>? = null
+        getDataManager().getStockList(storredStocksStrings)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { checkStocksUpdateView(storredStocks, downloadedStocks!!) }
+                .subscribe(
+                        { mappedList -> downloadedStocks = mappedList!!.values.toList() },
+                        { throwable -> Log.e(TAG, throwable.message, throwable) }
+                )
+    }
+
+    fun checkStocksUpdateView(storredStocks: List<StockDb>, downloadedStocks: List<Stock>) {
+        for (stockDb in storredStocks) {
+            for (stock in downloadedStocks) {
+                if (stockDb.symbol == stock.symbol && !stockDb.equalsToStock(stock))
+                    getDataManager().updateStock(stock, stockDb)
+            }
+        }
+        getCompositeDisposable().add(getDataManager()
+                .getStoredStocks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { stockDbList -> getView().showContent(stockDbList); getView().hideLoading() },
+                        { throwable -> Log.e(TAG, throwable.message, throwable) }
+                ))
     }
 
 }

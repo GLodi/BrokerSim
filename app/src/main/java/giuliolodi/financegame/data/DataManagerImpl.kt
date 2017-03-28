@@ -49,45 +49,4 @@ class DataManagerImpl : DataManager {
         return mDbHelper.updateStock(stock, stockDb)
     }
 
-    override fun updateStocks() {
-        var storredStocks: List<StockDb> = ArrayList()
-        var storredStocksStrings: ArrayList<String> = ArrayList()
-        mDbHelper.getStoredStocks()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocks) }
-                .subscribe (
-                        { stocksDb ->
-                            storredStocks = stocksDb
-                            for (s in stocksDb) {
-                                storredStocksStrings.add(s.symbol)
-
-                            }
-                        },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }
-                )
-
-    }
-
-    fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDb>) {
-        var downloadedStocks: List<Stock>? = null
-        mApiHelper.getStockList(storredStocksStrings)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { checkstocks(storredStocks, downloadedStocks!!) }
-                .subscribe(
-                        { mappedList -> downloadedStocks = mappedList!!.values.toList() },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }
-                )
-    }
-
-    fun checkstocks(storredStocks: List<StockDb>, downloadedStocks: List<Stock>) {
-        for (stockDb in storredStocks) {
-            for (stock in downloadedStocks) {
-                if (stockDb.symbol == stock.symbol && !stockDb.equalsToStock(stock))
-                    updateStock(stock, stockDb)
-            }
-        }
-    }
-
 }

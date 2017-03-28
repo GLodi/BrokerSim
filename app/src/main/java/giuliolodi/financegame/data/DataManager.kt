@@ -5,6 +5,6 @@ import giuliolodi.financegame.data.db.DbHelper
 
 interface DataManager : ApiHelper, DbHelper {
 
-    fun updateStocks()
+
 
 }
