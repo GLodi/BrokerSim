@@ -15,9 +15,14 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         fun bind (stock: StockDb) = with(itemView) {
-            item_stock_name.text = stock.symbol
+            item_stock_symbol.typeface = EasyFonts.robotoRegular(context)
             item_stock_name.typeface = EasyFonts.robotoRegular(context)
+            item_stock_currency.typeface = EasyFonts.robotoRegular(context)
+
+            item_stock_symbol.text = stock.symbol
             item_stock_icon.letter = stock.symbol
+            item_stock_name.text = stock.name
+            item_stock_currency.text = stock.currency
         }
     }
 

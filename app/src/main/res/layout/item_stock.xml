@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/item_padding_sides"
@@ -16,13 +15,38 @@
         app:shape_type="circle"/>
 
     <TextView
-        android:id="@+id/item_stock_name"
-        android:text="StockName"
+        android:id="@+id/item_stock_symbol"
+        android:text="Symbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/item_padding_sides"
         android:textColor="#000000"
         android:alpha="0.87"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:layout_marginLeft="@dimen/item_padding_sides"
+        android:layout_toRightOf="@id/item_stock_icon"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/item_stock_currency"
+        android:text="Currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.54"
+        android:textSize="16sp"
+        android:layout_marginLeft="@dimen/item_padding_sides"
+        android:layout_toRightOf="@id/item_stock_symbol"/>
+
+    <TextView
+        android:id="@+id/item_stock_name"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.54"
+        android:textSize="16sp"
+        android:layout_marginLeft="@dimen/item_padding_sides"
+        android:layout_marginTop="@dimen/item_padding_top_bottom"
+        android:layout_toRightOf="@id/item_stock_icon"
+        android:layout_below="@id/item_stock_symbol"/>
+
+</RelativeLayout>
