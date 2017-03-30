@@ -49,4 +49,8 @@ class DataManagerImpl : DataManager {
         return mDbHelper.updateStock(stock, stockDb)
     }
 
+    override fun storeStock(stock: Stock) {
+        return mDbHelper.storeStock(stock)
+    }
+
 }

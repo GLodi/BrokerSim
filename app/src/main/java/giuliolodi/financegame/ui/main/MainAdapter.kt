@@ -14,15 +14,19 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     private var stocks: List<StockDb> = ArrayList()
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
-        fun bind (stock: StockDb) = with(itemView) {
+        fun bind (stockDb: StockDb) = with(itemView) {
             item_stock_symbol.typeface = EasyFonts.robotoRegular(context)
             item_stock_name.typeface = EasyFonts.robotoRegular(context)
             item_stock_currency.typeface = EasyFonts.robotoRegular(context)
+            item_stock_price.typeface = EasyFonts.robotoRegular(context)
 
-            item_stock_symbol.text = stock.symbol
-            item_stock_icon.letter = stock.symbol
-            item_stock_name.text = stock.name
-            item_stock_currency.text = stock.currency
+            item_stock_symbol.text = stockDb.symbol
+            item_stock_icon.letter = stockDb.symbol
+            item_stock_name.text = stockDb.name
+            item_stock_currency.text = stockDb.currency
+            item_stock_price.text = "Price: $" + stockDb.price.toString()
+            if (stockDb.lastPrice != null) item_stock_lastprice.text = "Last Price: $" + stockDb.lastPrice.toString()
+            item_stock_icon.shapeColor = stockDb.iconColor
         }
     }
 

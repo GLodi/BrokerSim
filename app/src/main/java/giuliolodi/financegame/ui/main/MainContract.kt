@@ -18,5 +18,7 @@ interface MainContract {
 
         fun subscribe()
 
+        fun addStock()
+
     }
 }

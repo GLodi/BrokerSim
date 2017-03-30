@@ -21,4 +21,10 @@ interface DbHelper {
      */
     fun updateStock(stock: Stock, stockDb: StockDb)
 
+    /**
+     * Takes a regular stock object, creates its stockDb version
+     * and stored it into Realm
+     */
+    fun storeStock(stock: Stock)
+
 }

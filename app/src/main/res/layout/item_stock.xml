@@ -12,7 +12,7 @@
         android:id="@+id/item_stock_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:shape_type="circle"/>
+        app:shape_type="circle" />
 
     <TextView
         android:id="@+id/item_stock_symbol"
@@ -44,9 +44,31 @@
         android:textColor="#000000"
         android:alpha="0.54"
         android:textSize="16sp"
+        android:ellipsize="end"
         android:layout_marginLeft="@dimen/item_padding_sides"
         android:layout_marginTop="@dimen/item_padding_top_bottom"
         android:layout_toRightOf="@id/item_stock_icon"
         android:layout_below="@id/item_stock_symbol"/>
+
+    <TextView
+        android:id="@+id/item_stock_price"
+        android:text="Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/item_stock_lastprice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/item_padding_top_bottom"
+        android:layout_below="@id/item_stock_price"/>
 
 </RelativeLayout>

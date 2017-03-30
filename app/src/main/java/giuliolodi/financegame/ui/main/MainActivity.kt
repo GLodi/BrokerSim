@@ -31,10 +31,12 @@ class MainActivity : BaseActivity(), MainContract.View {
     private fun initLayout() {
         setSupportActionBar(main_activity_toolbar)
 
-        main_activity_fab.setOnClickListener { view -> Snackbar.make(view, "Prova", Snackbar.LENGTH_LONG).show() }
+        main_activity_fab.setOnClickListener { mPresenter.addStock() }
 
         main_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         main_activity_content_rv.adapter = MainAdapter()
+
+        main_activity_content_srl.setOnRefreshListener { mPresenter.subscribe(); main_activity_content_srl.isRefreshing = false }
     }
 
     override fun showContent(stocks: List<StockDb>) {

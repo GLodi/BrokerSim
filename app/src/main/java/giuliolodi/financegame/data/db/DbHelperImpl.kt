@@ -34,4 +34,12 @@ class DbHelperImpl: DbHelper {
         mRealm.commitTransaction()
     }
 
+    override fun storeStock(stock: Stock) {
+        var stockDb: StockDb = StockDb(stock.symbol)
+        mRealm.beginTransaction()
+        stockDb.copy(stock)
+        mRealm.insertOrUpdate(stockDb)
+        mRealm.commitTransaction()
+    }
+
 }

@@ -19,24 +19,17 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
 
     override fun subscribe() {
-        val ar: Array<String> = arrayOf("GOOGL", "INTC")
-        getCompositeDisposable().add(getDataManager()
-                .getStockList(ar)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { stock -> onSuccess(stock) },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }
-                ))
         updateStocks()
     }
 
-    fun onSuccessSingle(stockDb: StockDb) {
-        val a = 0
-    }
-
-    fun onSuccess(stock: Map<String, Stock>) {
-        val stocks: ArrayList<Stock> = ArrayList()
+    override fun addStock() {
+        getDataManager().getStock("TIF")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { downloadedStock -> getDataManager().storeStock(downloadedStock) },
+                        { throwable -> Log.e(TAG, throwable.message, throwable)}
+                )
     }
 
     fun updateStocks() {
