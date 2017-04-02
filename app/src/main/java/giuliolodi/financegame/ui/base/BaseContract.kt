@@ -4,10 +4,6 @@ interface BaseContract {
 
     interface View {
 
-        fun showLoading()
-
-        fun hideLoading()
-
         fun isNetworkAvailable(): Boolean
 
     }

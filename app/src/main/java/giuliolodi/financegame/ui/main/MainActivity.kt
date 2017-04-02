@@ -36,11 +36,20 @@ class MainActivity : BaseActivity(), MainContract.View {
         main_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         main_activity_content_rv.adapter = MainAdapter()
 
-        main_activity_content_srl.setOnRefreshListener { mPresenter.subscribe(); main_activity_content_srl.isRefreshing = false }
+        main_activity_content_srl.setColorScheme(R.color.colorAccent)
+        main_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
     }
 
     override fun showContent(stocks: List<StockDb>) {
         (main_activity_content_rv.adapter as MainAdapter).addStocks(stocks)
+    }
+
+    override fun showLoading() {
+        main_activity_content_srl.isRefreshing = true
+    }
+
+    override fun hideLoading() {
+        main_activity_content_srl.isRefreshing = false
     }
 
     override fun onDestroy() {

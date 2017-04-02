@@ -9,6 +9,10 @@ interface MainContract {
 
     interface View : BaseContract.View {
 
+        fun showLoading()
+
+        fun hideLoading()
+
         fun showContent(stocks: List<StockDb>)
 
     }
