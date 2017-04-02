@@ -10,7 +10,7 @@ import giuliolodi.financegame.data.api.ApiHelper
 import giuliolodi.financegame.data.api.ApiHelperImpl
 import giuliolodi.financegame.data.db.DbHelper
 import giuliolodi.financegame.data.db.DbHelperImpl
-import giuliolodi.financegame.di.AppContext
+import giuliolodi.financegame.di.scope.AppContext
 import giuliolodi.financegame.model.StockDb
 import io.realm.Realm
 import io.realm.RealmConfiguration

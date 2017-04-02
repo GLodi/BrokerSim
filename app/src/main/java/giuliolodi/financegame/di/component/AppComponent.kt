@@ -5,7 +5,7 @@ import android.content.Context
 import dagger.Component
 import giuliolodi.financegame.App
 import giuliolodi.financegame.data.DataManager
-import giuliolodi.financegame.di.AppContext
+import giuliolodi.financegame.di.scope.AppContext
 import giuliolodi.financegame.di.module.AppModule
 import io.realm.Realm
 import javax.inject.Singleton

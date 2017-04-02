@@ -1,7 +1,7 @@
 package giuliolodi.financegame.di.component
 
 import dagger.Component
-import giuliolodi.financegame.di.PerActivity
+import giuliolodi.financegame.di.scope.PerActivity
 import giuliolodi.financegame.di.module.ActivityModule
 import giuliolodi.financegame.ui.main.MainActivity
 

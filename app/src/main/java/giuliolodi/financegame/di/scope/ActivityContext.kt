@@ -1,4 +1,4 @@
-package giuliolodi.financegame.di
+package giuliolodi.financegame.di.scope
 
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy

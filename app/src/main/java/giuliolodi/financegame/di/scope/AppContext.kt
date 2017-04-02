@@ -1,10 +1,10 @@
-package giuliolodi.financegame.di
+package giuliolodi.financegame.di.scope
 
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 
-import javax.inject.Scope
+import javax.inject.Qualifier
 
-@Scope
+@Qualifier
 @Retention(RetentionPolicy.RUNTIME)
-annotation class PerActivity
+annotation class AppContext

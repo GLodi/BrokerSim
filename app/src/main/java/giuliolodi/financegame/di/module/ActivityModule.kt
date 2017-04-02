@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import giuliolodi.financegame.di.ActivityContext
-import giuliolodi.financegame.di.PerActivity
+import giuliolodi.financegame.di.scope.ActivityContext
+import giuliolodi.financegame.di.scope.PerActivity
 import giuliolodi.financegame.ui.main.MainContract
 import giuliolodi.financegame.ui.main.MainPresenter
 import io.reactivex.disposables.CompositeDisposable
