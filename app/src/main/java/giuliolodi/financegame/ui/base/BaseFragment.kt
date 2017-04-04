@@ -2,9 +2,10 @@ package giuliolodi.financegame.ui.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.support.v4.app.DialogFragment
+import giuliolodi.financegame.di.component.ActivityComponent
 
-class BaseFragment : Fragment(), BaseContract.View {
+open class BaseFragment : DialogFragment(), BaseContract.View {
 
     private lateinit var mActivity: BaseActivity
 
@@ -21,6 +22,10 @@ class BaseFragment : Fragment(), BaseContract.View {
 
     override fun isNetworkAvailable(): Boolean {
         return mActivity.isNetworkAvailable()
+    }
+
+    fun getActivityComponent(): ActivityComponent {
+        return mActivity.getActivityComponent()
     }
 
 }
