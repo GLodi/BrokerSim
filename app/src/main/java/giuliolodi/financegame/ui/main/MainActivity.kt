@@ -3,9 +3,13 @@ package giuliolodi.financegame.ui.main
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import giuliolodi.financegame.R
 import giuliolodi.financegame.model.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
+import giuliolodi.financegame.ui.fragment.Fragment
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_activity_content.*
 import javax.inject.Inject
@@ -30,18 +34,20 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     private fun initLayout() {
         setSupportActionBar(main_activity_toolbar)
+        val adapter: MainAdapter = MainAdapter()
 
         main_activity_fab.setOnClickListener { mPresenter.addStock() }
 
         main_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
-        main_activity_content_rv.adapter = MainAdapter()
+        main_activity_content_rv.adapter = adapter
+
+        adapter.getPositionClicks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { showFragment() }
 
         main_activity_content_srl.setColorScheme(R.color.colorAccent)
         main_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
-    }
-
-    override fun showContent(stocks: List<StockDb>) {
-        (main_activity_content_rv.adapter as MainAdapter).addStocks(stocks)
     }
 
     override fun showLoading() {
@@ -50,6 +56,19 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun hideLoading() {
         main_activity_content_srl.isRefreshing = false
+    }
+
+    override fun showFragment() {
+        val fragment: Fragment = Fragment()
+        fragment.show(supportFragmentManager, "Fragment")
+    }
+
+    override fun showContent(stocks: List<StockDb>) {
+        (main_activity_content_rv.adapter as MainAdapter).addStocks(stocks)
+    }
+
+    override fun showError(error: String) {
+        Snackbar.make(currentFocus, "Error retrieving data", Snackbar.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {

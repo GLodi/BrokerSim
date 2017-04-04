@@ -28,7 +28,7 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { downloadedStock -> getDataManager().storeStock(downloadedStock) },
-                        { throwable -> Log.e(TAG, throwable.message, throwable)}
+                        { throwable -> Log.e(TAG, throwable.message, throwable) }
                 )
     }
 
@@ -40,7 +40,7 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocks) }
-                .subscribe (
+                .subscribe(
                         { stocksDb ->
                             storredStocks = stocksDb
                             for (s in stocksDb) {
@@ -61,7 +61,12 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                 .doOnComplete { checkStocksUpdateView(storredStocks, downloadedStocks!!) }
                 .subscribe(
                         { mappedList -> downloadedStocks = mappedList!!.values.toList() },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }
+                        { throwable ->
+                            Log.e(TAG, throwable.message, throwable)
+                            getView().hideLoading()
+                            getView().showError("Error downloading data. Showing storred stocks")
+                            getView().showContent(storredStocks)
+                        }
                 )
     }
 

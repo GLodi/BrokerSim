@@ -7,11 +7,19 @@ import android.view.ViewGroup
 import com.vstechlab.easyfonts.EasyFonts
 import giuliolodi.financegame.R
 import giuliolodi.financegame.model.StockDb
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_stock.view.*
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     private var stocks: List<StockDb> = ArrayList()
+
+    private val onClickSubject: PublishSubject<StockDb> = PublishSubject.create()
+
+    fun getPositionClicks(): Observable<StockDb> {
+        return onClickSubject
+    }
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         fun bind (stockDb: StockDb) = with(itemView) {
@@ -37,6 +45,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(stocks[position])
+        holder.itemView.setOnClickListener { onClickSubject.onNext(stocks[position]) }
     }
 
     override fun getItemCount(): Int {

@@ -37,6 +37,11 @@ class Fragment: BaseFragment(), FragmentContract.View {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        mPresenter.subscribe()
+    }
+
     override fun showLoading() {
         mProgressDialog = CommonUtils.showLoadingDialog(context)
     }
