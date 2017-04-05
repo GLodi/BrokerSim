@@ -11,7 +11,6 @@ class FragmentPresenter<V: FragmentContract.View> : BasePresenter<V>, FragmentCo
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
 
     override fun subscribe() {
-        getView().showLoading()
     }
 
 }

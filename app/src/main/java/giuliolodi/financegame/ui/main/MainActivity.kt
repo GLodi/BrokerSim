@@ -29,7 +29,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         mPresenter.onAttach(this)
 
         mPresenter.subscribe()
-
     }
 
     private fun initLayout() {
@@ -60,7 +59,7 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun showFragment() {
         val fragment: Fragment = Fragment()
-        fragment.show(supportFragmentManager, "Fragment")
+        fragment.show(supportFragmentManager, "Stock Fragment")
     }
 
     override fun showContent(stocks: List<StockDb>) {

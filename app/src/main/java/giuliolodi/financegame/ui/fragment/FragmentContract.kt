@@ -11,6 +11,8 @@ interface FragmentContract {
 
         fun hideLoading()
 
+        fun hideDialog()
+
     }
 
     @PerActivity
