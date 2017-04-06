@@ -1,7 +1,7 @@
 package giuliolodi.financegame.ui.main
 
 import giuliolodi.financegame.di.scope.PerActivity
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseContract
 import yahoofinance.Stock
 

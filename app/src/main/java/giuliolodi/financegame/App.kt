@@ -4,7 +4,7 @@ import android.app.Application
 import giuliolodi.financegame.di.component.AppComponent
 import giuliolodi.financegame.di.component.DaggerAppComponent
 import giuliolodi.financegame.di.module.AppModule
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import io.realm.Realm
 import io.realm.RealmConfiguration
 

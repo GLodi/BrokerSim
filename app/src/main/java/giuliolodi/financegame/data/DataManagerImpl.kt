@@ -5,7 +5,7 @@ import android.util.Log
 import giuliolodi.financegame.data.api.ApiHelper
 import giuliolodi.financegame.data.db.DbHelper
 import giuliolodi.financegame.di.scope.AppContext
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

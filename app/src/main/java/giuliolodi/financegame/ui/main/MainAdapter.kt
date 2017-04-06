@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.vstechlab.easyfonts.EasyFonts
 import giuliolodi.financegame.R
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_stock.view.*

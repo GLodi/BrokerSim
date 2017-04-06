@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import giuliolodi.financegame.R
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
 import giuliolodi.financegame.ui.fragment.Fragment
 import io.reactivex.android.schedulers.AndroidSchedulers

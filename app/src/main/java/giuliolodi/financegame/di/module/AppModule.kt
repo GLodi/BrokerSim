@@ -11,7 +11,7 @@ import giuliolodi.financegame.data.api.ApiHelperImpl
 import giuliolodi.financegame.data.db.DbHelper
 import giuliolodi.financegame.data.db.DbHelperImpl
 import giuliolodi.financegame.di.scope.AppContext
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import javax.inject.Singleton

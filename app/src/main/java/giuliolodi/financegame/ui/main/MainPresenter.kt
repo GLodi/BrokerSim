@@ -2,7 +2,7 @@ package giuliolodi.financegame.ui.main
 
 import android.util.Log
 import giuliolodi.financegame.data.DataManager
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

@@ -1,6 +1,6 @@
 package giuliolodi.financegame.data.db
 
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
 import yahoofinance.Stock
 

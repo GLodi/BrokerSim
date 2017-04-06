@@ -2,7 +2,7 @@ package giuliolodi.financegame.data.db
 
 import android.content.Context
 import giuliolodi.financegame.di.scope.AppContext
-import giuliolodi.financegame.model.StockDb
+import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
 import io.realm.Realm
 import yahoofinance.Stock

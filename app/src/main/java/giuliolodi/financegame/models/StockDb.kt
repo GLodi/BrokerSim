@@ -1,4 +1,4 @@
-package giuliolodi.financegame.model
+package giuliolodi.financegame.models
 
 import android.graphics.Color
 import io.realm.RealmObject
@@ -102,6 +102,10 @@ open class StockDb (
         if (stock.quote.volume!= null) volume = stock.quote.volume
         if (stock.quote.yearHigh!= null) yearHigh = stock.quote.yearHigh.toDouble()
         if (stock.quote.yearLow!= null) yearLow = stock.quote.yearLow.toDouble()
+    }
+
+    fun changeColor() {
+        iconColor = Color.argb(255, Random().nextInt(256), Random().nextInt(256), Random().nextInt(256))
     }
 
 }
