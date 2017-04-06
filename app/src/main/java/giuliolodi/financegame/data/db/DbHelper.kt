@@ -27,4 +27,14 @@ interface DbHelper {
      */
     fun storeStock(stock: Stock)
 
+    /**
+     * Adds given amount of money to user's assets
+     */
+    fun addMoney(money: Double)
+
+    /**
+     * Returns current amount of money in user's assets
+     */
+    fun getMoney(): Observable<Double>
+
 }

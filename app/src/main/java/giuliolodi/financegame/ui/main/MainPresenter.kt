@@ -32,6 +32,14 @@ class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Prese
                 )
     }
 
+    override fun addMoney() {
+        getDataManager().addMoney(10000.00)
+        getDataManager().getMoney()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { money -> getView().updateMoney(money.toString()) }
+    }
+
     fun updateStocks() {
         getView().showLoading()
         var storredStocks: List<StockDb> = ArrayList()

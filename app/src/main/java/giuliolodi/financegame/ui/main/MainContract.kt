@@ -19,6 +19,8 @@ interface MainContract {
 
         fun showError(error: String)
 
+        fun updateMoney(money: String)
+
     }
 
     @PerActivity
@@ -27,6 +29,8 @@ interface MainContract {
         fun subscribe()
 
         fun addStock()
+
+        fun addMoney()
 
     }
 }

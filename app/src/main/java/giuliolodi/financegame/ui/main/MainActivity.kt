@@ -35,18 +35,18 @@ class MainActivity : BaseActivity(), MainContract.View {
         setSupportActionBar(main_activity_toolbar)
         val adapter: MainAdapter = MainAdapter()
 
-        main_activity_fab.setOnClickListener { mPresenter.addStock() }
+        main_activity_fab.setOnClickListener { mPresenter.addMoney() }
 
         main_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         main_activity_content_rv.adapter = adapter
+
+        main_activity_content_srl.setColorScheme(R.color.colorAccent)
+        main_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
 
         adapter.getPositionClicks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { showFragment() }
-
-        main_activity_content_srl.setColorScheme(R.color.colorAccent)
-        main_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
     }
 
     override fun showLoading() {
@@ -68,6 +68,10 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun showError(error: String) {
         Snackbar.make(currentFocus, "Error retrieving data", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun updateMoney(money: String) {
+        main_activity_toolbar.title = money
     }
 
     override fun onDestroy() {

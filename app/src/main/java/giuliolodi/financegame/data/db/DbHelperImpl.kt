@@ -2,6 +2,7 @@ package giuliolodi.financegame.data.db
 
 import android.content.Context
 import giuliolodi.financegame.di.scope.AppContext
+import giuliolodi.financegame.models.Assets
 import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
 import io.realm.Realm
@@ -35,11 +36,23 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun storeStock(stock: Stock) {
-        var stockDb: StockDb = StockDb(stock.symbol)
+        val stockDb: StockDb = StockDb(stock.symbol)
         mRealm.beginTransaction()
         stockDb.copy(stock)
         mRealm.insertOrUpdate(stockDb)
         mRealm.commitTransaction()
+    }
+
+    override fun addMoney(money: Double) {
+        val asset = mRealm.where(Assets::class.java).findFirst()
+        mRealm.beginTransaction()
+        asset.money = asset.money + money
+        mRealm.insertOrUpdate(asset)
+        mRealm.commitTransaction()
+    }
+
+    override fun getMoney(): Observable<Double> {
+        return Observable.just(mRealm.where(Assets::class.java).findFirst().money)
     }
 
 }
