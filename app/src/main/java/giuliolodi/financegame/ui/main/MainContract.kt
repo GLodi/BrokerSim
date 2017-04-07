@@ -13,8 +13,6 @@ interface MainContract {
 
         fun hideLoading()
 
-        fun showFragment()
-
         fun showContent(stocks: List<StockDb>)
 
         fun showError(error: String)

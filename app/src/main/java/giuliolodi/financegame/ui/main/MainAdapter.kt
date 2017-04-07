@@ -32,8 +32,8 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
             item_stock_icon.letter = stockDb.symbol
             item_stock_name.text = stockDb.name
             item_stock_currency.text = stockDb.currency
-            item_stock_price.text = "Price: $" + stockDb.price.toString()
-            if (stockDb.lastPrice != null) item_stock_lastprice.text = "Last Price: $" + stockDb.lastPrice.toString()
+            item_stock_price.text = "Price: $" + String.format("%.2f", stockDb.price)
+            if (stockDb.lastPrice != null) item_stock_lastprice.text = "Last Price: $" + String.format("%.2f", stockDb.lastPrice)
             item_stock_icon.shapeColor = stockDb.iconColor
         }
     }

@@ -8,6 +8,7 @@ import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
 import giuliolodi.financegame.ui.fragment.Fragment
+import giuliolodi.financegame.ui.stock.StockActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main_activity.*
@@ -35,7 +36,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         setSupportActionBar(main_activity_toolbar)
         val adapter: MainAdapter = MainAdapter()
 
-        main_activity_fab.setOnClickListener { mPresenter.addMoney() }
+        main_activity_fab.setOnClickListener { startActivity(StockActivity.getIntent(applicationContext)) }
 
         main_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         main_activity_content_rv.adapter = adapter
@@ -46,7 +47,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         adapter.getPositionClicks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { showFragment() }
+                .subscribe {  }
     }
 
     override fun showLoading() {
@@ -57,10 +58,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         main_activity_content_srl.isRefreshing = false
     }
 
-    override fun showFragment() {
-        val fragment: Fragment = Fragment()
-        fragment.show(supportFragmentManager, "Stock Fragment")
-    }
 
     override fun showContent(stocks: List<StockDb>) {
         (main_activity_content_rv.adapter as MainAdapter).addStocks(stocks)
