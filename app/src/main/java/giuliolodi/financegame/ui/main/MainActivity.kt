@@ -36,7 +36,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         setSupportActionBar(main_activity_toolbar)
         val adapter: MainAdapter = MainAdapter()
 
-        main_activity_fab.setOnClickListener { startActivity(StockActivity.getIntent(applicationContext)) }
+        main_activity_fab.setOnClickListener {  }
 
         main_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         main_activity_content_rv.adapter = adapter
@@ -47,7 +47,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         adapter.getPositionClicks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {  }
+                .subscribe { position -> startActivity(StockActivity.getIntent(applicationContext).putExtra("position", position)) }
     }
 
     override fun showLoading() {

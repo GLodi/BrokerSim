@@ -13,11 +13,11 @@ import kotlinx.android.synthetic.main.item_stock.view.*
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    private var stocks: List<StockDb> = ArrayList()
+    private var stockDbs: List<StockDb> = ArrayList()
 
-    private val onClickSubject: PublishSubject<StockDb> = PublishSubject.create()
+    private val onClickSubject: PublishSubject<Int> = PublishSubject.create()
 
-    fun getPositionClicks(): Observable<StockDb> {
+    fun getPositionClicks(): Observable<Int> {
         return onClickSubject
     }
 
@@ -44,16 +44,16 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(stocks[position])
-        holder.itemView.setOnClickListener { onClickSubject.onNext(stocks[position]) }
+        holder.bind(stockDbs[position])
+        holder.itemView.setOnClickListener { onClickSubject.onNext(position) }
     }
 
     override fun getItemCount(): Int {
-        return stocks.size
+        return stockDbs.size
     }
 
     fun addStocks(stocks: List<StockDb>) {
-        this.stocks = stocks
+        stockDbs = stocks
         notifyDataSetChanged()
     }
 

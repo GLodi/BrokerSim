@@ -2,10 +2,10 @@ package giuliolodi.financegame.ui.stock
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import giuliolodi.financegame.R
+import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.stock_activity.*
 import javax.inject.Inject
@@ -19,16 +19,24 @@ class StockActivity : BaseActivity(), StockContract.View {
         setContentView(R.layout.stock_activity)
 
         initLayout()
+
+        getActivityComponent().inject(this)
+
+        mPresenter.onAttach(this)
+
+        mPresenter.getStockDb(intent.getIntExtra("position", 0))
     }
 
     fun initLayout() {
-        stock_activity_toolbar.title = "Stock"
         setSupportActionBar(stock_activity_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        stock_activity_fab.setOnClickListener {  }
+    }
 
-
-
-        stock_activity_image.setBackgroundColor(Color.parseColor("#000000"))
+    override fun updateViewWithStockDb(stockDb: StockDb) {
+        stock_activity_collapsing_toolbar.title = stockDb.symbol
+        stock_activity_collapsing_toolbar.setContentScrimColor(stockDb.iconColor)
+        stock_activity_image.setBackgroundColor(stockDb.iconColor)
     }
 
     companion object {

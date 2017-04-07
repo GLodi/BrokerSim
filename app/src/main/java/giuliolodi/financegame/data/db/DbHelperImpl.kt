@@ -25,7 +25,7 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun getStoredStocks(): Observable<List<StockDb>> {
-        return Observable.just(mRealm.where(StockDb::class.java).findAllSorted("symbol").toList())
+        return Observable.just(mRealm.where(StockDb::class.java).findAllSorted("symbol"))
     }
 
     override fun updateStock(stock: Stock, stockDb: StockDb) {
@@ -53,6 +53,10 @@ class DbHelperImpl: DbHelper {
 
     override fun getMoney(): Observable<Double> {
         return Observable.just(mRealm.where(Assets::class.java).findFirst().money)
+    }
+
+    override fun getStockDbAtPosition(position: Int): Observable<StockDb> {
+        return Observable.just(mRealm.where(StockDb::class.java).findAllSorted("symbol").get(position))
     }
 
 }

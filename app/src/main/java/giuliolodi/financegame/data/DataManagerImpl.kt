@@ -61,4 +61,8 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getMoney()
     }
 
+    override fun getStockDbAtPosition(position: Int): Observable<StockDb> {
+        return mDbHelper.getStockDbAtPosition(position)
+    }
+
 }

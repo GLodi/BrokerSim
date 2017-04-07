@@ -37,4 +37,9 @@ interface DbHelper {
      */
     fun getMoney(): Observable<Double>
 
+    /**
+     * Returns StockDb stored at given position
+     */
+    fun getStockDbAtPosition(position: Int): Observable<StockDb>
+
 }

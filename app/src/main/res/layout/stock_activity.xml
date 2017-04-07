@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    app:contentScrim="?attr/colorPrimary">
+    app:contentScrim="?attr/colorPrimary"
+    android:id="@+id/stock_activity_coolayout">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/stock_activity_appbar"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="192dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
