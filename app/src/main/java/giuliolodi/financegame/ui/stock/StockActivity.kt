@@ -9,6 +9,7 @@ import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.stock_activity.*
 import javax.inject.Inject
+import android.view.WindowManager
 
 class StockActivity : BaseActivity(), StockContract.View {
 
@@ -37,6 +38,12 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_collapsing_toolbar.title = stockDb.symbol
         stock_activity_collapsing_toolbar.setContentScrimColor(stockDb.iconColor)
         stock_activity_image.setBackgroundColor(stockDb.iconColor)
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.setStatusBarColor(stockDb.iconColorDark)
+        }
     }
 
     companion object {

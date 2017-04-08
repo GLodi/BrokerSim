@@ -1,15 +1,17 @@
 package giuliolodi.financegame.models
 
-import android.graphics.Color
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import yahoofinance.Stock
-import java.util.*
 
 open class StockDb (
 
         @PrimaryKey
         open var symbol: String = "",
+
+        open var iconColor: Int = 0,
+
+        open var iconColorDark: Int = 0,
 
         open var name: String = "",
 
@@ -49,12 +51,10 @@ open class StockDb (
 
         open var yearLow: Double? = null,
 
-        open var lastPrice: Double? = null,
-
-        open var iconColor: Int = Color.argb(255, Random().nextInt(256), Random().nextInt(256), Random().nextInt(256))
+        open var lastPrice: Double? = null
 
 ) : RealmObject() {
-    
+
     fun equalsToStock(stock: Stock): Boolean {
         return (name == stock.name
                 && currency == stock.currency
@@ -102,10 +102,6 @@ open class StockDb (
         if (stock.quote.volume!= null) volume = stock.quote.volume
         if (stock.quote.yearHigh!= null) yearHigh = stock.quote.yearHigh.toDouble()
         if (stock.quote.yearLow!= null) yearLow = stock.quote.yearLow.toDouble()
-    }
-
-    fun changeColor() {
-        iconColor = Color.argb(255, Random().nextInt(256), Random().nextInt(256), Random().nextInt(256))
     }
 
 }
