@@ -32,15 +32,10 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
             item_stock_icon.letter = stockDb.symbol
             item_stock_name.text = stockDb.name
             item_stock_icon.shapeColor = stockDb.iconColor
-            if (stockDb.lastPrice != null) {
-                val result = stockDb.lastPrice!!.div(stockDb.price!!).times(100).minus(100)
-                if (result > 0)
-                    item_stock_increase.text = "+%${result}"
-                else
-                    item_stock_increase.text = "-%${result}"
-            } else {
-                item_stock_price.text = "$" + String.format("%.2f", stockDb.price)
-            }
+
+            item_stock_price.text = "$" + String.format("%.2f", stockDb.price)
+            val diff = stockDb.previousClose!!.minus(stockDb.price!!)
+            item_stock_increase.text = String.format("%.2f", diff)
         }
     }
 

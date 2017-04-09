@@ -49,9 +49,7 @@ open class StockDb (
 
         open var yearHigh: Double? = null,
 
-        open var yearLow: Double? = null,
-
-        open var lastPrice: Double? = null
+        open var yearLow: Double? = null
 
 ) : RealmObject() {
 
@@ -82,9 +80,6 @@ open class StockDb (
     fun copy(stock: Stock) {
         name = stock.name
         currency = stock.currency
-        if ((price != null && lastPrice == null && stock.quote.price != null && stock.quote.price.toDouble() != price)
-                || (stock.quote.price != null && stock.quote.price.toDouble() != price))
-            lastPrice = price
         if (stock.quote.ask != null) ask = stock.quote.ask.toDouble()
         if (stock.quote.askSize != null) askSize = stock.quote.askSize
         if (stock.quote.avgVolume != null) avgVolume = stock.quote.avgVolume
