@@ -25,13 +25,16 @@ class StockActivity : BaseActivity(), StockContract.View {
 
         mPresenter.onAttach(this)
 
+        // Get stockDb from position in array
         mPresenter.getStockDb(intent.getIntExtra("position", 0))
     }
 
     fun initLayout() {
         setSupportActionBar(stock_activity_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        stock_activity_fab.setOnClickListener {  }
+        stock_activity_fab.setOnClickListener {
+            // TODO: allow user to add more stocks
+        }
     }
 
     override fun updateViewWithStockDb(stockDb: StockDb) {
@@ -39,6 +42,7 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_collapsing_toolbar.setContentScrimColor(stockDb.iconColor)
         stock_activity_image.setBackgroundColor(stockDb.iconColor)
 
+        // Setup statusBar color if > Lollipop
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)

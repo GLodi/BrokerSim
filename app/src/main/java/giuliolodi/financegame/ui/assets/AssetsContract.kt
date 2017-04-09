@@ -1,11 +1,11 @@
-package giuliolodi.financegame.ui.main
+package giuliolodi.financegame.ui.assets
 
 import giuliolodi.financegame.di.scope.PerActivity
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseContract
 import yahoofinance.Stock
 
-interface MainContract {
+interface AssetsContract {
 
     interface View : BaseContract.View {
 
@@ -22,7 +22,7 @@ interface MainContract {
     }
 
     @PerActivity
-    interface Presenter<V: MainContract.View> : BaseContract.Presenter<V> {
+    interface Presenter<V: AssetsContract.View> : BaseContract.Presenter<V> {
 
         fun subscribe()
 

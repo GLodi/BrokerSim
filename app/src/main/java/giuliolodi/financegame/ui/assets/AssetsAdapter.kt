@@ -1,4 +1,4 @@
-package giuliolodi.financegame.ui.main
+package giuliolodi.financegame.ui.assets
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,12 +11,13 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_stock.view.*
 
-class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     private var stockDbs: List<StockDb> = ArrayList()
 
     private val onClickSubject: PublishSubject<Int> = PublishSubject.create()
 
+    // Expose PublishSubject for as onClickListener
     fun getPositionClicks(): Observable<Int> {
         return onClickSubject
     }
@@ -25,16 +26,21 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
         fun bind (stockDb: StockDb) = with(itemView) {
             item_stock_symbol.typeface = EasyFonts.robotoRegular(context)
             item_stock_name.typeface = EasyFonts.robotoRegular(context)
-            item_stock_currency.typeface = EasyFonts.robotoRegular(context)
             item_stock_price.typeface = EasyFonts.robotoRegular(context)
 
             item_stock_symbol.text = stockDb.symbol
             item_stock_icon.letter = stockDb.symbol
             item_stock_name.text = stockDb.name
-            item_stock_currency.text = stockDb.currency
-            item_stock_price.text = "Price: $" + String.format("%.2f", stockDb.price)
-            if (stockDb.lastPrice != null) item_stock_lastprice.text = "Last Price: $" + String.format("%.2f", stockDb.lastPrice)
             item_stock_icon.shapeColor = stockDb.iconColor
+            if (stockDb.lastPrice != null) {
+                val result = stockDb.lastPrice!!.div(stockDb.price!!).times(100).minus(100)
+                if (result > 0)
+                    item_stock_increase.text = "+%${result}"
+                else
+                    item_stock_increase.text = "-%${result}"
+            } else {
+                item_stock_price.text = "$" + String.format("%.2f", stockDb.price)
+            }
         }
     }
 

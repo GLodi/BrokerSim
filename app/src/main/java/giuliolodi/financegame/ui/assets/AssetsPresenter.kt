@@ -1,4 +1,4 @@
-package giuliolodi.financegame.ui.main
+package giuliolodi.financegame.ui.assets
 
 import android.util.Log
 import giuliolodi.financegame.data.DataManager
@@ -11,9 +11,9 @@ import yahoofinance.Stock
 import java.util.*
 import javax.inject.Inject
 
-class MainPresenter<V: MainContract.View> : BasePresenter<V>, MainContract.Presenter<V> {
+class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract.Presenter<V> {
 
-    val TAG = "MainPresenter"
+    val TAG = "AssetsPresenter"
 
     @Inject
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
