@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_stock.view.*
 
 class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
-    private var stockDbs: List<StockDb> = ArrayList()
+    private var stockDbs: MutableList<StockDb> = ArrayList()
 
     private val onClickSubject: PublishSubject<Int> = PublishSubject.create()
 
@@ -54,8 +54,12 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
     }
 
     fun addStocks(stocks: List<StockDb>) {
-        stockDbs = stocks
+        stockDbs = stocks.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun addStock(stockDb: StockDb) {
+        stockDbs.add(stockDb)
     }
 
 }
