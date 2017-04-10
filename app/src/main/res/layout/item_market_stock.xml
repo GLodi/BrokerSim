@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/item_padding_sides"
+    android:paddingRight="@dimen/item_padding_sides"
+    android:paddingTop="@dimen/item_padding_top_bottom"
+    android:paddingBottom="@dimen/item_padding_top_bottom">
+
+    <TextView
+        android:id="@+id/item_market_stock_symbol"
+        android:text="Symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:layout_marginLeft="@dimen/item_padding_sides"/>
+
+    <TextView
+        android:id="@+id/item_market_stock_name"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.54"
+        android:textSize="16sp"
+        android:ellipsize="end"
+        android:layout_marginLeft="@dimen/item_padding_sides"
+        android:layout_marginTop="@dimen/item_padding_top_bottom"
+        android:layout_below="@id/item_market_stock_symbol"/>
+
+    <TextView
+        android:id="@+id/item_market_stock_price"
+        android:text="Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/item_market_stock_increase"
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/item_padding_top_bottom"
+        android:layout_below="@id/item_market_stock_price"/>
+
+</RelativeLayout>

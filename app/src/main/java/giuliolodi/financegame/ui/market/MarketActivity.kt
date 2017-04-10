@@ -3,9 +3,13 @@ package giuliolodi.financegame.ui.market
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import giuliolodi.financegame.R
 import giuliolodi.financegame.ui.base.BaseActivity
+import kotlinx.android.synthetic.main.market_activity.*
+import kotlinx.android.synthetic.main.market_activity_content.*
+import yahoofinance.Stock
 import javax.inject.Inject
 
 class MarketActivity : BaseActivity(), MarketContract.View {
@@ -26,10 +30,33 @@ class MarketActivity : BaseActivity(), MarketContract.View {
     }
 
     fun initLayout() {
+        setSupportActionBar(market_activity_toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = "Markets"
+
+        val adapter: MarketAdapter = MarketAdapter()
+        adapter.setHasStableIds(true)
+        val llm = LinearLayoutManager(applicationContext)
+        llm.initialPrefetchItemCount = 4
+
+        market_activity_content_rv.layoutManager = llm
+        market_activity_content_rv.adapter = adapter
+        market_activity_content_rv.setHasFixedSize(true)
+
+        market_activity_content_srl.setColorScheme(R.color.colorAccent)
+        market_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
     }
 
-    override fun showContent() {
+    override fun showLoading() {
+        market_activity_content_srl.isRefreshing = true
+    }
+
+    override fun hideLoading() {
+        market_activity_content_srl.isRefreshing = false
+    }
+
+    override fun showContent(stocks: List<Stock>) {
+        (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks)
     }
 
     companion object {

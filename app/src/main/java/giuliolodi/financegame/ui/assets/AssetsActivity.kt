@@ -37,11 +37,13 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
         title = "Assets"
 
         val adapter: AssetsAdapter = AssetsAdapter()
+        adapter.setHasStableIds(true)
         val llm = LinearLayoutManager(applicationContext)
         llm.initialPrefetchItemCount = 4
 
         main_activity_content_rv.layoutManager = llm
         main_activity_content_rv.adapter = adapter
+        main_activity_content_rv.setHasFixedSize(true)
 
         main_activity_content_srl.setColorScheme(R.color.colorAccent)
         main_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
