@@ -32,9 +32,7 @@ class StockActivity : BaseActivity(), StockContract.View {
     fun initLayout() {
         setSupportActionBar(stock_activity_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        stock_activity_fab.setOnClickListener {
-            // TODO: allow user to add more stocks
-        }
+        stock_activity_fab.setOnClickListener {  }
     }
 
     override fun updateViewWithStockDb(stockDb: StockDb) {
@@ -42,7 +40,7 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_collapsing_toolbar.setContentScrimColor(stockDb.iconColor)
         stock_activity_image.setBackgroundColor(stockDb.iconColor)
 
-        // Setup statusBar color if > Lollipop
+        // Setup statusBar color if SDK > Lollipop
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -61,6 +59,11 @@ class StockActivity : BaseActivity(), StockContract.View {
             android.R.id.home -> onBackPressed()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        mPresenter.onDetach()
+        super.onDestroy()
     }
 
 }

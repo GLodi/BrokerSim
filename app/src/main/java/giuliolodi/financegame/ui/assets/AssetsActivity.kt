@@ -7,6 +7,7 @@ import android.widget.Toast
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
+import giuliolodi.financegame.ui.market.MarketActivity
 import giuliolodi.financegame.ui.stock.StockActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -36,14 +37,16 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
         title = "Assets"
 
         val adapter: AssetsAdapter = AssetsAdapter()
+        val llm = LinearLayoutManager(applicationContext)
+        llm.initialPrefetchItemCount = 4
 
-        main_activity_fab.setOnClickListener {  }
-
-        main_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
+        main_activity_content_rv.layoutManager = llm
         main_activity_content_rv.adapter = adapter
 
         main_activity_content_srl.setColorScheme(R.color.colorAccent)
         main_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
+
+        main_activity_fab.setOnClickListener { startActivity(MarketActivity.getIntent(applicationContext)) }
 
         // Click listener on rv. Calls Presenter passing stockDb position in array.
         adapter.getPositionClicks()

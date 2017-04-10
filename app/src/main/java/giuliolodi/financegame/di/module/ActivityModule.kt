@@ -8,6 +8,8 @@ import giuliolodi.financegame.di.scope.ActivityContext
 import giuliolodi.financegame.di.scope.PerActivity
 import giuliolodi.financegame.ui.assets.AssetsContract
 import giuliolodi.financegame.ui.assets.AssetsPresenter
+import giuliolodi.financegame.ui.market.MarketContract
+import giuliolodi.financegame.ui.market.MarketPresenter
 import giuliolodi.financegame.ui.stock.StockContract
 import giuliolodi.financegame.ui.stock.StockPresenter
 import io.reactivex.disposables.CompositeDisposable
@@ -39,6 +41,11 @@ class ActivityModule(val activity: Activity) {
 
     @Provides
     fun provideStockPresenter(presenter: StockPresenter<StockContract.View>): StockContract.Presenter<StockContract.View> {
+        return presenter
+    }
+
+    @Provides
+    fun provideMarketPresenter(presenter: MarketPresenter<MarketContract.View>): MarketContract.Presenter<MarketContract.View> {
         return presenter
     }
 

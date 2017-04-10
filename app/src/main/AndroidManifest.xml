@@ -25,6 +25,10 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity android:name=".ui.market.MarketActivity">
+        </activity>
+
+
     </application>
 
 </manifest>

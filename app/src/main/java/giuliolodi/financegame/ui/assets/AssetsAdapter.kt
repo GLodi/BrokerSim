@@ -60,6 +60,7 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     fun addStock(stockDb: StockDb) {
         stockDbs.add(stockDb)
+        notifyDataSetChanged()
     }
 
 }
