@@ -70,7 +70,7 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
     }
 
     override fun showError(error: String) {
-        Snackbar.make(currentFocus, "Error retrieving data", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(currentFocus, error, Snackbar.LENGTH_LONG).show()
     }
 
     override fun updateMoney(money: String) {

@@ -16,4 +16,10 @@ interface ApiHelper {
      */
     fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>>
 
+    /**
+     * Connects to YahooFinance website, parses HTML and downloads symbols of most active
+     * stocks.
+     */
+    fun getMostActiveStocks(): Observable<Map<String, Stock>>
+
 }

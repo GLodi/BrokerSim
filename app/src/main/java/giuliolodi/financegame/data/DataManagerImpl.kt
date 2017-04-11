@@ -65,4 +65,8 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getStockDbAtPosition(position)
     }
 
+    override fun getMostActiveStocks(): Observable<Map<String, Stock>> {
+        return mApiHelper.getMostActiveStocks()
+    }
+
 }

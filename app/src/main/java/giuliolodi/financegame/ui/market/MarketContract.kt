@@ -14,6 +14,8 @@ interface MarketContract {
 
         fun showContent(stocks: List<Stock>)
 
+        fun showError(error: String)
+
     }
 
     @PerActivity

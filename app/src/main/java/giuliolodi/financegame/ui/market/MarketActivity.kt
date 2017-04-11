@@ -3,6 +3,7 @@ package giuliolodi.financegame.ui.market
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import giuliolodi.financegame.R
@@ -57,6 +58,10 @@ class MarketActivity : BaseActivity(), MarketContract.View {
 
     override fun showContent(stocks: List<Stock>) {
         (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks)
+    }
+
+    override fun showError(error: String) {
+        Snackbar.make(currentFocus, error, Snackbar.LENGTH_LONG).show()
     }
 
     companion object {
