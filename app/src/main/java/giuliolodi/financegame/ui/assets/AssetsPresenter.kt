@@ -19,51 +19,37 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
 
     override fun subscribe() {
-        updateStocks()
-    }
-
-    override fun addStock() {
-        getDataManager().getStock("TIF")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { downloadedStock -> getDataManager().storeStock(downloadedStock) },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }
-                )
-    }
-
-    override fun addMoney() {
-        getDataManager().addMoney(10000.00)
-        getDataManager().getMoney()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { money -> getView().updateMoney(money.toString()) }
-    }
-
-    fun updateStocks() {
         getView().showLoading()
         var storredStocks: List<StockDb> = ArrayList()
         var storredStocksStrings: ArrayList<String> = ArrayList()
-        getDataManager().getStoredStocks()
+        getCompositeDisposable().add(getDataManager().getStoredStocks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocks) }
                 .subscribe(
-                        { stocksDb ->
-                            storredStocks = stocksDb
-                            for (s in stocksDb) {
-                                storredStocksStrings.add(s.symbol)
+                        { stocksDb -> storredStocks = stocksDb; for (s in stocksDb) storredStocksStrings.add(s.symbol) },
+                        { throwable -> Log.e(TAG, throwable.message, throwable) }))    }
 
-                            }
-                        },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }
-                )
+    override fun addStock() {
+        getCompositeDisposable().add(getDataManager().getStock("TIF")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { downloadedStock -> getDataManager().storeStock(downloadedStock) },
+                        { throwable -> Log.e(TAG, throwable.message, throwable) }))
+    }
 
+    override fun addMoney() {
+        getDataManager().addMoney(10000.00)
+        getCompositeDisposable().add(getDataManager().getMoney()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { money -> getView().updateMoney(money.toString()) })
     }
 
     fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDb>) {
         var downloadedStocks: List<Stock>? = null
-        getDataManager().getStockList(storredStocksStrings)
+        getCompositeDisposable().add(getDataManager().getStockList(storredStocksStrings)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { checkStocksUpdateView(storredStocks, downloadedStocks!!) }
@@ -74,8 +60,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
                             getView().hideLoading()
                             getView().showError("Error downloading data. Showing storred stocks")
                             getView().showContent(storredStocks)
-                        }
-                )
+                        }))
     }
 
     fun checkStocksUpdateView(storredStocks: List<StockDb>, downloadedStocks: List<Stock>) {

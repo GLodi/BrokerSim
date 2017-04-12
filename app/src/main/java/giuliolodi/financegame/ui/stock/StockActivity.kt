@@ -28,9 +28,6 @@ class StockActivity : BaseActivity(), StockContract.View {
 
         // Get stockDb from position in array
         mPresenter.getStockDb(intent.getIntExtra("position", 0))
-
-        // Get stock name
-        mPresenter.getStock(intent.getStringExtra("symbol"))
     }
 
     fun initLayout() {

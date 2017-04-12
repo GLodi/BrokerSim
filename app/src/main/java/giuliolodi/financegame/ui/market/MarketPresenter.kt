@@ -17,7 +17,7 @@ class MarketPresenter<V: MarketContract.View> : BasePresenter<V>, MarketContract
 
     override fun subscribe() {
         getView().showLoading()
-        getDataManager().getMostActiveStocks()
+        getCompositeDisposable().add(getDataManager().getMostActiveStocks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -26,8 +26,8 @@ class MarketPresenter<V: MarketContract.View> : BasePresenter<V>, MarketContract
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
                             getView().showError("Error downloading data")
-                        }
-                )
+                        }))
+
     }
 
 }
