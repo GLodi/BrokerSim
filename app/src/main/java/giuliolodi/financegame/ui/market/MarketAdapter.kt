@@ -15,10 +15,10 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
     private var stockList: MutableList<Stock> = ArrayList()
 
-    private val onClickSubject: PublishSubject<Int> = PublishSubject.create()
+    private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
     // Expose PublishSubject for as onClickListener
-    fun getPositionClicks(): Observable<Int> {
+    fun getPositionClicks(): Observable<String> {
         return onClickSubject
     }
 
@@ -44,7 +44,7 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(stockList[position])
-        holder.itemView.setOnClickListener { onClickSubject.onNext(position) }
+        holder.itemView.setOnClickListener { onClickSubject.onNext(stockList[position].symbol) }
     }
 
     override fun getItemCount(): Int {

@@ -10,6 +10,7 @@ import giuliolodi.financegame.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.stock_activity.*
 import javax.inject.Inject
 import android.view.WindowManager
+import yahoofinance.Stock
 
 class StockActivity : BaseActivity(), StockContract.View {
 
@@ -27,6 +28,9 @@ class StockActivity : BaseActivity(), StockContract.View {
 
         // Get stockDb from position in array
         mPresenter.getStockDb(intent.getIntExtra("position", 0))
+
+        // Get stock name
+        mPresenter.getStock(intent.getStringExtra("symbol"))
     }
 
     fun initLayout() {
@@ -46,6 +50,10 @@ class StockActivity : BaseActivity(), StockContract.View {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.setStatusBarColor(stockDb.iconColorDark)
         }
+    }
+
+    override fun updateViewWithStock(stock: Stock) {
+        stock_activity_collapsing_toolbar.title = stock.symbol
     }
 
     companion object {

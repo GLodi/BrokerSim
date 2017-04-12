@@ -19,4 +19,11 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                 .subscribe { stockDb -> getView().updateViewWithStockDb(stockDb) }
     }
 
+    override fun getStock(symbol: String) {
+        getDataManager().getStock(symbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { stock -> getView().updateViewWithStock(stock) }
+    }
+
 }

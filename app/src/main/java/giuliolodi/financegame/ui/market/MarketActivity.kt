@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import giuliolodi.financegame.R
 import giuliolodi.financegame.ui.base.BaseActivity
+import giuliolodi.financegame.ui.stock.StockActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.market_activity.*
 import kotlinx.android.synthetic.main.market_activity_content.*
 import yahoofinance.Stock
@@ -46,6 +49,11 @@ class MarketActivity : BaseActivity(), MarketContract.View {
 
         market_activity_content_srl.setColorScheme(R.color.colorAccent)
         market_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
+
+        adapter.getPositionClicks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { symbol -> startActivity(StockActivity.getIntent(applicationContext).putExtra("symbol", symbol)) }
     }
 
     override fun showLoading() {

@@ -5,8 +5,10 @@ import giuliolodi.financegame.di.component.AppComponent
 import giuliolodi.financegame.di.component.DaggerAppComponent
 import giuliolodi.financegame.di.module.AppModule
 import giuliolodi.financegame.models.Assets
+import giuliolodi.financegame.models.DateRemainder
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.utils.ColorUtils
+import giuliolodi.financegame.utils.CommonUtils
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -36,6 +38,7 @@ class App : Application() {
                         realm.insert(StockDb(item, colorUtil.getRandomColor(), colorUtil.getRandomDarkColor()))
                     }
                     realm.createObject(Assets::class.java, "Assets")
+                    realm.createObject(DateRemainder::class.java, CommonUtils.getDate())
                 }
                 .deleteRealmIfMigrationNeeded()
                 .build())
