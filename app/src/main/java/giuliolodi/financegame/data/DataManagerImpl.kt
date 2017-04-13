@@ -78,8 +78,8 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getBoughtStocks()
     }
 
-    override fun updateStockDbBought(stock: Stock, stockDbBought: StockDbBought) {
-        return mDbHelper.updateStockDbBought(stock, stockDbBought)
+    override fun updateStockDbBought(stocks: List<Stock>, stockDbBoughtList: List<StockDbBought>) {
+        return mDbHelper.updateStockDbBought(stocks, stockDbBoughtList)
     }
 
     override fun getBoughtStockWithSymbol(symbol: String): Observable<List<StockDbBought>> {

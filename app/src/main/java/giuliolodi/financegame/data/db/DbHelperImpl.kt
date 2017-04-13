@@ -7,6 +7,8 @@ import giuliolodi.financegame.models.DateRemainder
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.models.StockDbBought
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
 import yahoofinance.Stock
 import javax.inject.Inject
@@ -51,57 +53,61 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun deleteAllStockDbs() {
-        mRealm.beginTransaction()
-        mRealm.where(StockDb::class.java).findAll().deleteAllFromRealm()
-        mRealm.commitTransaction()
+        mRealm.executeTransaction { realm -> realm.where(StockDb::class.java).findAll().deleteAllFromRealm() }
     }
 
     override fun updateStockDb(stock: Stock, stockDb: StockDb) {
-        mRealm.beginTransaction()
-        stockDb.copy(stock)
-        mRealm.insertOrUpdate(stockDb)
-        mRealm.commitTransaction()
+        mRealm.executeTransaction { realm ->
+            stockDb.copy(stock)
+            realm.insertOrUpdate(stockDb)
+        }
     }
 
-    override fun updateStockDbBought(stock: Stock, stockDbBought: StockDbBought) {
-        mRealm.beginTransaction()
-        stockDbBought.copy(stock)
-        mRealm.insertOrUpdate(stockDbBought)
-        mRealm.commitTransaction()
+    override fun updateStockDbBought(stocks: List<Stock>, stockDbBoughtList: List<StockDbBought>) {
+        mRealm.executeTransaction { realm ->
+            for (stockDbBought in stockDbBoughtList) {
+                for (stock in stocks) {
+                    if (stockDbBought.symbol == stock.symbol && !stockDbBought.equalsToStock(stock)) {
+                        stockDbBought.copy(stock)
+                        realm.insertOrUpdate(stockDbBought)
+                    }
+                }
+            }
+        }
     }
 
     override fun storeMultipleStocks(stocks: List<Stock>) {
-        for (stock in stocks) {
-            val stockDb: StockDb = StockDb(stock.symbol)
-            mRealm.beginTransaction()
-            stockDb.copy(stock)
-            mRealm.insertOrUpdate(stockDb)
-            mRealm.commitTransaction()
+        mRealm.executeTransaction { realm ->
+            for (stock in stocks) {
+                val stockDb: StockDb = StockDb(stock.symbol)
+                stockDb.copy(stock)
+                realm.insertOrUpdate(stockDb)
+            }
         }
     }
 
     override fun storeStock(stock: Stock) {
-        val stockDb: StockDb = StockDb(stock.symbol)
-        mRealm.beginTransaction()
-        stockDb.copy(stock)
-        mRealm.insertOrUpdate(stockDb)
-        mRealm.commitTransaction()
+        mRealm.executeTransaction { realm ->
+            val stockDb: StockDb = StockDb(stock.symbol)
+            stockDb.copy(stock)
+            realm.insertOrUpdate(stockDb)
+        }
     }
 
     override fun setRemainder(boolean: Boolean) {
-        mRealm.beginTransaction()
-        var dateRemaindermRealm = mRealm.where(DateRemainder::class.java).findFirst()
-        dateRemaindermRealm.downloaded = boolean
-        mRealm.insertOrUpdate(dateRemaindermRealm)
-        mRealm.commitTransaction()
+        mRealm.executeTransaction { realm ->
+            val dateRemaindermRealm = realm.where(DateRemainder::class.java).findFirst()
+            dateRemaindermRealm.downloaded = boolean
+            realm.insertOrUpdate(dateRemaindermRealm)
+        }
     }
 
     override fun addMoney(money: Double) {
-        val asset = mRealm.where(Assets::class.java).findFirst()
-        mRealm.beginTransaction()
-        asset.money = asset.money + money
-        mRealm.insertOrUpdate(asset)
-        mRealm.commitTransaction()
+        mRealm.executeTransaction { realm ->
+            val asset = mRealm.where(Assets::class.java).findFirst()
+            asset.money = asset.money + money
+            realm.insertOrUpdate(asset)
+        }
     }
 
 }

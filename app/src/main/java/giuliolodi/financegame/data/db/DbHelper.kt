@@ -65,9 +65,9 @@ interface DbHelper {
     fun getBoughtStockWithSymbol(symbol: String): Observable<List<StockDbBought>>
 
     /**
-     * Update stockDbBought
+     * Update stockDbBoughts with downloaded info
      */
-    fun updateStockDbBought(stock: Stock, stockDbBought: StockDbBought)
+    fun updateStockDbBought(stocks: List<Stock>, stockDbBoughtList: List<StockDbBought>)
 
     /**
      * Deletes all stored stockDb

@@ -43,7 +43,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
         getCompositeDisposable().add(getDataManager().downloadStockList(storredStocksStrings)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { checkStocksUpdateView(storredStocks, downloadedStocks!!) }
+                .doOnComplete { checkStocks(storredStocks, downloadedStocks!!) }
                 .subscribe(
                         { mappedList -> downloadedStocks = mappedList!!.values.toList() },
                         { throwable ->
@@ -57,13 +57,15 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
     /**
      * Check and update stored StockDbBoughts with updated stocks
      */
-    fun checkStocksUpdateView(storredStocks: List<StockDbBought>, downloadedStocks: List<Stock>) {
-        for (stockDbBought in storredStocks) {
-            for (stock in downloadedStocks) {
-                if (stockDbBought.symbol == stock.symbol && !stockDbBought.equalsToStock(stock))
-                    getDataManager().updateStockDbBought(stock, stockDbBought)
-            }
-        }
+    fun checkStocks(storredStocks: List<StockDbBought>, downloadedStocks: List<Stock>) {
+        getDataManager().updateStockDbBought(downloadedStocks, storredStocks)
+        getStocksUpdateView()
+    }
+
+    /**
+     * Get StockDbBought and show them to the user
+     */
+    fun getStocksUpdateView() {
         getCompositeDisposable().add(getDataManager().getBoughtStocks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
