@@ -24,7 +24,8 @@
             app:expandedTitleMarginBottom="32dp"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap">
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
+            app:title="...">
 
             <ImageView
                 android:id="@+id/stock_activity_image"

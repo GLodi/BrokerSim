@@ -3,7 +3,6 @@ package giuliolodi.financegame.ui.assets
 import android.util.Log
 import giuliolodi.financegame.data.DataManager
 import giuliolodi.financegame.models.StockDb
-import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.ui.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -24,21 +23,21 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
      */
     override fun subscribe() {
         getView().showLoading()
-        var storredStocksBought: List<StockDbBought> = ArrayList()
+        var storredStocks: List<StockDb> = ArrayList()
         var storredStocksStrings: ArrayList<String> = ArrayList()
-        getCompositeDisposable().add(getDataManager().getBoughtStocks()
+        getCompositeDisposable().add(getDataManager().getStocks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocksBought) }
+                .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocks) }
                 .subscribe(
-                        { stocksDb -> storredStocksBought = stocksDb; for (s in stocksDb) storredStocksStrings.add(s.symbol) },
+                        { stocksDb -> storredStocks = stocksDb; for (s in stocksDb) storredStocksStrings.add(s.symbol) },
                         { throwable -> Log.e(TAG, throwable.message, throwable) }))
     }
 
     /**
      * Downloads new data of stored StockDbBoughts through their symbols.
      */
-    fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDbBought>) {
+    fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDb>) {
         var downloadedStocks: List<Stock>? = null
         getCompositeDisposable().add(getDataManager().downloadStockList(storredStocksStrings)
                 .subscribeOn(Schedulers.newThread())
@@ -57,8 +56,8 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
     /**
      * Check and update stored StockDbBoughts with updated stocks
      */
-    fun checkStocks(storredStocks: List<StockDbBought>, downloadedStocks: List<Stock>) {
-        getDataManager().updateStockDbBought(downloadedStocks, storredStocks)
+    fun checkStocks(storredStocks: List<StockDb>, downloadedStocks: List<Stock>) {
+        getDataManager().updateListOfStockDb(downloadedStocks, storredStocks)
         getStocksUpdateView()
     }
 
@@ -66,7 +65,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
      * Get StockDbBought and show them to the user
      */
     fun getStocksUpdateView() {
-        getCompositeDisposable().add(getDataManager().getBoughtStocks()
+        getCompositeDisposable().add(getDataManager().getStocks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

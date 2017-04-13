@@ -13,12 +13,14 @@ interface StockContract {
 
         fun updateViewWithStock(stock: Stock)
 
+        fun showLoading()
+
+        fun hideLoading()
+
     }
 
     @PerActivity
     interface Presenter<V: StockContract.View> : BaseContract.Presenter<V> {
-
-        fun getStockDb(position: Int)
 
         fun getStock(symbol: String)
 

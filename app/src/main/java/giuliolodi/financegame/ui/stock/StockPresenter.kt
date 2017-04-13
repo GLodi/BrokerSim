@@ -12,18 +12,12 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
     @Inject
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
 
-    override fun getStockDb(position: Int) {
-        getCompositeDisposable().add(getDataManager().getStockAtPosition(position)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { stockDb -> getView().updateViewWithStockDb(stockDb) })
-    }
-
     override fun getStock(symbol: String) {
+        getView().showLoading()
         getCompositeDisposable().add(getDataManager().downloadStock(symbol)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { stock -> getView().updateViewWithStock(stock) })
+                .subscribe { stock -> getView().updateViewWithStock(stock); getView().hideLoading() })
     }
 
 }

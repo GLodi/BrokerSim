@@ -1,15 +1,11 @@
 package giuliolodi.financegame.data
 
 import android.content.Context
-import android.util.Log
 import giuliolodi.financegame.data.api.ApiHelper
 import giuliolodi.financegame.data.db.DbHelper
 import giuliolodi.financegame.di.scope.AppContext
 import giuliolodi.financegame.models.StockDb
-import giuliolodi.financegame.models.StockDbBought
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import yahoofinance.Stock
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,18 +34,6 @@ class DataManagerImpl : DataManager {
         return mApiHelper.downloadStockList(stockList)
     }
 
-    override fun getStockWithSymbol(symbol: String): Observable<StockDb> {
-        return mDbHelper.getStockWithSymbol(symbol)
-    }
-
-    override fun getStocks(): Observable<List<StockDb>> {
-        return mDbHelper.getStocks()
-    }
-
-    override fun updateStockDb(stock: Stock, stockDb: StockDb) {
-        return mDbHelper.updateStockDb(stock, stockDb)
-    }
-
     override fun storeStock(stock: Stock) {
         return mDbHelper.storeStock(stock)
     }
@@ -62,40 +46,24 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getMoney()
     }
 
-    override fun getStockAtPosition(position: Int): Observable<StockDb> {
-        return mDbHelper.getStockAtPosition(position)
-    }
-
     override fun downloadActiveStocks(): Observable<Map<String, Stock>> {
         return mApiHelper.downloadActiveStocks()
     }
 
-    override fun hasDownloadedActiveStocksToday(): Observable<Boolean> {
-        return mDbHelper.hasDownloadedActiveStocksToday()
+    override fun getStocks(): Observable<List<StockDb>> {
+        return mDbHelper.getStocks()
     }
 
-    override fun getBoughtStocks(): Observable<List<StockDbBought>> {
-        return mDbHelper.getBoughtStocks()
+    override fun updateListOfStockDb(stocks: List<Stock>, stockDbBoughtList: List<StockDb>) {
+        return mDbHelper.updateListOfStockDb(stocks, stockDbBoughtList)
     }
 
-    override fun updateStockDbBought(stocks: List<Stock>, stockDbBoughtList: List<StockDbBought>) {
-        return mDbHelper.updateStockDbBought(stocks, stockDbBoughtList)
-    }
-
-    override fun getBoughtStockWithSymbol(symbol: String): Observable<List<StockDbBought>> {
-        return mDbHelper.getBoughtStockWithSymbol(symbol)
-    }
-
-    override fun deleteAllStockDbs() {
-        return mDbHelper.deleteAllStockDbs()
+    override fun getStocksWithSymbol(symbol: String): Observable<List<StockDb>> {
+        return mDbHelper.getStocksWithSymbol(symbol)
     }
 
     override fun storeMultipleStocks(stocks: List<Stock>) {
         return mDbHelper.storeMultipleStocks(stocks)
-    }
-
-    override fun setRemainder(boolean: Boolean) {
-        return mDbHelper.setRemainder(boolean)
     }
 
 }

@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import com.vstechlab.easyfonts.EasyFonts
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
-import giuliolodi.financegame.models.StockDbBought
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_stock.view.*
 
 class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
-    private var stockDbsBought: MutableList<StockDbBought> = ArrayList()
+    private var stockDbList: MutableList<StockDb> = ArrayList()
 
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
@@ -23,7 +22,7 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
     }
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
-        fun bind (stockDb: StockDbBought) = with(itemView) {
+        fun bind (stockDb: StockDb) = with(itemView) {
             item_stock_symbol.typeface = EasyFonts.robotoRegular(context)
             item_stock_name.typeface = EasyFonts.robotoRegular(context)
             item_stock_price.typeface = EasyFonts.robotoRegular(context)
@@ -45,21 +44,21 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(stockDbsBought[position])
-        holder.itemView.setOnClickListener { onClickSubject.onNext(stockDbsBought[position].symbol) }
+        holder.bind(stockDbList[position])
+        holder.itemView.setOnClickListener { onClickSubject.onNext(stockDbList[position].symbol) }
     }
 
     override fun getItemCount(): Int {
-        return stockDbsBought.size
+        return stockDbList.size
     }
 
-    fun addStocks(stocks: List<StockDbBought>) {
-        stockDbsBought = stocks.toMutableList()
+    fun addStocks(stocks: List<StockDb>) {
+        stockDbList = stocks.toMutableList()
         notifyDataSetChanged()
     }
 
-    fun addStock(stockDb: StockDbBought) {
-        stockDbsBought.add(stockDb)
+    fun addStock(stockDb: StockDb) {
+        stockDbList.add(stockDb)
         notifyDataSetChanged()
     }
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import com.google.gson.Gson
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
@@ -65,7 +66,7 @@ class MarketActivity : BaseActivity(), MarketContract.View {
         market_activity_content_srl.isRefreshing = false
     }
 
-    override fun showContent(stocks: List<StockDb>) {
+    override fun showContent(stocks: List<Stock>) {
         (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks)
     }
 

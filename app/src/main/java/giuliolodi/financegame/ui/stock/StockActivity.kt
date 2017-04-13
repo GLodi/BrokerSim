@@ -1,5 +1,6 @@
 package giuliolodi.financegame.ui.stock
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +11,14 @@ import giuliolodi.financegame.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.stock_activity.*
 import javax.inject.Inject
 import android.view.WindowManager
+import giuliolodi.financegame.utils.CommonUtils
 import yahoofinance.Stock
 
 class StockActivity : BaseActivity(), StockContract.View {
 
     @Inject lateinit var mPresenter: StockContract.Presenter<StockContract.View>
+
+    lateinit  var mLoadingDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +31,7 @@ class StockActivity : BaseActivity(), StockContract.View {
         mPresenter.onAttach(this)
 
         // Get stockDb from position in array
-        mPresenter.getStockDb(intent.getIntExtra("position", 0))
+        mPresenter.getStock(intent.getStringExtra("symbol"))
     }
 
     fun initLayout() {
@@ -51,6 +55,15 @@ class StockActivity : BaseActivity(), StockContract.View {
 
     override fun updateViewWithStock(stock: Stock) {
         stock_activity_collapsing_toolbar.title = stock.symbol
+    }
+
+    override fun showLoading() {
+        mLoadingDialog = CommonUtils.showLoadingDialog(this)
+    }
+
+    override fun hideLoading() {
+        if (mLoadingDialog.isShowing)
+            mLoadingDialog.cancel()
     }
 
     companion object {

@@ -13,6 +13,12 @@ open class StockDb (
 
         open var iconColorDark: Int = 0,
 
+        open var dateBought: String = "",
+
+        open var priceWhenBought: Double? = null,
+
+        open var amount: Int? = null,
+
         open var name: String = "",
 
         open var currency: String = "",

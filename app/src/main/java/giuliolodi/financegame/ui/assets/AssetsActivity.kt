@@ -3,10 +3,8 @@ package giuliolodi.financegame.ui.assets
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
-import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.ui.base.BaseActivity
 import giuliolodi.financegame.ui.market.MarketActivity
 import giuliolodi.financegame.ui.stock.StockActivity
@@ -66,7 +64,7 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
         main_activity_content_srl.isRefreshing = false
     }
 
-    override fun showContent(stocks: List<StockDbBought>) {
+    override fun showContent(stocks: List<StockDb>) {
         (main_activity_content_rv.adapter as AssetsAdapter).addStocks(stocks)
     }
 
