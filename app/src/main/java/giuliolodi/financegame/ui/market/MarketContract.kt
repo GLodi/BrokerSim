@@ -1,8 +1,8 @@
 package giuliolodi.financegame.ui.market
 
 import giuliolodi.financegame.di.scope.PerActivity
+import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseContract
-import yahoofinance.Stock
 
 interface MarketContract {
 
@@ -12,7 +12,7 @@ interface MarketContract {
 
         fun hideLoading()
 
-        fun showContent(stocks: List<Stock>)
+        fun showContent(stocks: List<StockDb>)
 
         fun showError(error: String)
 

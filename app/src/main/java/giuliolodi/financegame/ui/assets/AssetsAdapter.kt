@@ -7,23 +7,23 @@ import android.view.ViewGroup
 import com.vstechlab.easyfonts.EasyFonts
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
+import giuliolodi.financegame.models.StockDbBought
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_stock.view.*
 
 class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
-    private var stockDbs: MutableList<StockDb> = ArrayList()
+    private var stockDbsBought: MutableList<StockDbBought> = ArrayList()
 
-    private val onClickSubject: PublishSubject<Int> = PublishSubject.create()
+    private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
-    // Expose PublishSubject for as onClickListener
-    fun getPositionClicks(): Observable<Int> {
+    fun getPositionClicks(): Observable<String> {
         return onClickSubject
     }
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
-        fun bind (stockDb: StockDb) = with(itemView) {
+        fun bind (stockDb: StockDbBought) = with(itemView) {
             item_stock_symbol.typeface = EasyFonts.robotoRegular(context)
             item_stock_name.typeface = EasyFonts.robotoRegular(context)
             item_stock_price.typeface = EasyFonts.robotoRegular(context)
@@ -34,7 +34,7 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
             item_stock_icon.shapeColor = stockDb.iconColor
 
             item_stock_price.text = "$" + String.format("%.2f", stockDb.price)
-            val diff = stockDb.previousClose!!.minus(stockDb.price!!)
+            val diff = stockDb.price!!.minus(stockDb.previousClose!!)
             item_stock_increase.text = String.format("%.2f", diff)
         }
     }
@@ -45,21 +45,21 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(stockDbs[position])
-        holder.itemView.setOnClickListener { onClickSubject.onNext(position) }
+        holder.bind(stockDbsBought[position])
+        holder.itemView.setOnClickListener { onClickSubject.onNext(stockDbsBought[position].symbol) }
     }
 
     override fun getItemCount(): Int {
-        return stockDbs.size
+        return stockDbsBought.size
     }
 
-    fun addStocks(stocks: List<StockDb>) {
-        stockDbs = stocks.toMutableList()
+    fun addStocks(stocks: List<StockDbBought>) {
+        stockDbsBought = stocks.toMutableList()
         notifyDataSetChanged()
     }
 
-    fun addStock(stockDb: StockDb) {
-        stockDbs.add(stockDb)
+    fun addStock(stockDb: StockDbBought) {
+        stockDbsBought.add(stockDb)
         notifyDataSetChanged()
     }
 

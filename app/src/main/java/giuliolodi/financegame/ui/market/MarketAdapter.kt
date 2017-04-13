@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.vstechlab.easyfonts.EasyFonts
 import giuliolodi.financegame.R
+import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_market_stock.view.*
-import yahoofinance.Stock
 
 class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
-    private var stockList: MutableList<Stock> = ArrayList()
+    private var stockList: MutableList<StockDb> = ArrayList()
 
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
@@ -23,7 +23,7 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
     }
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
-        fun bind (stock: Stock) = with(itemView) {
+        fun bind (stock: StockDb) = with(itemView) {
             item_market_stock_symbol.typeface = EasyFonts.robotoRegular(context)
             item_market_stock_name.typeface = EasyFonts.robotoRegular(context)
             item_market_stock_price.typeface = EasyFonts.robotoRegular(context)
@@ -31,8 +31,8 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
             item_market_stock_symbol.text = stock.symbol
             item_market_stock_name.text = stock.name
 
-            item_market_stock_price.text = "$" + String.format("%.2f", stock.quote.price)
-            val diff = stock.quote.previousClose!!.minus(stock.quote.price!!)
+            item_market_stock_price.text = "$" + String.format("%.2f", stock.price)
+            val diff = stock.price!!.minus(stock.previousClose!!)
             item_market_stock_increase.text = String.format("%.2f", diff)
         }
     }
@@ -51,13 +51,13 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
         return stockList.size
     }
 
-    fun addStocks(stocks: List<Stock>) {
+    fun addStocks(stocks: List<StockDb>) {
         stockList = stocks.toMutableList()
         notifyDataSetChanged()
     }
 
-    fun addStock(stock: Stock) {
-        stockList.add(stock)
+    fun addStockDb(stockDb: StockDb) {
+        stockList.add(stockDb)
         notifyDataSetChanged()
     }
 

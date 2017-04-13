@@ -22,15 +22,15 @@ class ApiHelperImpl : ApiHelper {
         mRealm = realm
     }
 
-    override fun getStock(stockSymbol: String): Observable<Stock> {
+    override fun downloadStock(stockSymbol: String): Observable<Stock> {
         return Observable.defer { Observable.just(YahooFinance.get(stockSymbol)) }
     }
 
-    override fun getStockList(stockList: Array<String>): Observable<Map<String, Stock>> {
+    override fun downloadStockList(stockList: Array<String>): Observable<Map<String, Stock>> {
         return Observable.defer { Observable.just(YahooFinance.get(stockList)) }
     }
 
-    override fun getMostActiveStocks(): Observable<Map<String, Stock>> {
+    override fun downloadActiveStocks(): Observable<Map<String, Stock>> {
         return Observable.defer {
             val symbols: MutableList<String> = arrayListOf()
             val elStrings: MutableList<String> = arrayListOf()

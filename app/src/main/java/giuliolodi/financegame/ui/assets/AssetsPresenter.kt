@@ -3,6 +3,7 @@ package giuliolodi.financegame.ui.assets
 import android.util.Log
 import giuliolodi.financegame.data.DataManager
 import giuliolodi.financegame.models.StockDb
+import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.ui.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -18,38 +19,28 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
     @Inject
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
 
+    /**
+     * Retrieve boughtStocks from Realm.
+     */
     override fun subscribe() {
         getView().showLoading()
-        var storredStocks: List<StockDb> = ArrayList()
+        var storredStocksBought: List<StockDbBought> = ArrayList()
         var storredStocksStrings: ArrayList<String> = ArrayList()
-        getCompositeDisposable().add(getDataManager().getStoredStocks()
+        getCompositeDisposable().add(getDataManager().getBoughtStocks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocks) }
+                .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocksBought) }
                 .subscribe(
-                        { stocksDb -> storredStocks = stocksDb; for (s in stocksDb) storredStocksStrings.add(s.symbol) },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }))    }
-
-    override fun addStock() {
-        getCompositeDisposable().add(getDataManager().getStock("TIF")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { downloadedStock -> getDataManager().storeStock(downloadedStock) },
+                        { stocksDb -> storredStocksBought = stocksDb; for (s in stocksDb) storredStocksStrings.add(s.symbol) },
                         { throwable -> Log.e(TAG, throwable.message, throwable) }))
     }
 
-    override fun addMoney() {
-        getDataManager().addMoney(10000.00)
-        getCompositeDisposable().add(getDataManager().getMoney()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { money -> getView().updateMoney(money.toString()) })
-    }
-
-    fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDb>) {
+    /**
+     * Downloads new data of stored StockDbBoughts through their symbols.
+     */
+    fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDbBought>) {
         var downloadedStocks: List<Stock>? = null
-        getCompositeDisposable().add(getDataManager().getStockList(storredStocksStrings)
+        getCompositeDisposable().add(getDataManager().downloadStockList(storredStocksStrings)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { checkStocksUpdateView(storredStocks, downloadedStocks!!) }
@@ -63,21 +54,40 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
                         }))
     }
 
-    fun checkStocksUpdateView(storredStocks: List<StockDb>, downloadedStocks: List<Stock>) {
-        for (stockDb in storredStocks) {
+    /**
+     * Check and update stored StockDbBoughts with updated stocks
+     */
+    fun checkStocksUpdateView(storredStocks: List<StockDbBought>, downloadedStocks: List<Stock>) {
+        for (stockDbBought in storredStocks) {
             for (stock in downloadedStocks) {
-                if (stockDb.symbol == stock.symbol && !stockDb.equalsToStock(stock))
-                    getDataManager().updateStock(stock, stockDb)
+                if (stockDbBought.symbol == stock.symbol && !stockDbBought.equalsToStock(stock))
+                    getDataManager().updateStockDbBought(stock, stockDbBought)
             }
         }
-        getCompositeDisposable().add(getDataManager()
-                .getStoredStocks()
+        getCompositeDisposable().add(getDataManager().getBoughtStocks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { stockDbList -> getView().showContent(stockDbList); getView().hideLoading() },
                         { throwable -> Log.e(TAG, throwable.message, throwable) }
                 ))
+    }
+
+    override fun addStock() {
+        getCompositeDisposable().add(getDataManager().downloadStock("TIF")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { downloadedStock -> getDataManager().storeStock(downloadedStock) },
+                        { throwable -> Log.e(TAG, throwable.message, throwable) }))
+    }
+
+    override fun addMoney() {
+        getDataManager().addMoney(10000.00)
+        getCompositeDisposable().add(getDataManager().getMoney()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { money -> getView().updateMoney(money.toString()) })
     }
 
 }

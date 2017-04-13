@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import giuliolodi.financegame.R
+import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
 import giuliolodi.financegame.ui.stock.StockActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -64,7 +65,7 @@ class MarketActivity : BaseActivity(), MarketContract.View {
         market_activity_content_srl.isRefreshing = false
     }
 
-    override fun showContent(stocks: List<Stock>) {
+    override fun showContent(stocks: List<StockDb>) {
         (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks)
     }
 
