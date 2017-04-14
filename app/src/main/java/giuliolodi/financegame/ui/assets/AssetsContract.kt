@@ -3,7 +3,6 @@ package giuliolodi.financegame.ui.assets
 import giuliolodi.financegame.di.scope.PerActivity
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseContract
-import yahoofinance.Stock
 
 interface AssetsContract {
 

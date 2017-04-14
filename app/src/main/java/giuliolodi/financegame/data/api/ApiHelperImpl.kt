@@ -14,12 +14,10 @@ import javax.inject.Inject
 class ApiHelperImpl : ApiHelper {
 
     private val mContext: Context
-    private val mRealm: Realm
 
     @Inject
-    constructor(@AppContext context: Context, realm: Realm) {
+    constructor(@AppContext context: Context) {
         mContext = context
-        mRealm = realm
     }
 
     override fun downloadStock(stockSymbol: String): Observable<Stock> {

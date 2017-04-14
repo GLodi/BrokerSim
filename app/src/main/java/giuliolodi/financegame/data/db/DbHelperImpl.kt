@@ -21,15 +21,15 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun getStocks(): Observable<List<StockDb>> {
-        return Observable.just(mRealm.where(StockDb::class.java).findAllSorted("symbol"))
+        return Observable.just(mRealm.where(StockDb::class.java).findAllSortedAsync("symbol"))
     }
 
-    override fun getStocksWithSymbol(symbol: String): Observable<List<StockDb>> {
-        return Observable.just(mRealm.where(StockDb::class.java).contains("symbol", symbol).findAll())
+    override fun getStockWithSymbol(symbol: String): Observable<StockDb> {
+        return Observable.just(mRealm.where(StockDb::class.java).contains("symbol", symbol).findFirstAsync())
     }
 
     override fun getMoney(): Observable<Double> {
-        return Observable.just(mRealm.where(Assets::class.java).findFirst().money)
+        return Observable.just(mRealm.where(Assets::class.java).findFirstAsync().money)
     }
 
     override fun updateListOfStockDb(stocks: List<Stock>, stockDbList: List<StockDb>) {
@@ -65,7 +65,7 @@ class DbHelperImpl: DbHelper {
 
     override fun addMoney(money: Double) {
         mRealm.executeTransaction { realm ->
-            val asset = mRealm.where(Assets::class.java).findFirst()
+            val asset = realm.where(Assets::class.java).findFirst()
             asset.money = asset.money + money
             realm.insertOrUpdate(asset)
         }

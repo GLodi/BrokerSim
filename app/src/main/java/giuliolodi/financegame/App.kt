@@ -7,7 +7,6 @@ import giuliolodi.financegame.di.module.AppModule
 import giuliolodi.financegame.models.Assets
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.utils.ColorUtils
-import giuliolodi.financegame.utils.CommonUtils
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -34,7 +33,7 @@ class App : Application() {
                 .initialData { realm ->
                     for (item in defaultList) {
                         val colorUtil: ColorUtils = ColorUtils(applicationContext)
-                        realm.insert(StockDb(item, colorUtil.getRandomColor(), colorUtil.getRandomDarkColor(), CommonUtils.getDate()))
+                        realm.insert(StockDb(item, colorUtil.getRandomColor(), colorUtil.getRandomDarkColor()))
                     }
                     realm.createObject(Assets::class.java, "Assets")
                 }

@@ -1,5 +1,6 @@
 package giuliolodi.financegame.models
 
+import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import yahoofinance.Stock
@@ -13,13 +14,9 @@ open class StockDb (
 
         open var iconColorDark: Int = 0,
 
-        open var dateBought: String = "",
-
-        open var priceWhenBought: Double? = null,
-
-        open var amount: Int? = null,
-
         open var name: String = "",
+
+        open var bought: RealmList<StockDbBought>? = null,
 
         open var currency: String = "",
 

@@ -35,10 +35,10 @@ interface DbHelper {
     /**
      * Returns stock bought with a specific symbol
      */
-    fun getStocksWithSymbol(symbol: String): Observable<List<StockDb>>
+    fun getStockWithSymbol(symbol: String): Observable<StockDb>
 
     /**
-     * Update stockDbBoughts with downloaded info
+     * Update stockDbs with downloaded info
      */
     fun updateListOfStockDb(stocks: List<Stock>, stockDbList: List<StockDb>)
 
