@@ -18,32 +18,26 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
     @Inject
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
 
-    override fun getStock(symbol: String, alreadyBought: Boolean) {
+    override fun getStock(symbol: String) {
         getView().showLoading()
         var storredStocks: StockDb? = null
-        when (alreadyBought) {
-            false -> getCompositeDisposable().add(getDataManager().downloadStock(symbol)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            { stock -> getView().updateViewWithStock(stock); getView().hideLoading() },
-                            { throwable ->
-                                Log.e(TAG, throwable.message, throwable)
-                                getView().hideLoading()
-                                getView().showMessage("Error downloading stock. Check you internet connection.")
-                            }))
-            true -> getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnComplete { downloadStocks(storredStocks) }
-                    .subscribe(
-                            { stocksDb -> storredStocks = stocksDb },
-                            { throwable ->
-                                Log.e(TAG, throwable.message, throwable)
-                                getView().hideLoading()
-                                getView().showMessage("Error retrieving stock.")
-                            }))
-        }
+        getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { downloadStocks(storredStocks) }
+                .subscribe(
+                        { stockDb -> storredStocks = stockDb },
+                        { getDataManager().downloadStock(symbol)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        { stock -> getView().updateViewWithStock(stock); getView().hideLoading() },
+                                        { throwable ->
+                                            Log.e(TAG, throwable.message, throwable)
+                                            getView().hideLoading()
+                                            getView().showMessage("Error downloading stock. Check your internet connection.")
+                                        })
+                        }))
     }
 
     fun downloadStocks(storredStock: StockDb?) {
@@ -79,31 +73,29 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         }))
     }
 
-    override fun buyStock(symbol: String, alreadyBought: Boolean) {
-        when (alreadyBought) {
-            false -> getCompositeDisposable().add(getDataManager().downloadStock(symbol)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnComplete { getView().showMessage("Stock bought.") }
-                    .subscribe(
-                            { stock -> getDataManager().storeFirstStock(stock, 1, stock.quote.price.toDouble(), CommonUtils.getDate()) },
-                            { throwable ->
-                                Log.e(TAG, throwable.message, throwable)
-                                getView().hideLoading()
-                                getView().showMessage("Error buying stock.")
-                            }))
-            true -> getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnComplete { getView().showMessage("Another stock bought.") }
-                    .subscribe(
-                            { stock -> getDataManager().storeSecondStock(stock, 1, stock.price!!.toDouble(), CommonUtils.getDate()) },
-                            { throwable ->
-                                Log.e(TAG, throwable.message, throwable)
-                                getView().hideLoading()
-                                getView().showMessage("Error buying stock.")
-                            }))
-        }
+    override fun buyStock(symbol: String) {
+            getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { stock ->
+                            getDataManager().storeSecondStock(stock, 1, stock.price!!.toDouble(), CommonUtils.getDate());
+                            getView().showMessage("Another stock bought.")
+                        },
+                        { getDataManager().downloadStock(symbol)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        { stock ->
+                                            getDataManager().storeFirstStock(stock, 1, stock.quote.price.toDouble(), CommonUtils.getDate())
+                                            getView().showMessage("Stock bought.")
+                                        },
+                                        { throwable ->
+                                            Log.e(TAG, throwable.message, throwable)
+                                            getView().hideLoading()
+                                            getView().showMessage("Error buying stock.")
+                                        })
+                        }))
     }
 
 }

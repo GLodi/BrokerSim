@@ -22,7 +22,6 @@ class StockActivity : BaseActivity(), StockContract.View {
     lateinit var mLoadingDialog: ProgressDialog
 
     lateinit var mSymbol: String
-    var mBought: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,15 +34,14 @@ class StockActivity : BaseActivity(), StockContract.View {
         mPresenter.onAttach(this)
 
         mSymbol = intent.getStringExtra("symbol")
-        mBought = intent.getBooleanExtra("bought", false)
 
-        mPresenter.getStock(mSymbol, mBought)
+        mPresenter.getStock(mSymbol)
     }
 
     fun initLayout() {
         setSupportActionBar(stock_activity_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        stock_activity_fab.setOnClickListener { mPresenter.buyStock(mSymbol, mBought) }
+        stock_activity_fab.setOnClickListener { mPresenter.buyStock(mSymbol) }
     }
 
     override fun updateViewWithStockDb(stockDb: StockDb) {

@@ -53,7 +53,7 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
         adapter.getPositionClicks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { symbol -> startActivity(StockActivity.getIntent(applicationContext).putExtra("symbol", symbol).putExtra("bought", true)) }
+                .subscribe { symbol -> startActivity(StockActivity.getIntent(applicationContext).putExtra("symbol", symbol)) }
     }
 
     override fun showLoading() {

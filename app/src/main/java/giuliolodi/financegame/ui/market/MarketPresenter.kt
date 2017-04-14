@@ -25,7 +25,7 @@ class MarketPresenter<V: MarketContract.View> : BasePresenter<V>, MarketContract
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showMessage("Error downloading most active stocks")
+                            getView().showMessage("Error downloading stocks. Check your internet connection.")
                         }))
     }
 

@@ -24,9 +24,9 @@ interface StockContract {
     @PerActivity
     interface Presenter<V: StockContract.View> : BaseContract.Presenter<V> {
 
-        fun getStock(symbol: String, alreadyBought: Boolean)
+        fun getStock(symbol: String)
 
-        fun buyStock(symbol: String, alreadyBought: Boolean)
+        fun buyStock(symbol: String)
 
     }
 

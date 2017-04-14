@@ -11,12 +11,10 @@ class ColorUtils(context: Context) {
     
     fun getRandomColor(): Int {
         val colorList: IntArray = intArrayOf(
-                mContext.resources.getColor(R.color.grey),
                 mContext.resources.getColor(R.color.brown),
                 mContext.resources.getColor(R.color.deepOrange),
                 mContext.resources.getColor(R.color.orange),
                 mContext.resources.getColor(R.color.amber),
-                mContext.resources.getColor(R.color.yellow),
                 mContext.resources.getColor(R.color.lime),
                 mContext.resources.getColor(R.color.lightGreen),
                 mContext.resources.getColor(R.color.green),
@@ -35,12 +33,10 @@ class ColorUtils(context: Context) {
 
     fun getRandomDarkColor(): Int {
         when(t) {
-            mContext.resources.getColor(R.color.grey) -> return mContext.resources.getColor(R.color.greyDark)
             mContext.resources.getColor(R.color.brown) -> return mContext.resources.getColor(R.color.brownDark)
             mContext.resources.getColor(R.color.deepOrange) -> return mContext.resources.getColor(R.color.deepOrangeDark)
             mContext.resources.getColor(R.color.orange) -> return mContext.resources.getColor(R.color.orangeDark)
             mContext.resources.getColor(R.color.amber) -> return mContext.resources.getColor(R.color.amberDark)
-            mContext.resources.getColor(R.color.yellow) -> return mContext.resources.getColor(R.color.yellowDark)
             mContext.resources.getColor(R.color.lime) -> return mContext.resources.getColor(R.color.limeDark)
             mContext.resources.getColor(R.color.lightGreen) -> return mContext.resources.getColor(R.color.lightGreenDark)
             mContext.resources.getColor(R.color.green) -> return mContext.resources.getColor(R.color.greenDark)
