@@ -53,7 +53,7 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
         adapter.getPositionClicks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { position -> startActivity(StockActivity.getIntent(applicationContext).putExtra("position", position)) }
+                .subscribe { symbol -> startActivity(StockActivity.getIntent(applicationContext).putExtra("symbol", symbol).putExtra("bought", true)) }
     }
 
     override fun showLoading() {
@@ -68,8 +68,8 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
         (main_activity_content_rv.adapter as AssetsAdapter).addStocks(stocks)
     }
 
-    override fun showError(error: String) {
-        Snackbar.make(currentFocus, error, Snackbar.LENGTH_LONG).show()
+    override fun showMessage(message: String) {
+        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_LONG).show()
     }
 
     override fun updateMoney(money: String) {

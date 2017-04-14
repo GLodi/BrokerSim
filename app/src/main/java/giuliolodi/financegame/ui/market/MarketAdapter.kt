@@ -56,9 +56,4 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun addStock(stockDb: Stock) {
-        stockList.add(stockDb)
-        notifyDataSetChanged()
-    }
-
 }

@@ -48,7 +48,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showError("Error downloading data. Showing storred stocks")
+                            getView().showMessage("Error downloading data. Showing storred stocks")
                             getView().showContent(storredStocks)
                         }))
     }
@@ -72,15 +72,6 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
                         { stockDbList -> getView().showContent(stockDbList); getView().hideLoading() },
                         { throwable -> Log.e(TAG, throwable.message, throwable) }
                 ))
-    }
-
-    override fun addStock() {
-        getCompositeDisposable().add(getDataManager().downloadStock("TIF")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { downloadedStock -> getDataManager().storeStock(downloadedStock) },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }))
     }
 
     override fun addMoney() {

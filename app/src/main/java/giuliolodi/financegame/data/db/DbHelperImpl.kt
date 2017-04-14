@@ -4,6 +4,8 @@ import android.content.Context
 import giuliolodi.financegame.di.scope.AppContext
 import giuliolodi.financegame.models.Assets
 import giuliolodi.financegame.models.StockDb
+import giuliolodi.financegame.models.StockDbBought
+import giuliolodi.financegame.utils.ColorUtils
 import io.reactivex.Observable
 import io.realm.Realm
 import yahoofinance.Stock
@@ -32,6 +34,15 @@ class DbHelperImpl: DbHelper {
         return Observable.just(mRealm.where(Assets::class.java).findFirstAsync().money)
     }
 
+    override fun updateStockDb(stock: Stock, stockDb: StockDb) {
+        mRealm.executeTransaction { realm ->
+            if (!stockDb.equalsToStock(stock)) {
+                stockDb.copy(stock)
+                realm.insertOrUpdate(stockDb)
+            }
+        }
+    }
+
     override fun updateListOfStockDb(stocks: List<Stock>, stockDbList: List<StockDb>) {
         mRealm.executeTransaction { realm ->
             for (stockDb in stockDbList) {
@@ -45,20 +56,21 @@ class DbHelperImpl: DbHelper {
         }
     }
 
-    override fun storeMultipleStocks(stocks: List<Stock>) {
+    override fun storeFirstStock(stock: Stock, amount: Int, price: Double, date: String) {
         mRealm.executeTransaction { realm ->
-            for (stock in stocks) {
-                val stockDb: StockDb = StockDb(stock.symbol)
-                stockDb.copy(stock)
-                realm.insertOrUpdate(stockDb)
-            }
+            val colorUtil: ColorUtils = ColorUtils(mContext)
+            val stockDb: StockDb = StockDb(stock.symbol, colorUtil.getRandomColor(), colorUtil.getRandomDarkColor())
+            val stockDbBought: StockDbBought = StockDbBought(date, price, amount)
+            stockDb.bought.add(stockDbBought)
+            stockDb.copy(stock)
+            realm.insertOrUpdate(stockDb)
         }
     }
 
-    override fun storeStock(stock: Stock) {
+    override fun storeSecondStock(stockDb: StockDb, amount: Int, price: Double, date: String) {
         mRealm.executeTransaction { realm ->
-            val stockDb: StockDb = StockDb(stock.symbol)
-            stockDb.copy(stock)
+            val stockDbBought: StockDbBought = StockDbBought(date, price, amount)
+            stockDb.bought.add(stockDbBought)
             realm.insertOrUpdate(stockDb)
         }
     }

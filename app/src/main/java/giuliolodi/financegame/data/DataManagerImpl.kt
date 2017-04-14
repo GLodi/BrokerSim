@@ -34,8 +34,12 @@ class DataManagerImpl : DataManager {
         return mApiHelper.downloadStockList(stockList)
     }
 
-    override fun storeStock(stock: Stock) {
-        return mDbHelper.storeStock(stock)
+    override fun storeFirstStock(stock: Stock, amount: Int, price: Double, date: String) {
+        return mDbHelper.storeFirstStock(stock, amount, price, date)
+    }
+
+    override fun storeSecondStock(stockDb: StockDb, amount: Int, price: Double, date: String) {
+        return mDbHelper.storeSecondStock(stockDb, amount, price, date)
     }
 
     override fun addMoney(money: Double) {
@@ -54,16 +58,16 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getStocks()
     }
 
+    override fun updateStockDb(stock: Stock, stockDb: StockDb) {
+        return mDbHelper.updateStockDb(stock, stockDb)
+    }
+
     override fun updateListOfStockDb(stocks: List<Stock>, stockDbList: List<StockDb>) {
         return mDbHelper.updateListOfStockDb(stocks, stockDbList)
     }
 
     override fun getStockWithSymbol(symbol: String): Observable<StockDb> {
         return mDbHelper.getStockWithSymbol(symbol)
-    }
-
-    override fun storeMultipleStocks(stocks: List<Stock>) {
-        return mDbHelper.storeMultipleStocks(stocks)
     }
 
 }

@@ -13,6 +13,8 @@ interface StockContract {
 
         fun updateViewWithStock(stock: Stock)
 
+        fun showMessage(message: String)
+
         fun showLoading()
 
         fun hideLoading()
@@ -22,7 +24,9 @@ interface StockContract {
     @PerActivity
     interface Presenter<V: StockContract.View> : BaseContract.Presenter<V> {
 
-        fun getStock(symbol: String)
+        fun getStock(symbol: String, alreadyBought: Boolean)
+
+        fun buyStock(symbol: String, alreadyBought: Boolean)
 
     }
 

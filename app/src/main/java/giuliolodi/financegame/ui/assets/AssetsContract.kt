@@ -14,7 +14,7 @@ interface AssetsContract {
 
         fun showContent(stocks: List<StockDb>)
 
-        fun showError(error: String)
+        fun showMessage(message: String)
 
         fun updateMoney(money: String)
 
@@ -24,8 +24,6 @@ interface AssetsContract {
     interface Presenter<V: AssetsContract.View> : BaseContract.Presenter<V> {
 
         fun subscribe()
-
-        fun addStock()
 
         fun addMoney()
 

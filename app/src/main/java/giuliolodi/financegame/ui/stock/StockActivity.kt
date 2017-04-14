@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
@@ -18,7 +19,10 @@ class StockActivity : BaseActivity(), StockContract.View {
 
     @Inject lateinit var mPresenter: StockContract.Presenter<StockContract.View>
 
-    lateinit  var mLoadingDialog: ProgressDialog
+    lateinit var mLoadingDialog: ProgressDialog
+
+    lateinit var mSymbol: String
+    var mBought: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,14 +34,16 @@ class StockActivity : BaseActivity(), StockContract.View {
 
         mPresenter.onAttach(this)
 
-        // Get stockDb from position in array
-        mPresenter.getStock(intent.getStringExtra("symbol"))
+        mSymbol = intent.getStringExtra("symbol")
+        mBought = intent.getBooleanExtra("bought", false)
+
+        mPresenter.getStock(mSymbol, mBought)
     }
 
     fun initLayout() {
         setSupportActionBar(stock_activity_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        stock_activity_fab.setOnClickListener {  }
+        stock_activity_fab.setOnClickListener { mPresenter.buyStock(mSymbol, mBought) }
     }
 
     override fun updateViewWithStockDb(stockDb: StockDb) {
@@ -55,6 +61,11 @@ class StockActivity : BaseActivity(), StockContract.View {
 
     override fun updateViewWithStock(stock: Stock) {
         stock_activity_collapsing_toolbar.title = stock.symbol
+    }
+
+    override fun showMessage(message: String) {
+        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_LONG).show()
+
     }
 
     override fun showLoading() {

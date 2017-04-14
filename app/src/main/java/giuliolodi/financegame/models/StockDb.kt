@@ -16,7 +16,7 @@ open class StockDb (
 
         open var name: String = "",
 
-        open var bought: RealmList<StockDbBought>? = null,
+        open var bought: RealmList<StockDbBought> = RealmList(),
 
         open var currency: String = "",
 

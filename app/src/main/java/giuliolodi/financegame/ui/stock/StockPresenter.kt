@@ -1,23 +1,109 @@
 package giuliolodi.financegame.ui.stock
 
+import android.util.Log
 import giuliolodi.financegame.data.DataManager
+import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BasePresenter
+import giuliolodi.financegame.utils.CommonUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import yahoofinance.Stock
 import javax.inject.Inject
 
 class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Presenter<V> {
 
+    val TAG = "StockPresenter"
+
     @Inject
     constructor(mCompositeDisposable: CompositeDisposable, mDataManager: DataManager): super(mCompositeDisposable, mDataManager)
 
-    override fun getStock(symbol: String) {
+    override fun getStock(symbol: String, alreadyBought: Boolean) {
         getView().showLoading()
-        getCompositeDisposable().add(getDataManager().downloadStock(symbol)
+        var storredStocks: StockDb? = null
+        when (alreadyBought) {
+            false -> getCompositeDisposable().add(getDataManager().downloadStock(symbol)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { stock -> getView().updateViewWithStock(stock); getView().hideLoading() },
+                            { throwable ->
+                                Log.e(TAG, throwable.message, throwable)
+                                getView().hideLoading()
+                                getView().showMessage("Error downloading stock. Check you internet connection.")
+                            }))
+            true -> getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnComplete { downloadStocks(storredStocks) }
+                    .subscribe(
+                            { stocksDb -> storredStocks = stocksDb },
+                            { throwable ->
+                                Log.e(TAG, throwable.message, throwable)
+                                getView().hideLoading()
+                                getView().showMessage("Error retrieving stock.")
+                            }))
+        }
+    }
+
+    fun downloadStocks(storredStock: StockDb?) {
+        var downloadedStock: Stock? = null
+        getCompositeDisposable().add(getDataManager().downloadStock(storredStock!!.symbol)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { stock -> getView().updateViewWithStock(stock); getView().hideLoading() })
+                .doOnComplete { checkStock(storredStock, downloadedStock) }
+                .subscribe(
+                        { stock -> downloadedStock = stock },
+                        { throwable ->
+                            Log.e(TAG, throwable.message, throwable)
+                            getView().hideLoading()
+                            getView().showMessage("Error downloading stock. Check you internet connection.")
+                        }))
+    }
+
+    fun checkStock(storredStock: StockDb?, downloadedStock: Stock?) {
+        getDataManager().updateStockDb(downloadedStock!!, storredStock!!)
+        getStockDbUpdateView(storredStock.symbol)
+    }
+
+    fun getStockDbUpdateView(symbol: String) {
+        getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { stockDb -> getView().updateViewWithStockDb(stockDb); getView().hideLoading() },
+                        { throwable ->
+                            Log.e(TAG, throwable.message, throwable)
+                            getView().hideLoading()
+                            getView().showMessage("Error retrieving stock.")
+                        }))
+    }
+
+    override fun buyStock(symbol: String, alreadyBought: Boolean) {
+        when (alreadyBought) {
+            false -> getCompositeDisposable().add(getDataManager().downloadStock(symbol)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnComplete { getView().showMessage("Stock bought.") }
+                    .subscribe(
+                            { stock -> getDataManager().storeFirstStock(stock, 1, stock.quote.price.toDouble(), CommonUtils.getDate()) },
+                            { throwable ->
+                                Log.e(TAG, throwable.message, throwable)
+                                getView().hideLoading()
+                                getView().showMessage("Error buying stock.")
+                            }))
+            true -> getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnComplete { getView().showMessage("Another stock bought.") }
+                    .subscribe(
+                            { stock -> getDataManager().storeSecondStock(stock, 1, stock.price!!.toDouble(), CommonUtils.getDate()) },
+                            { throwable ->
+                                Log.e(TAG, throwable.message, throwable)
+                                getView().hideLoading()
+                                getView().showMessage("Error buying stock.")
+                            }))
+        }
     }
 
 }

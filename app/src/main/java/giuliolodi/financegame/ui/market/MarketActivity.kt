@@ -70,8 +70,8 @@ class MarketActivity : BaseActivity(), MarketContract.View {
         (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks)
     }
 
-    override fun showError(error: String) {
-        Snackbar.make(currentFocus, error, Snackbar.LENGTH_LONG).show()
+    override fun showMessage(message: String) {
+        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_LONG).show()
     }
 
     companion object {

@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.item_stock.view.*
 class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     private var stockDbList: MutableList<StockDb> = ArrayList()
+    private var stockDbListSymbols: MutableList<String> = ArrayList()
 
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
@@ -45,7 +46,7 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(stockDbList[position])
-        holder.itemView.setOnClickListener { onClickSubject.onNext(stockDbList[position].symbol) }
+        holder.itemView.setOnClickListener { onClickSubject.onNext(stockDbListSymbols[position]) }
     }
 
     override fun getItemCount(): Int {
@@ -54,11 +55,8 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     fun addStocks(stocks: List<StockDb>) {
         stockDbList = stocks.toMutableList()
-        notifyDataSetChanged()
-    }
-
-    fun addStock(stockDb: StockDb) {
-        stockDbList.add(stockDb)
+        stockDbListSymbols.clear()
+        for (stock in stocks) stockDbListSymbols.add(stock.symbol)
         notifyDataSetChanged()
     }
 

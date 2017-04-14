@@ -8,14 +8,16 @@ interface DbHelper {
 
     /**
      * Takes a regular stock object, creates its stockDb version
-     * and stored it into Realm
+     * and stored it into Realm. Used when its the first time
+     * user buys a specific stock, this is needed for colors.
      */
-    fun storeStock(stock: Stock)
+    fun storeFirstStock(stock: Stock, amount: Int, price: Double, date: String)
 
     /**
-     * Stores multiple stockDbs from list of stocks
+     * Takes a regular stock object, creates its stockDb version
+     * and stored it into Realm
      */
-    fun storeMultipleStocks(stocks: List<Stock>)
+    fun storeSecondStock(stockDb: StockDb, amount: Int, price: Double, date: String)
 
     /**
      * Adds given amount of money to user's assets
@@ -38,7 +40,12 @@ interface DbHelper {
     fun getStockWithSymbol(symbol: String): Observable<StockDb>
 
     /**
-     * Update stockDbs with downloaded info
+     * Update single stockDb with downloaded data
+     */
+    fun updateStockDb(stock: Stock, stockDb: StockDb)
+
+    /**
+     * Update stockDbs with downloaded data
      */
     fun updateListOfStockDb(stocks: List<Stock>, stockDbList: List<StockDb>)
 
