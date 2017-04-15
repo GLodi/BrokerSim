@@ -23,7 +23,7 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun getStocks(): Observable<List<StockDb>> {
-        return Observable.just(mRealm.where(StockDb::class.java).findAllSortedAsync("symbol"))
+        return Observable.just(mRealm.where(StockDb::class.java).findAllSorted("symbol"))
     }
 
     override fun getStockWithSymbol(symbol: String): Observable<StockDb> {
@@ -63,7 +63,7 @@ class DbHelperImpl: DbHelper {
             val stockDbBought: StockDbBought = StockDbBought(date, price, amount)
             stockDb.bought.add(stockDbBought)
             stockDb.copy(stock)
-            realm.insertOrUpdate(stockDb)
+            realm.insert(stockDb)
         }
     }
 

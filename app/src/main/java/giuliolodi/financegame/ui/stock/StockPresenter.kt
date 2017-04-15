@@ -22,13 +22,13 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
         getView().showLoading()
         var storredStocks: StockDb? = null
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { downloadStocks(storredStocks) }
                 .subscribe(
                         { stockDb -> storredStocks = stockDb },
                         { getDataManager().downloadStock(symbol)
-                                .subscribeOn(Schedulers.io())
+                                .subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(
                                         { stock -> getView().updateViewWithStock(stock); getView().hideLoading() },
@@ -43,7 +43,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
     fun downloadStocks(storredStock: StockDb?) {
         var downloadedStock: Stock? = null
         getCompositeDisposable().add(getDataManager().downloadStock(storredStock!!.symbol)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { checkStock(storredStock, downloadedStock) }
                 .subscribe(
@@ -62,7 +62,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
 
     fun getStockDbUpdateView(symbol: String) {
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { stockDb -> getView().updateViewWithStockDb(stockDb); getView().hideLoading() },
@@ -75,7 +75,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
 
     override fun buyStock(symbol: String) {
             getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { stock ->
@@ -83,7 +83,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                             getView().showMessage("Another stock bought.")
                         },
                         { getDataManager().downloadStock(symbol)
-                                .subscribeOn(Schedulers.io())
+                                .subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(
                                         { stock ->

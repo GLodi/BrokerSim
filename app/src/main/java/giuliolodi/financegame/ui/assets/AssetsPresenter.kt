@@ -28,10 +28,24 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
         getCompositeDisposable().add(getDataManager().getStocks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { downloadStocks(storredStocksStrings.toTypedArray(), storredStocks) }
                 .subscribe(
-                        { stocksDb -> storredStocks = stocksDb; for (s in stocksDb) storredStocksStrings.add(s.symbol) },
-                        { throwable -> Log.e(TAG, throwable.message, throwable) }))
+                        { stocksDb ->
+                            storredStocks = stocksDb
+                            for (s in stocksDb) storredStocksStrings.add(s.symbol)
+                            if (stocksDb.isEmpty()) {
+                                getView().showNoStocksMessage()
+                                getView().hideLoading()
+                            }
+                            else {
+                                downloadStocks(storredStocksStrings.toTypedArray(), storredStocks)
+                                getView().hideNoStocksMessage()
+                            }
+                        },
+                        { throwable ->
+                            Log.e(TAG, throwable.message, throwable)
+                            getView().hideLoading()
+                            getView().showMessage("Error downloading data. Showing storred stocks")
+                        }))
     }
 
     /**
@@ -66,7 +80,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
      */
     fun getStocksUpdateView() {
         getCompositeDisposable().add(getDataManager().getStocks()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { stockDbList -> getView().showContent(stockDbList); getView().hideLoading() },
@@ -77,7 +91,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
     override fun addMoney() {
         getDataManager().addMoney(10000.00)
         getCompositeDisposable().add(getDataManager().getMoney()
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { money -> getView().updateMoney(money.toString()) })
     }

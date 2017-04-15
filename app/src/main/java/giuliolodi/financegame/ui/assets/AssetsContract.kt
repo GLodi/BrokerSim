@@ -18,6 +18,10 @@ interface AssetsContract {
 
         fun updateMoney(money: String)
 
+        fun showNoStocksMessage()
+
+        fun hideNoStocksMessage()
+
     }
 
     @PerActivity

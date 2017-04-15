@@ -6,20 +6,31 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="giuliolodi.financegame.ui.assets.AssetsActivity"
-    tools:showIn="@layout/main_activity"
+    tools:showIn="@layout/assets_activity"
     android:background="@color/colorBackground">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/main_activity_content_srl"
+        android:id="@+id/assets_activity_content_srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/main_activity_content_rv"
+            android:id="@+id/assets_activity_content_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/assets_activity_content_nostocks"
+        android:text="You don't have any stock yet!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -28,15 +28,8 @@ class App : Application() {
 
     fun initRealm() {
         Realm.init(this)
-        val defaultList: List<String> = listOf("GOOG", "GOOGL", "INTC", "AMZN", "AAPL", "YHOO")
         Realm.setDefaultConfiguration(RealmConfiguration.Builder()
-                .initialData { realm ->
-                    for (item in defaultList) {
-                        val colorUtil: ColorUtils = ColorUtils(applicationContext)
-                        realm.insert(StockDb(item, colorUtil.getRandomColor(), colorUtil.getRandomDarkColor()))
-                    }
-                    realm.createObject(Assets::class.java, "Assets")
-                }
+                .initialData { realm -> realm.createObject(Assets::class.java, "Assets") }
                 .deleteRealmIfMigrationNeeded()
                 .build())
     }
