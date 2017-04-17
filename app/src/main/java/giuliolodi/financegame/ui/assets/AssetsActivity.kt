@@ -16,8 +16,6 @@ import kotlinx.android.synthetic.main.assets_activity_content.*
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
 
-
-
 class AssetsActivity : BaseActivity(), AssetsContract.View {
 
     @Inject lateinit var mPresenter: AssetsContract.Presenter<AssetsContract.View>
