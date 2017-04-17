@@ -13,6 +13,7 @@ import giuliolodi.financegame.ui.base.BaseActivity
 import giuliolodi.financegame.ui.stock.StockActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.item_market_stock.*
 import kotlinx.android.synthetic.main.market_activity.*
 import kotlinx.android.synthetic.main.market_activity_content.*
 import yahoofinance.Stock
@@ -42,12 +43,9 @@ class MarketActivity : BaseActivity(), MarketContract.View {
 
         val adapter: MarketAdapter = MarketAdapter()
         adapter.setHasStableIds(true)
-        val llm = LinearLayoutManager(applicationContext)
-        llm.initialPrefetchItemCount = 4
 
-        market_activity_content_rv.layoutManager = llm
+        market_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         market_activity_content_rv.adapter = adapter
-        market_activity_content_rv.setHasFixedSize(true)
 
         market_activity_content_srl.setColorScheme(R.color.colorAccent)
         market_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }

@@ -14,6 +14,9 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.assets_activity.*
 import kotlinx.android.synthetic.main.assets_activity_content.*
 import javax.inject.Inject
+import android.support.v7.widget.RecyclerView
+
+
 
 class AssetsActivity : BaseActivity(), AssetsContract.View {
 
@@ -38,12 +41,17 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
 
         val adapter: AssetsAdapter = AssetsAdapter()
         adapter.setHasStableIds(true)
-        val llm = LinearLayoutManager(applicationContext)
-        llm.initialPrefetchItemCount = 4
 
-        assets_activity_content_rv.layoutManager = llm
+        assets_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         assets_activity_content_rv.adapter = adapter
-        assets_activity_content_rv.setHasFixedSize(true)
+        assets_activity_content_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (dy > 0)
+                    assets_activity_fab.hide()
+                else if (dy < 0)
+                    assets_activity_fab.show()
+            }
+        })
 
         assets_activity_content_srl.setColorScheme(R.color.colorAccent)
         assets_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
