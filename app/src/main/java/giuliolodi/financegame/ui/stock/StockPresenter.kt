@@ -31,11 +31,15 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                                 .subscribeOn(Schedulers.newThread())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(
-                                        { stock -> getView().updateViewWithStock(stock); getView().hideLoading() },
+                                        { stock ->
+                                            getView().updateViewWithStock(stock)
+                                            getView().hideLoading()
+                                            getView().showFab()
+                                        },
                                         { throwable ->
                                             Log.e(TAG, throwable.message, throwable)
                                             getView().hideLoading()
-                                            getView().showError("Error downloading stock. Check your internet connection.")
+                                            getView().showError("Error downloading stock.\nCheck your internet connection.")
                                         })
                         }))
     }
@@ -51,7 +55,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showError("Error downloading stock. Check you internet connection.")
+                            getView().showError("Error downloading stock.\nCheck you internet connection.")
                         }))
     }
 
@@ -65,7 +69,11 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { stockDb -> getView().updateViewWithStockDb(stockDb); getView().hideLoading() },
+                        { stockDb ->
+                            getView().updateViewWithStockDb(stockDb)
+                            getView().hideLoading()
+                            getView().showFab()
+                        },
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()

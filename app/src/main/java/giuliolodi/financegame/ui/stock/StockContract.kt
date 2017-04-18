@@ -21,6 +21,8 @@ interface StockContract {
 
         fun hideLoading()
 
+        fun showFab()
+
     }
 
     @PerActivity

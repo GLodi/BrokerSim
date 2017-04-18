@@ -79,6 +79,10 @@ class StockActivity : BaseActivity(), StockContract.View {
             mLoadingDialog.cancel()
     }
 
+    override fun showFab() {
+        stock_activity_fab.show()
+    }
+
     companion object {
         fun getIntent(context: Context): Intent {
             return Intent(context, StockActivity::class.java)
