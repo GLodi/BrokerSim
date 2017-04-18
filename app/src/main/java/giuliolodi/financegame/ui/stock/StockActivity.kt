@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
@@ -12,6 +11,8 @@ import giuliolodi.financegame.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.stock_activity.*
 import javax.inject.Inject
 import android.view.WindowManager
+import android.widget.Toast
+import es.dmoral.toasty.Toasty
 import giuliolodi.financegame.utils.CommonUtils
 import yahoofinance.Stock
 
@@ -61,9 +62,12 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_collapsing_toolbar.title = stock.symbol
     }
 
-    override fun showMessage(message: String) {
-        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_LONG).show()
+    override fun showSuccess(message: String) {
+        Toasty.success(applicationContext, message, Toast.LENGTH_LONG).show()
+    }
 
+    override fun showError(error: String) {
+        Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show()
     }
 
     override fun showLoading() {

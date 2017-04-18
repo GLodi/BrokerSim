@@ -27,7 +27,7 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun getStockWithSymbol(symbol: String): Observable<StockDb> {
-        return Observable.just(mRealm.where(StockDb::class.java).contains("symbol", symbol).findFirstAsync())
+        return Observable.just(mRealm.where(StockDb::class.java).equalTo("symbol", symbol).findFirstAsync())
     }
 
     override fun getMoney(): Observable<Double> {

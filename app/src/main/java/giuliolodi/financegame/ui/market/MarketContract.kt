@@ -15,7 +15,7 @@ interface MarketContract {
 
         fun showContent(stocks: List<Stock>)
 
-        fun showMessage(message: String)
+        fun showError(error: String)
 
     }
 

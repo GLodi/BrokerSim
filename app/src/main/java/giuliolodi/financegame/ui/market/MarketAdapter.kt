@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.vstechlab.easyfonts.EasyFonts
 import giuliolodi.financegame.R
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -14,26 +13,18 @@ import yahoofinance.Stock
 class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
     private var stockList: MutableList<Stock> = ArrayList()
-
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
-    // Expose PublishSubject for as onClickListener
     fun getPositionClicks(): Observable<String> {
         return onClickSubject
     }
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         fun bind (stock: Stock) = with(itemView) {
-            item_market_stock_symbol.typeface = EasyFonts.robotoRegular(context)
-            item_market_stock_name.typeface = EasyFonts.robotoRegular(context)
-            item_market_stock_price.typeface = EasyFonts.robotoRegular(context)
-
             item_market_stock_symbol.text = stock.symbol
             item_market_stock_name.text = stock.name
-
             item_market_stock_price.text = "$" + String.format("%.2f", stock.quote.price)
-            val diff = stock.quote.price!!.minus(stock.quote.previousClose!!)
-            item_market_stock_increase.text = String.format("%.2f", diff)
+            item_market_stock_increase.text = String.format("%.2f", stock.quote.price!!.minus(stock.quote.previousClose!!))
         }
     }
 
@@ -49,6 +40,10 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return stockList.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     fun addStocks(stocks: List<Stock>) {

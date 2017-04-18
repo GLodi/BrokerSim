@@ -35,7 +35,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                                         { throwable ->
                                             Log.e(TAG, throwable.message, throwable)
                                             getView().hideLoading()
-                                            getView().showMessage("Error downloading stock. Check your internet connection.")
+                                            getView().showError("Error downloading stock. Check your internet connection.")
                                         })
                         }))
     }
@@ -51,7 +51,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showMessage("Error downloading stock. Check you internet connection.")
+                            getView().showError("Error downloading stock. Check you internet connection.")
                         }))
     }
 
@@ -69,33 +69,36 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showMessage("Error retrieving stock.")
+                            getView().showError("Error retrieving stock.")
                         }))
     }
 
     override fun buyStock(symbol: String) {
-            getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { stock ->
-                            getDataManager().storeSecondStock(stock, 1, stock.price!!.toDouble(), CommonUtils.getDate());
-                            getView().showMessage("Another stock bought.")
-                        },
-                        { getDataManager().downloadStock(symbol)
-                                .subscribeOn(Schedulers.newThread())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(
-                                        { stock ->
-                                            getDataManager().storeFirstStock(stock, 1, stock.quote.price.toDouble(), CommonUtils.getDate())
-                                            getView().showMessage("Stock bought.")
-                                        },
-                                        { throwable ->
-                                            Log.e(TAG, throwable.message, throwable)
-                                            getView().hideLoading()
-                                            getView().showMessage("Error buying stock.")
-                                        })
-                        }))
+        getView().showLoading()
+        getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                    { stock ->
+                        getDataManager().storeSecondStock(stock, 1, stock.price!!.toDouble(), CommonUtils.getDate())
+                        getView().hideLoading()
+                        getView().showSuccess("Another stock bought.")
+                    },
+                    { getDataManager().downloadStock(symbol)
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    { stock ->
+                                        getDataManager().storeFirstStock(stock, 1, stock.quote.price.toDouble(), CommonUtils.getDate())
+                                        getView().hideLoading()
+                                        getView().showSuccess("Stock bought.")
+                                    },
+                                    { throwable ->
+                                        Log.e(TAG, throwable.message, throwable)
+                                        getView().hideLoading()
+                                        getView().showError("Error buying stock.")
+                                    })
+                    }))
     }
 
 }

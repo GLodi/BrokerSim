@@ -1,7 +1,6 @@
 package giuliolodi.financegame.ui.assets
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import giuliolodi.financegame.R
@@ -15,6 +14,8 @@ import kotlinx.android.synthetic.main.assets_activity.*
 import kotlinx.android.synthetic.main.assets_activity_content.*
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
+import es.dmoral.toasty.Toasty
 
 class AssetsActivity : BaseActivity(), AssetsContract.View {
 
@@ -42,6 +43,7 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
 
         assets_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         assets_activity_content_rv.adapter = adapter
+        assets_activity_content_rv.isNestedScrollingEnabled = false
         assets_activity_content_rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 if (dy > 0)
@@ -83,8 +85,8 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
         assets_activity_content_nostocks.visibility = View.GONE
     }
 
-    override fun showMessage(message: String) {
-        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_LONG).show()
+    override fun showError(error: String) {
+        Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show()
     }
 
     override fun updateMoney(money: String) {

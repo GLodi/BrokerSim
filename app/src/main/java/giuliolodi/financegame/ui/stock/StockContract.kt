@@ -13,7 +13,9 @@ interface StockContract {
 
         fun updateViewWithStock(stock: Stock)
 
-        fun showMessage(message: String)
+        fun showSuccess(message: String)
+
+        fun showError(error: String)
 
         fun showLoading()
 

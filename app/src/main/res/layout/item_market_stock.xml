@@ -14,21 +14,7 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:alpha="0.87"
-        android:textSize="16sp"
-        android:layout_marginLeft="@dimen/item_padding_sides"/>
-
-    <TextView
-        android:id="@+id/item_market_stock_name"
-        android:text="Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:alpha="0.54"
-        android:textSize="16sp"
-        android:ellipsize="end"
-        android:layout_marginLeft="@dimen/item_padding_sides"
-        android:layout_marginTop="@dimen/item_padding_top_bottom"
-        android:layout_below="@id/item_market_stock_symbol"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/item_market_stock_price"
@@ -50,6 +36,22 @@
         android:textSize="16sp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/item_padding_top_bottom"
+        android:layout_marginLeft="24dp"
         android:layout_below="@id/item_market_stock_price"/>
+
+    <TextView
+        android:id="@+id/item_market_stock_name"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.54"
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginTop="@dimen/item_padding_top_bottom"
+        android:layout_below="@id/item_market_stock_symbol"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/item_market_stock_increase" />
 
 </RelativeLayout>

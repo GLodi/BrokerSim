@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.vstechlab.easyfonts.EasyFonts
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
@@ -15,7 +14,6 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     private var stockDbList: MutableList<StockDb> = ArrayList()
     private var stockDbListSymbols: MutableList<String> = ArrayList()
-
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
     fun getPositionClicks(): Observable<String> {
@@ -24,18 +22,12 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         fun bind (stockDb: StockDb) = with(itemView) {
-            item_stock_symbol.typeface = EasyFonts.robotoRegular(context)
-            item_stock_name.typeface = EasyFonts.robotoRegular(context)
-            item_stock_price.typeface = EasyFonts.robotoRegular(context)
-
             item_stock_symbol.text = stockDb.symbol
             item_stock_icon.letter = stockDb.symbol
             item_stock_name.text = stockDb.name
             item_stock_icon.shapeColor = stockDb.iconColor
-
             item_stock_price.text = "$" + String.format("%.2f", stockDb.price)
-            val diff = stockDb.price!!.minus(stockDb.previousClose!!)
-            item_stock_increase.text = String.format("%.2f", diff)
+            item_stock_increase.text = String.format("%.2f", stockDb.price!!.minus(stockDb.previousClose!!))
         }
     }
 
@@ -51,6 +43,10 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return stockDbList.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     fun addStocks(stocks: List<StockDb>) {

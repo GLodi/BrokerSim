@@ -44,7 +44,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showMessage("Error downloading data. Showing storred stocks")
+                            getView().showError("Error downloading data. Showing storred stocks")
                         }))
     }
 
@@ -62,7 +62,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showMessage("Error downloading data. Showing storred stocks")
+                            getView().showError("Error downloading data. Showing storred stocks")
                             getView().showContent(storredStocks)
                         }))
     }

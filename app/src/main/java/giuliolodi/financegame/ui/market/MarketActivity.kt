@@ -3,21 +3,22 @@ package giuliolodi.financegame.ui.market
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
-import com.google.gson.Gson
+import android.widget.Toast
+import es.dmoral.toasty.Toasty
 import giuliolodi.financegame.R
-import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
 import giuliolodi.financegame.ui.stock.StockActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.item_market_stock.*
 import kotlinx.android.synthetic.main.market_activity.*
 import kotlinx.android.synthetic.main.market_activity_content.*
 import yahoofinance.Stock
 import javax.inject.Inject
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+
+
 
 class MarketActivity : BaseActivity(), MarketContract.View {
 
@@ -46,6 +47,8 @@ class MarketActivity : BaseActivity(), MarketContract.View {
 
         market_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         market_activity_content_rv.adapter = adapter
+        market_activity_content_rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
+
 
         market_activity_content_srl.setColorScheme(R.color.colorAccent)
         market_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
@@ -68,8 +71,8 @@ class MarketActivity : BaseActivity(), MarketContract.View {
         (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks)
     }
 
-    override fun showMessage(message: String) {
-        Snackbar.make(window.decorView.rootView, message, Snackbar.LENGTH_LONG).show()
+    override fun showError(error: String) {
+        Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show()
     }
 
     companion object {
