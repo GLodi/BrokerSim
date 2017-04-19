@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/item_stock_activity_price"
+        android:text="Price when bought"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"/>
+
+    <TextView
+        android:id="@+id/item_stock_activity_amount"
+        android:text="Amount bought"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"/>
+
+    <SeekBar
+        android:id="@+id/item_stock_activity_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_stock_activity_price"
+        android:layout_marginBottom="8dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_stock_activity_seekbar"
+        android:layout_marginLeft="8dp">
+
+        <Button
+            android:id="@+id/item_stock_activity_sellbutton"
+            android:text="Sell"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:id="@+id/item_stock_activity_profit"
+            android:text="Profit: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

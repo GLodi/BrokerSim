@@ -61,16 +61,17 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
 
     fun checkStock(storredStock: StockDb?, downloadedStock: Stock?) {
         getDataManager().updateStockDb(downloadedStock!!, storredStock!!)
-        getStockDbUpdateView(storredStock.symbol)
+        getStockDbUpdateView(storredStock.symbol, downloadedStock)
     }
 
-    fun getStockDbUpdateView(symbol: String) {
+    fun getStockDbUpdateView(symbol: String, downloadedStock: Stock) {
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { stockDb ->
                             getView().updateViewWithStockDb(stockDb)
+                            getView().showContent(stockDb.bought, downloadedStock)
                             getView().hideLoading()
                             getView().showFab()
                         },

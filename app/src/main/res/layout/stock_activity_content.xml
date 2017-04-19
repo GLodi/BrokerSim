@@ -2,33 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/number_textview"
+        android:id="@+id/stock_activity_content_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="+1 234 5678 90" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
-    <TextView
-        android:id="@+id/description_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus placerat enim non nibh ultricies, sed lobortis felis aliquet. Aliquam porttitor eros ut odio gravida suscipit. Ut ullamcorper justo non justo laoreet lobortis. Suspendisse potenti. Cras malesuada, tellus quis fermentum placerat, neque ante congue velit, in ultricies augue tortor sit amet arcu. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus a nibh nisi. Nullam congue ipsum augue, eget faucibus libero viverra a. Sed lorem libero, rutrum at velit eu, posuere condimentum mi. Fusce gravida dui quis lacus tempus ultrices. Nullam ut eleifend mi. Quisque tempus sem dolor, imperdiet rhoncus nisi eleifend a. In sodales sodales maximus. Nunc quis tortor feugiat, aliquam risus et, faucibus nibh. Ut tincidunt sodales nulla congue rhoncus.
+        android:layout_margin="16dp"
+        android:textColor="#000000"
+        android:alpha="0.54"
+        android:textSize="16sp"
+        android:text="..." />
 
-Nullam elementum ipsum facilisis sapien porta, sit amet vestibulum ligula dictum. Aliquam lorem tortor, pulvinar eget porta sed, tristique a tortor. Vestibulum dignissim rhoncus fringilla. Ut sem est, tristique sed magna eu, fermentum ultrices purus. Suspendisse ut dictum dui. Quisque fermentum lectus id nunc porttitor semper. Integer vestibulum tempor fermentum. Quisque tincidunt elit ac consequat molestie. Nulla nec tellus vitae magna blandit pellentesque. Integer ut accumsan enim. Integer eleifend, massa at volutpat accumsan, diam nisi pellentesque mi, vitae ultrices enim sapien in velit.
-
-Quisque tempor feugiat enim in facilisis. Curabitur urna libero, consectetur eu massa et, facilisis vulputate justo. Ut ultricies suscipit massa, id lobortis urna placerat bibendum. Ut eu tempor orci, nec finibus nulla. Nunc vel convallis turpis, eget porttitor purus. Vestibulum sollicitudin urna rutrum, pretium felis suscipit, semper sem. Pellentesque malesuada elit vitae lorem placerat dignissim.
-
-Mauris semper arcu quis dolor egestas dapibus. Aenean ut facilisis dolor. Phasellus vel justo quis nulla interdum bibendum. Pellentesque convallis eu turpis non dapibus. Proin sit amet metus pretium, consequat ante quis, commodo ipsum. Curabitur quis metus hendrerit, volutpat dolor ac, pretium mauris. Nam id leo ante. Nam quis tincidunt sapien. Curabitur pharetra hendrerit imperdiet. Integer nec scelerisque turpis.
-
-Mauris quam ante, bibendum venenatis lacus sit amet, interdum congue turpis. In vitae sodales ante. Morbi viverra lacinia mattis. Nulla mollis, eros vel ullamcorper fermentum, diam nibh imperdiet leo, et ullamcorper elit felis eu nisl. Aliquam volutpat metus nec arcu semper, eu dapibus nunc efficitur. Nam erat massa, tincidunt at diam id, cursus faucibus lorem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam lacinia ac risus non feugiat." />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/stock_activity_content_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

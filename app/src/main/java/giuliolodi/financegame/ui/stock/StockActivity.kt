@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
@@ -12,8 +13,11 @@ import kotlinx.android.synthetic.main.stock_activity.*
 import javax.inject.Inject
 import android.view.WindowManager
 import android.widget.Toast
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import es.dmoral.toasty.Toasty
+import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.utils.CommonUtils
+import kotlinx.android.synthetic.main.stock_activity_content.*
 import yahoofinance.Stock
 
 class StockActivity : BaseActivity(), StockContract.View {
@@ -42,11 +46,21 @@ class StockActivity : BaseActivity(), StockContract.View {
     fun initLayout() {
         setSupportActionBar(stock_activity_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        val adapter: StockAdapter = StockAdapter()
+        adapter.setHasStableIds(true)
+
+        stock_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
+        stock_activity_content_rv.adapter = adapter
+        stock_activity_content_rv.isNestedScrollingEnabled = false
+        stock_activity_content_rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
+
         stock_activity_fab.setOnClickListener { mPresenter.buyStock(mSymbol) }
     }
 
     override fun updateViewWithStockDb(stockDb: StockDb) {
         stock_activity_collapsing_toolbar.title = stockDb.symbol
+        stock_activity_content_description.text = stockDb.name
         stock_activity_collapsing_toolbar.setContentScrimColor(stockDb.iconColor)
         stock_activity_image.setBackgroundColor(stockDb.iconColor)
 
@@ -60,6 +74,10 @@ class StockActivity : BaseActivity(), StockContract.View {
 
     override fun updateViewWithStock(stock: Stock) {
         stock_activity_collapsing_toolbar.title = stock.symbol
+    }
+
+    override fun showContent(stockDbBoughtList: List<StockDbBought>, stock: Stock) {
+        (stock_activity_content_rv.adapter as StockAdapter).addStockDbBoughtList(stockDbBoughtList, stock)
     }
 
     override fun showSuccess(message: String) {

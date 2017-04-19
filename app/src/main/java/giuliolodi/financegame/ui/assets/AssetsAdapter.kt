@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.item_stock.view.*
 
 class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
-    private var stockDbList: MutableList<StockDb> = ArrayList()
-    private var stockDbListSymbols: MutableList<String> = ArrayList()
+    private var mStockDbList: MutableList<StockDb> = ArrayList()
+    private var mStockDbListSymbols: MutableList<String> = ArrayList()
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
     fun getPositionClicks(): Observable<String> {
@@ -37,12 +37,12 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(stockDbList[position])
-        holder.itemView.setOnClickListener { onClickSubject.onNext(stockDbListSymbols[position]) }
+        holder.bind(mStockDbList[position])
+        holder.itemView.setOnClickListener { onClickSubject.onNext(mStockDbListSymbols[position]) }
     }
 
     override fun getItemCount(): Int {
-        return stockDbList.size
+        return mStockDbList.size
     }
 
     override fun getItemId(position: Int): Long {
@@ -50,9 +50,9 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
     }
 
     fun addStocks(stocks: List<StockDb>) {
-        stockDbList = stocks.toMutableList()
-        stockDbListSymbols.clear()
-        for (stock in stocks) stockDbListSymbols.add(stock.symbol)
+        mStockDbList = stocks.toMutableList()
+        mStockDbListSymbols.clear()
+        for (stock in stocks) mStockDbListSymbols.add(stock.symbol)
         notifyDataSetChanged()
     }
 

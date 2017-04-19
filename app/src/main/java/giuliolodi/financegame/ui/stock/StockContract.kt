@@ -2,6 +2,7 @@ package giuliolodi.financegame.ui.stock
 
 import giuliolodi.financegame.di.scope.PerActivity
 import giuliolodi.financegame.models.StockDb
+import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.ui.base.BaseContract
 import yahoofinance.Stock
 
@@ -22,6 +23,8 @@ interface StockContract {
         fun hideLoading()
 
         fun showFab()
+
+        fun showContent(stockDbBoughtList: List<StockDbBought>, stock: Stock)
 
     }
 

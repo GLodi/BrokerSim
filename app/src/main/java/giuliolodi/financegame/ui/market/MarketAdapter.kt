@@ -12,7 +12,7 @@ import yahoofinance.Stock
 
 class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
-    private var stockList: MutableList<Stock> = ArrayList()
+    private var mStockList: MutableList<Stock> = ArrayList()
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
     fun getPositionClicks(): Observable<String> {
@@ -34,12 +34,12 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(stockList[position])
-        holder.itemView.setOnClickListener { onClickSubject.onNext(stockList[position].symbol) }
+        holder.bind(mStockList[position])
+        holder.itemView.setOnClickListener { onClickSubject.onNext(mStockList[position].symbol) }
     }
 
     override fun getItemCount(): Int {
-        return stockList.size
+        return mStockList.size
     }
 
     override fun getItemId(position: Int): Long {
@@ -47,7 +47,7 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
     }
 
     fun addStocks(stocks: List<Stock>) {
-        stockList = stocks.toMutableList()
+        mStockList = stocks.toMutableList()
         notifyDataSetChanged()
     }
 
