@@ -14,8 +14,11 @@ import kotlinx.android.synthetic.main.assets_activity.*
 import kotlinx.android.synthetic.main.assets_activity_content.*
 import javax.inject.Inject
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.Gravity
 import android.widget.Toast
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.money_view.*
 
 class AssetsActivity : BaseActivity(), AssetsContract.View {
 
@@ -36,6 +39,7 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
 
     private fun initLayout() {
         setSupportActionBar(assets_activity_toolbar)
+        assets_activity_toolbar.addView(layoutInflater.inflate(R.layout.money_view, null), Toolbar.LayoutParams(Gravity.RIGHT))
         title = "Assets"
 
         val adapter: AssetsAdapter = AssetsAdapter()
@@ -90,7 +94,7 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
     }
 
     override fun updateMoney(money: String) {
-        assets_activity_toolbar.title = money
+        money_view_text.text = "$" + money
     }
 
     override fun onDestroy() {

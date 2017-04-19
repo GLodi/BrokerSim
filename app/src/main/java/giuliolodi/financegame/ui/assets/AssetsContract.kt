@@ -29,7 +29,7 @@ interface AssetsContract {
 
         fun subscribe()
 
-        fun addMoney()
+        fun getMoney()
 
     }
 }

@@ -31,7 +31,7 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun getMoney(): Observable<Double> {
-        return Observable.just(mRealm.where(Assets::class.java).findFirstAsync().money)
+        return Observable.just(mRealm.where(Assets::class.java).findFirst().money)
     }
 
     override fun updateStockDb(stock: Stock, stockDb: StockDb) {
@@ -75,7 +75,7 @@ class DbHelperImpl: DbHelper {
         }
     }
 
-    override fun addMoney(money: Double) {
+    override fun updateMoney(money: Double) {
         mRealm.executeTransaction { realm ->
             val asset = realm.where(Assets::class.java).findFirst()
             asset.money = asset.money + money

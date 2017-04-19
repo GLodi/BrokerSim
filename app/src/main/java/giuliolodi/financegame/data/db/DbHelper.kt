@@ -20,9 +20,9 @@ interface DbHelper {
     fun storeSecondStock(stockDb: StockDb, amount: Int, price: Double, date: String)
 
     /**
-     * Adds given amount of money to user's assets
+     * Adds or subtracts given amount of money to user's assets
      */
-    fun addMoney(money: Double)
+    fun updateMoney(money: Double)
 
     /**
      * Returns current amount of money in user's assets

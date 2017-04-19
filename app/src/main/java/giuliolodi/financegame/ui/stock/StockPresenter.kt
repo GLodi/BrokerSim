@@ -87,8 +87,9 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                    { stock ->
-                        getDataManager().storeSecondStock(stock, 1, stock.price!!.toDouble(), CommonUtils.getDate())
+                    { stockDb ->
+                        getDataManager().storeSecondStock(stockDb, 1, stockDb.price!!.toDouble(), CommonUtils.getDate())
+                        getDataManager().updateMoney(-stockDb.price!!.toDouble())
                         getView().hideLoading()
                         getView().showSuccess("Another stock bought.")
                     },
@@ -98,6 +99,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                             .subscribe(
                                     { stock ->
                                         getDataManager().storeFirstStock(stock, 1, stock.quote.price.toDouble(), CommonUtils.getDate())
+                                        getDataManager().updateMoney(-stock.quote!!.price.toDouble())
                                         getView().hideLoading()
                                         getView().showSuccess("Stock bought.")
                                     },

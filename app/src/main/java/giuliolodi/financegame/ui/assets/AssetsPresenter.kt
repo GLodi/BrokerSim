@@ -28,6 +28,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
         getCompositeDisposable().add(getDataManager().getStocks()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete { getMoney() }
                 .subscribe(
                         { stocksDb ->
                             storredStocks = stocksDb
@@ -88,12 +89,11 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
                 ))
     }
 
-    override fun addMoney() {
-        getDataManager().addMoney(10000.00)
+    override fun getMoney() {
         getCompositeDisposable().add(getDataManager().getMoney()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { money -> getView().updateMoney(money.toString()) })
+                .subscribe { money -> getView().updateMoney(String.format("%.2f", money)) })
     }
 
 }

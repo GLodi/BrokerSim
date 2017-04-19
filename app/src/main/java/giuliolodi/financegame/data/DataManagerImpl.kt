@@ -42,8 +42,8 @@ class DataManagerImpl : DataManager {
         return mDbHelper.storeSecondStock(stockDb, amount, price, date)
     }
 
-    override fun addMoney(money: Double) {
-        return mDbHelper.addMoney(money)
+    override fun updateMoney(money: Double) {
+        return mDbHelper.updateMoney(money)
     }
 
     override fun getMoney(): Observable<Double> {
