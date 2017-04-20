@@ -22,15 +22,10 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
             item_stock_activity_profit.text = "Profit: $" + String.format("%.2f", currentStock.quote.price.toDouble().minus(stockDbBought.priceWhenBought!!))
             item_stock_activity_seekbar.max = stockDbBought.amount!!
             item_stock_activity_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-
-                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                    item_stock_activity_selectedamount.text = p1.toString()
-                }
-
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) { item_stock_activity_selectedamount.text = p1.toString() }
                 override fun onStartTrackingTouch(p0: SeekBar?) {}
                 override fun onStopTrackingTouch(seekBar: SeekBar) {}
             })
-
         }
     }
 

@@ -74,6 +74,7 @@ class StockActivity : BaseActivity(), StockContract.View {
 
     override fun updateViewWithStock(stock: Stock) {
         stock_activity_collapsing_toolbar.title = stock.symbol
+        stock_activity_content_description.text = stock.name
     }
 
     override fun showContent(stockDbBoughtList: List<StockDbBought>, stock: Stock) {
