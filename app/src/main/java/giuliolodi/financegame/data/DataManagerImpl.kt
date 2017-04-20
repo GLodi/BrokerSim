@@ -4,6 +4,7 @@ import android.content.Context
 import giuliolodi.financegame.data.api.ApiHelper
 import giuliolodi.financegame.data.db.DbHelper
 import giuliolodi.financegame.di.scope.AppContext
+import giuliolodi.financegame.models.SellRequest
 import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
 import yahoofinance.Stock
@@ -68,6 +69,10 @@ class DataManagerImpl : DataManager {
 
     override fun getStockWithSymbol(symbol: String): Observable<StockDb> {
         return mDbHelper.getStockWithSymbol(symbol)
+    }
+
+    override fun sellStock(sellRequest: SellRequest) {
+        return mDbHelper.sellStock(sellRequest)
     }
 
 }

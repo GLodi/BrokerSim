@@ -1,5 +1,6 @@
 package giuliolodi.financegame.data.db
 
+import giuliolodi.financegame.models.SellRequest
 import giuliolodi.financegame.models.StockDb
 import io.reactivex.Observable
 import yahoofinance.Stock
@@ -48,5 +49,11 @@ interface DbHelper {
      * Update stockDbs with downloaded data
      */
     fun updateListOfStockDb(stocks: List<Stock>, stockDbList: List<StockDb>)
+
+    /**
+     * Sell stockDbBought. SellRequest holds StockDbBought, the amount
+     * of stocks to sell and the original Stock.
+     */
+    fun sellStock(sellRequest: SellRequest)
 
 }

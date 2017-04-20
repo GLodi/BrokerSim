@@ -17,6 +17,8 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import es.dmoral.toasty.Toasty
 import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.utils.CommonUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.stock_activity_content.*
 import yahoofinance.Stock
 
@@ -56,6 +58,11 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_content_rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
 
         stock_activity_fab.setOnClickListener { mPresenter.buyStock(mSymbol) }
+
+        adapter.getPositionClicks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { sellRequest -> mPresenter.sellStock(sellRequest) }
     }
 
     override fun updateViewWithStockDb(stockDb: StockDb) {

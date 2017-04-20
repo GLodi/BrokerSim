@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import giuliolodi.financegame.R
+import java.math.BigInteger
+import java.security.SecureRandom
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,6 +32,11 @@ class CommonUtils {
             val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd")
             val date: Date = Date()
             return dateFormat.format(date)
+        }
+
+        fun getRandomString(): String {
+            val random: SecureRandom = SecureRandom()
+            return BigInteger(130, random).toString(32)
         }
 
     }

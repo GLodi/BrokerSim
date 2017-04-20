@@ -2,6 +2,7 @@ package giuliolodi.financegame.ui.stock
 
 import android.util.Log
 import giuliolodi.financegame.data.DataManager
+import giuliolodi.financegame.models.SellRequest
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BasePresenter
 import giuliolodi.financegame.utils.CommonUtils
@@ -110,6 +111,13 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                                         getView().showError("Error buying stock.")
                                     })
                     }))
+    }
+
+    override fun sellStock(sellRequest: SellRequest) {
+        getView().showLoading()
+        getDataManager().updateMoney(sellRequest.stockDbBought.priceWhenBought!!)
+        getDataManager().sellStock(sellRequest)
+        getView().hideLoading()
     }
 
 }

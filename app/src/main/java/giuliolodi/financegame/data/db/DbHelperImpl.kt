@@ -3,9 +3,11 @@ package giuliolodi.financegame.data.db
 import android.content.Context
 import giuliolodi.financegame.di.scope.AppContext
 import giuliolodi.financegame.models.Assets
+import giuliolodi.financegame.models.SellRequest
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.utils.ColorUtils
+import giuliolodi.financegame.utils.CommonUtils
 import io.reactivex.Observable
 import io.realm.Realm
 import yahoofinance.Stock
@@ -60,7 +62,7 @@ class DbHelperImpl: DbHelper {
         mRealm.executeTransaction { realm ->
             val colorUtil: ColorUtils = ColorUtils(mContext)
             val stockDb: StockDb = StockDb(stock.symbol, colorUtil.getRandomColor(), colorUtil.getRandomDarkColor())
-            val stockDbBought: StockDbBought = StockDbBought(date, price, amount)
+            val stockDbBought: StockDbBought = StockDbBought(CommonUtils.getRandomString(), date, price, amount)
             stockDb.bought.add(stockDbBought)
             stockDb.copy(stock)
             realm.insert(stockDb)
@@ -69,7 +71,7 @@ class DbHelperImpl: DbHelper {
 
     override fun storeSecondStock(stockDb: StockDb, amount: Int, price: Double, date: String) {
         mRealm.executeTransaction { realm ->
-            val stockDbBought: StockDbBought = StockDbBought(date, price, amount)
+            val stockDbBought: StockDbBought = StockDbBought(CommonUtils.getRandomString(), date, price, amount)
             stockDb.bought.add(stockDbBought)
             realm.insertOrUpdate(stockDb)
         }
@@ -80,6 +82,22 @@ class DbHelperImpl: DbHelper {
             val asset = realm.where(Assets::class.java).findFirst()
             asset.money = asset.money + money
             realm.insertOrUpdate(asset)
+        }
+    }
+
+    override fun sellStock(sellRequest: SellRequest) {
+        if (sellRequest.stockDbBought.amount == sellRequest.amount) {
+            val result = mRealm.where(StockDbBought::class.java).equalTo("id", sellRequest.stockDbBought.id).findFirst()
+            mRealm.executeTransaction { result.deleteFromRealm() }
+        } else {
+            val result = mRealm.where(StockDbBought::class.java)
+                    .equalTo("dateBought", sellRequest.stockDbBought.dateBought)
+                    .equalTo("priceWhenBought", sellRequest.stockDbBought.priceWhenBought)
+                    .findFirst()
+            mRealm.executeTransaction { realm ->
+                result.amount = result.amount!! - sellRequest.amount
+                realm.insertOrUpdate(result)
+            }
         }
     }
 

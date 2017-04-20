@@ -1,6 +1,7 @@
 package giuliolodi.financegame.ui.stock
 
 import giuliolodi.financegame.di.scope.PerActivity
+import giuliolodi.financegame.models.SellRequest
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.ui.base.BaseContract
@@ -34,6 +35,8 @@ interface StockContract {
         fun getStock(symbol: String)
 
         fun buyStock(symbol: String)
+
+        fun sellStock(sellRequest: SellRequest)
 
     }
 

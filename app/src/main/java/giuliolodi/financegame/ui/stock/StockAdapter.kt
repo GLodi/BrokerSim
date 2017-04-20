@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import giuliolodi.financegame.R
+import giuliolodi.financegame.models.SellRequest
 import giuliolodi.financegame.models.StockDbBought
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_stock_activity.view.*
 import yahoofinance.Stock
 
@@ -14,6 +17,11 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
 
     private var mStockDbList: MutableList<StockDbBought> = ArrayList()
     private var mCurrentStock: Stock? = null
+    private val onClickSubject: PublishSubject<SellRequest> = PublishSubject.create()
+
+    fun getPositionClicks(): Observable<SellRequest> {
+        return onClickSubject
+    }
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         fun bind (stockDbBought: StockDbBought, currentStock: Stock) = with(itemView) {
@@ -36,6 +44,10 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(mStockDbList[position], mCurrentStock!!)
+        holder.itemView.item_stock_activity_sellbutton.setOnClickListener {
+            if (holder.itemView.item_stock_activity_seekbar.progress > 0)
+                onClickSubject.onNext(SellRequest(mStockDbList[position], holder.itemView.item_stock_activity_seekbar.progress, mCurrentStock!!))
+        }
     }
 
     override fun getItemCount(): Int {
