@@ -45,8 +45,16 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(mStockDbList[position], mCurrentStock!!)
         holder.itemView.item_stock_activity_sellbutton.setOnClickListener {
-            if (holder.itemView.item_stock_activity_seekbar.progress > 0)
+            if (holder.itemView.item_stock_activity_seekbar.progress > 0) {
                 onClickSubject.onNext(SellRequest(mStockDbList[position], holder.itemView.item_stock_activity_seekbar.progress, mCurrentStock!!))
+                if (holder.itemView.item_stock_activity_seekbar.progress == mStockDbList[position].amount) {
+                    mStockDbList.removeAt(position)
+                    notifyItemRemoved(position)
+                } else {
+                    holder.itemView.item_stock_activity_seekbar.max = holder.itemView.item_stock_activity_seekbar.max - holder.itemView.item_stock_activity_seekbar.progress
+                    notifyItemChanged(position)
+                }
+            }
         }
     }
 
@@ -61,6 +69,11 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
     fun addStockDbBoughtList(stocks: List<StockDbBought>, currentStock: Stock) {
         mStockDbList = stocks.toMutableList()
         mCurrentStock = currentStock
+        notifyDataSetChanged()
+    }
+
+    fun updateStockDbBoughtList(stocks: List<StockDbBought>) {
+        mStockDbList = stocks.toMutableList()
         notifyDataSetChanged()
     }
 

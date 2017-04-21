@@ -83,6 +83,21 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         }))
     }
 
+    fun updateStockDbBought(symbol: String) {
+        getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { stockDb ->
+                            getView().updateAdapter(stockDb.bought)
+                        },
+                        { throwable ->
+                            Log.e(TAG, throwable.message, throwable)
+                            getView().hideLoading()
+                            getView().showError("Error retrieving stock.")
+                        }))
+    }
+
     override fun buyStock(symbol: String) {
         getView().showLoading()
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
@@ -92,6 +107,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                     { stockDb ->
                         getDataManager().storeSecondStock(stockDb, 1, stockDb.price!!.toDouble(), CommonUtils.getDate())
                         getDataManager().updateMoney(-stockDb.price!!.toDouble())
+                        updateStockDbBought(symbol)
                         getView().hideLoading()
                         getView().showSuccess("Another stock bought.")
                     },
@@ -100,9 +116,10 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     { stock ->
+                                        getView().hideLoading()
                                         getDataManager().storeFirstStock(stock, 1, stock.quote.price.toDouble(), CommonUtils.getDate())
                                         getDataManager().updateMoney(-stock.quote!!.price.toDouble())
-                                        getView().hideLoading()
+                                        getStock(stock.symbol)
                                         getView().showSuccess("Stock bought.")
                                     },
                                     { throwable ->
@@ -118,6 +135,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
         getDataManager().updateMoney(sellRequest.stock.quote.price.toDouble())
         getDataManager().sellStock(sellRequest)
         getView().hideLoading()
+        getView().showSuccess("Stock sold.")
     }
 
 }

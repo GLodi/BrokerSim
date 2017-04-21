@@ -27,7 +27,7 @@ class StockActivity : BaseActivity(), StockContract.View {
     @Inject lateinit var mPresenter: StockContract.Presenter<StockContract.View>
 
     lateinit var mLoadingDialog: ProgressDialog
-
+    lateinit var adapter: StockAdapter
     lateinit var mSymbol: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +49,7 @@ class StockActivity : BaseActivity(), StockContract.View {
         setSupportActionBar(stock_activity_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val adapter: StockAdapter = StockAdapter()
+        adapter = StockAdapter()
         adapter.setHasStableIds(true)
 
         stock_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
@@ -82,6 +82,10 @@ class StockActivity : BaseActivity(), StockContract.View {
     override fun updateViewWithStock(stock: Stock) {
         stock_activity_collapsing_toolbar.title = stock.symbol
         stock_activity_content_description.text = stock.name
+    }
+
+    override fun updateAdapter(stockDbBoughtList: List<StockDbBought>) {
+        adapter.updateStockDbBoughtList(stockDbBoughtList)
     }
 
     override fun showContent(stockDbBoughtList: List<StockDbBought>, stock: Stock) {
