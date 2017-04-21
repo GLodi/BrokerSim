@@ -47,8 +47,6 @@ class MarketActivity : BaseActivity(), MarketContract.View {
 
         market_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         market_activity_content_rv.adapter = adapter
-        market_activity_content_rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
-
 
         market_activity_content_srl.setColorScheme(R.color.colorAccent)
         market_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
