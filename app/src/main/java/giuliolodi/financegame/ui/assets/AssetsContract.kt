@@ -14,6 +14,8 @@ interface AssetsContract {
 
         fun showContent(stocks: List<StockDb>)
 
+        fun clearAdapter()
+
         fun showError(error: String)
 
         fun updateMoney(money: String)

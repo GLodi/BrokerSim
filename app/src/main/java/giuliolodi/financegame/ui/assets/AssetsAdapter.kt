@@ -56,4 +56,10 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun clearAdapter() {
+        mStockDbList.clear()
+        mStockDbListSymbols.clear()
+        notifyDataSetChanged()
+    }
+
 }

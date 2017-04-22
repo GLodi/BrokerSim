@@ -35,6 +35,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
                             for (s in stocksDb) storredStocksStrings.add(s.symbol)
                             if (stocksDb.isEmpty()) {
                                 getView().showNoStocksMessage()
+                                getView().clearAdapter()
                                 getView().hideLoading()
                             }
                             else {

@@ -8,6 +8,8 @@ open class StockDbBought(
         @PrimaryKey
         open var id: String = "",
 
+        open var symbol: String = "",
+
         open var dateBought: String = "",
 
         open var priceWhenBought: Double? = null,

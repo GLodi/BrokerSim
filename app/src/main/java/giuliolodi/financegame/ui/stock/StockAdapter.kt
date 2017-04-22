@@ -15,7 +15,7 @@ import yahoofinance.Stock
 
 class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
 
-    private var mStockDbList: MutableList<StockDbBought> = ArrayList()
+    private var mStockDbBoughtList: MutableList<StockDbBought> = ArrayList()
     private var mCurrentStock: Stock? = null
     private val onClickSubject: PublishSubject<SellRequest> = PublishSubject.create()
 
@@ -28,7 +28,9 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
             item_stock_activity_price.text = "$" + String.format("%.2f", stockDbBought.priceWhenBought)
             item_stock_activity_amount.text = stockDbBought.amount.toString()
             item_stock_activity_profit.text = "Profit: $" + String.format("%.2f", currentStock.quote.price.toDouble().minus(stockDbBought.priceWhenBought!!))
+            item_stock_activity_seekbar.progress = 0
             item_stock_activity_seekbar.max = stockDbBought.amount!!
+            item_stock_activity_date.text = stockDbBought.dateBought
             item_stock_activity_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) { item_stock_activity_selectedamount.text = p1.toString() }
                 override fun onStartTrackingTouch(p0: SeekBar?) {}
@@ -43,13 +45,16 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(mStockDbList[position], mCurrentStock!!)
+        holder.bind(mStockDbBoughtList[position], mCurrentStock!!)
         holder.itemView.item_stock_activity_sellbutton.setOnClickListener {
             if (holder.itemView.item_stock_activity_seekbar.progress > 0) {
-                onClickSubject.onNext(SellRequest(mStockDbList[position], holder.itemView.item_stock_activity_seekbar.progress, mCurrentStock!!))
-                if (holder.itemView.item_stock_activity_seekbar.progress == mStockDbList[position].amount) {
-                    mStockDbList.removeAt(position)
-                    notifyItemRemoved(position)
+                if (mStockDbBoughtList.size == 1)
+                    onClickSubject.onNext(SellRequest(mStockDbBoughtList[position], holder.itemView.item_stock_activity_seekbar.progress, mCurrentStock!!, true))
+                else
+                    onClickSubject.onNext(SellRequest(mStockDbBoughtList[position], holder.itemView.item_stock_activity_seekbar.progress, mCurrentStock!!))
+                if (holder.itemView.item_stock_activity_seekbar.progress == mStockDbBoughtList[position].amount) {
+                    mStockDbBoughtList.removeAt(position)
+                    notifyDataSetChanged()
                 } else {
                     holder.itemView.item_stock_activity_seekbar.max = holder.itemView.item_stock_activity_seekbar.max - holder.itemView.item_stock_activity_seekbar.progress
                     notifyItemChanged(position)
@@ -59,7 +64,7 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return mStockDbList.size
+        return mStockDbBoughtList.size
     }
 
     override fun getItemId(position: Int): Long {
@@ -67,13 +72,13 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
     }
 
     fun addStockDbBoughtList(stocks: List<StockDbBought>, currentStock: Stock) {
-        mStockDbList = stocks.toMutableList()
+        mStockDbBoughtList = stocks.toMutableList()
         mCurrentStock = currentStock
         notifyDataSetChanged()
     }
 
     fun updateStockDbBoughtList(stocks: List<StockDbBought>) {
-        mStockDbList = stocks.toMutableList()
+        mStockDbBoughtList = stocks.toMutableList()
         notifyDataSetChanged()
     }
 

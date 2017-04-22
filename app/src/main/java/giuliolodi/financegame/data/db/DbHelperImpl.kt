@@ -62,7 +62,7 @@ class DbHelperImpl: DbHelper {
         mRealm.executeTransaction { realm ->
             val colorUtil: ColorUtils = ColorUtils(mContext)
             val stockDb: StockDb = StockDb(stock.symbol, colorUtil.getRandomColor(), colorUtil.getRandomDarkColor())
-            val stockDbBought: StockDbBought = StockDbBought(CommonUtils.getRandomString(), date, price, amount)
+            val stockDbBought: StockDbBought = StockDbBought(CommonUtils.getRandomString(), stock.symbol, date, price, amount)
             stockDb.bought.add(stockDbBought)
             stockDb.copy(stock)
             realm.insert(stockDb)
@@ -71,7 +71,7 @@ class DbHelperImpl: DbHelper {
 
     override fun storeSecondStock(stockDb: StockDb, amount: Int, price: Double, date: String) {
         mRealm.executeTransaction { realm ->
-            val stockDbBought: StockDbBought = StockDbBought(CommonUtils.getRandomString(), date, price, amount)
+            val stockDbBought: StockDbBought = StockDbBought(CommonUtils.getRandomString(), stockDb.symbol, date, price, amount)
             stockDb.bought.add(stockDbBought)
             realm.insertOrUpdate(stockDb)
         }
@@ -86,17 +86,22 @@ class DbHelperImpl: DbHelper {
     }
 
     override fun sellStock(sellRequest: SellRequest) {
-        if (sellRequest.stockDbBought.amount == sellRequest.amount) {
-            val result = mRealm.where(StockDbBought::class.java).equalTo("id", sellRequest.stockDbBought.id).findFirst()
-            mRealm.executeTransaction { result.deleteFromRealm() }
+        if (sellRequest.deleteStockDb) {
+            val stockDb = mRealm.where(StockDb::class.java).equalTo("symbol", sellRequest.stockDbBought.symbol).findAll()
+            mRealm.executeTransaction { stockDb.deleteFirstFromRealm() }
         } else {
-            val result = mRealm.where(StockDbBought::class.java)
-                    .equalTo("dateBought", sellRequest.stockDbBought.dateBought)
-                    .equalTo("priceWhenBought", sellRequest.stockDbBought.priceWhenBought)
-                    .findFirst()
-            mRealm.executeTransaction { realm ->
-                result.amount = result.amount!! - sellRequest.amount
-                realm.insertOrUpdate(result)
+            if (sellRequest.stockDbBought.amount == sellRequest.amount) {
+                val stockDbBought = mRealm.where(StockDbBought::class.java).equalTo("id", sellRequest.stockDbBought.id).findFirst()
+                mRealm.executeTransaction { stockDbBought.deleteFromRealm() }
+            } else {
+                val result = mRealm.where(StockDbBought::class.java)
+                        .equalTo("dateBought", sellRequest.stockDbBought.dateBought)
+                        .equalTo("priceWhenBought", sellRequest.stockDbBought.priceWhenBought)
+                        .findFirst()
+                mRealm.executeTransaction { realm ->
+                    result.amount = result.amount!! - sellRequest.amount
+                    realm.insertOrUpdate(result)
+                }
             }
         }
     }

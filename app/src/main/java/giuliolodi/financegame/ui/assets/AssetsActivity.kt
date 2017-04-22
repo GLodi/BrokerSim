@@ -73,6 +73,10 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
         (assets_activity_content_rv.adapter as AssetsAdapter).addStocks(stocks)
     }
 
+    override fun clearAdapter() {
+        (assets_activity_content_rv.adapter as AssetsAdapter).clearAdapter()
+    }
+
     override fun showLoading() {
         assets_activity_content_srl.isRefreshing = true
     }

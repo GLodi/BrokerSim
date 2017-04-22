@@ -68,4 +68,15 @@
         android:layout_below="@id/item_stock_activity_seekbar"
         android:layout_marginTop="24dp"/>
 
+    <TextView
+        android:id="@+id/item_stock_activity_date"
+        android:text="Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:alpha="0.54"
+        android:textSize="16sp"
+        android:layout_alignBaseline="@id/item_stock_activity_sellbutton"
+        android:layout_marginLeft="16dp"/>
+
 </RelativeLayout>
