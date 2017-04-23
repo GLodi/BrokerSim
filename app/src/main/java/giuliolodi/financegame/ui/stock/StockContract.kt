@@ -29,6 +29,8 @@ interface StockContract {
 
         fun updateAdapter(stockDbBoughtList: List<StockDbBought>)
 
+        fun showBuyFragment()
+
     }
 
     @PerActivity

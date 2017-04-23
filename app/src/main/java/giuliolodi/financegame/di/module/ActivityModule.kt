@@ -8,6 +8,8 @@ import giuliolodi.financegame.di.scope.ActivityContext
 import giuliolodi.financegame.di.scope.PerActivity
 import giuliolodi.financegame.ui.assets.AssetsContract
 import giuliolodi.financegame.ui.assets.AssetsPresenter
+import giuliolodi.financegame.ui.buydialog.BuyDialogContract
+import giuliolodi.financegame.ui.buydialog.BuyDialogPresenter
 import giuliolodi.financegame.ui.market.MarketContract
 import giuliolodi.financegame.ui.market.MarketPresenter
 import giuliolodi.financegame.ui.stock.StockContract
@@ -46,6 +48,11 @@ class ActivityModule(val activity: Activity) {
 
     @Provides
     fun provideMarketPresenter(presenter: MarketPresenter<MarketContract.View>): MarketContract.Presenter<MarketContract.View> {
+        return presenter
+    }
+
+    @Provides
+    fun provideBuyDialogPresenter(presenter: BuyDialogPresenter<BuyDialogContract.View>): BuyDialogContract.Presenter<BuyDialogContract.View> {
         return presenter
     }
 

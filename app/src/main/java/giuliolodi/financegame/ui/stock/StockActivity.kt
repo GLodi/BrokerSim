@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import es.dmoral.toasty.Toasty
 import giuliolodi.financegame.models.StockDbBought
+import giuliolodi.financegame.ui.buydialog.BuyDialogFragment
 import giuliolodi.financegame.utils.CommonUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -57,7 +58,7 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_content_rv.isNestedScrollingEnabled = false
         stock_activity_content_rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
 
-        stock_activity_fab.setOnClickListener { mPresenter.buyStock(mSymbol) }
+        stock_activity_fab.setOnClickListener { showBuyFragment() }
 
         adapter.getPositionClicks()
                 .subscribeOn(Schedulers.io())
@@ -102,6 +103,11 @@ class StockActivity : BaseActivity(), StockContract.View {
 
     override fun showLoading() {
         mLoadingDialog = CommonUtils.showLoadingDialog(this)
+    }
+
+    override fun showBuyFragment() {
+        val fragment: BuyDialogFragment = BuyDialogFragment()
+        fragment.show(supportFragmentManager, "Stock Fragment")
     }
 
     override fun hideLoading() {

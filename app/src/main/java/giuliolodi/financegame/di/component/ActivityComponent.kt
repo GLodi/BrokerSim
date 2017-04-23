@@ -4,6 +4,7 @@ import dagger.Component
 import giuliolodi.financegame.di.scope.PerActivity
 import giuliolodi.financegame.di.module.ActivityModule
 import giuliolodi.financegame.ui.assets.AssetsActivity
+import giuliolodi.financegame.ui.buydialog.BuyDialogFragment
 import giuliolodi.financegame.ui.market.MarketActivity
 import giuliolodi.financegame.ui.stock.StockActivity
 
@@ -16,5 +17,7 @@ interface ActivityComponent {
     fun inject(stockActivity: StockActivity)
 
     fun inject(marketActivity: MarketActivity)
+
+    fun inject(buyDialogFragment: BuyDialogFragment)
 
 }
