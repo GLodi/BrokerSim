@@ -10,8 +10,17 @@
         android:text="Lorem ipsum dolor sit amet..."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textSize="20dp" />
+        android:textColor="#000000"
+        android:alpha="0.87"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <SeekBar
+        android:id="@+id/item_stock_activity_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/buy_fragment_button"
@@ -19,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_gravity="end"/>
+        android:layout_gravity="end"
+        android:layout_marginBottom="8dp"/>
 
 </LinearLayout>
