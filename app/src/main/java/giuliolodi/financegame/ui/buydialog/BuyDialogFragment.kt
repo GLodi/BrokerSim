@@ -11,9 +11,9 @@ import android.widget.Toast
 import es.dmoral.toasty.Toasty
 import giuliolodi.financegame.R
 import giuliolodi.financegame.ui.base.BaseFragment
+import giuliolodi.financegame.ui.stock.StockActivity
 import giuliolodi.financegame.utils.CommonUtils
 import kotlinx.android.synthetic.main.buy_fragment.*
-import kotlinx.android.synthetic.main.item_stock_activity.view.*
 import javax.inject.Inject
 
 class BuyDialogFragment : BaseFragment(), BuyDialogContract.View {
@@ -44,25 +44,26 @@ class BuyDialogFragment : BaseFragment(), BuyDialogContract.View {
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initLayout()
-    }
-
-    fun initLayout() {
-        buy_fragment_button.setOnClickListener { hideDialog() }
-
-    }
-
     override fun updateSeekbar(money: Double, price: Double) {
+        var amount = 0
         buy_fragment_max.text = (money/price).toInt().toString()
         buy_fragment_seekbar.max = (money/price).toInt()
         buy_fragment_progress.text = "0"
         buy_fragment_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) { buy_fragment_progress.text = p1.toString() }
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                buy_fragment_progress.text = p1.toString()
+                buy_fragment_title.text = "Price: $" + String.format("%.2f", (p1 * price))
+                amount = p1
+            }
             override fun onStartTrackingTouch(p0: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
+        buy_fragment_button.setOnClickListener {
+            if (amount > 0) {
+                (activity as StockActivity).mPresenter.buyStock(mSymbol, amount)
+                hideDialog()
+            }
+        }
     }
 
     override fun onStart() {

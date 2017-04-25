@@ -98,15 +98,15 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         }))
     }
 
-    override fun buyStock(symbol: String) {
+    override fun buyStock(symbol: String, amount: Int) {
         getView().showLoading()
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                     { stockDb ->
-                        getDataManager().storeSecondStock(stockDb, 1, stockDb.price!!.toDouble(), CommonUtils.getDate())
-                        getDataManager().updateMoney(-stockDb.price!!.toDouble())
+                        getDataManager().storeSecondStock(stockDb, amount, stockDb.price!!.toDouble(), CommonUtils.getDate())
+                        getDataManager().updateMoney(-stockDb.price!!.toDouble() * amount)
                         updateStockDbBought(symbol)
                         getView().hideLoading()
                         getView().showSuccess("Another stock bought.")
@@ -117,8 +117,8 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                             .subscribe(
                                     { stock ->
                                         getView().hideLoading()
-                                        getDataManager().storeFirstStock(stock, 1, stock.quote.price.toDouble(), CommonUtils.getDate())
-                                        getDataManager().updateMoney(-stock.quote!!.price.toDouble())
+                                        getDataManager().storeFirstStock(stock, amount, stock.quote.price.toDouble(), CommonUtils.getDate())
+                                        getDataManager().updateMoney(-stock.quote!!.price.toDouble() * amount)
                                         getStock(stock.symbol)
                                         getView().showSuccess("Stock bought.")
                                     },

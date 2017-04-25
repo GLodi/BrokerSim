@@ -38,7 +38,7 @@ interface StockContract {
 
         fun getStock(symbol: String)
 
-        fun buyStock(symbol: String)
+        fun buyStock(symbol: String, amount: Int)
 
         fun sellStock(sellRequest: SellRequest)
 

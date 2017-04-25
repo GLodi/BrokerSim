@@ -7,13 +7,14 @@
 
     <TextView
         android:id="@+id/buy_fragment_title"
-        android:text="Cost: "
-        android:layout_width="wrap_content"
+        android:text="Price: $0.00"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:alpha="0.87"
         android:textSize="16sp"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:gravity="left"/>
 
     <SeekBar
         android:id="@+id/buy_fragment_seekbar"
