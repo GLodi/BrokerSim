@@ -132,7 +132,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
 
     override fun sellStock(sellRequest: SellRequest) {
         getView().showLoading()
-        getDataManager().updateMoney(sellRequest.stock.quote.price.toDouble())
+        getDataManager().updateMoney(sellRequest.stock.quote.price.toDouble() * sellRequest.amount)
         getDataManager().sellStock(sellRequest)
         getView().hideLoading()
         getView().showSuccess("Stock sold.")
