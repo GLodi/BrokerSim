@@ -7,20 +7,43 @@
 
     <TextView
         android:id="@+id/buy_fragment_title"
-        android:text="Lorem ipsum dolor sit amet..."
+        android:text="Cost: "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:alpha="0.87"
         android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_margin="16dp"/>
 
     <SeekBar
-        android:id="@+id/item_stock_activity_seekbar"
-        android:layout_width="match_parent"
+        android:id="@+id/buy_fragment_seekbar"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/buy_fragment_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp"
+            android:layout_marginLeft="16dp"/>
+
+        <TextView
+            android:id="@+id/buy_fragment_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"/>
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/buy_fragment_button"

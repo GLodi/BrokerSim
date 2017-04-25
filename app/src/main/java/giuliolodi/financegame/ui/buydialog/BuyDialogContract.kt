@@ -13,12 +13,16 @@ interface BuyDialogContract {
 
         fun hideDialog()
 
+        fun showError(error: String)
+
+        fun updateSeekbar(money: Double, price: Double)
+
     }
 
     @PerActivity
     interface Presenter<V : BuyDialogContract.View> : BaseContract.Presenter<V> {
 
-        fun subscribe()
+        fun subscribe(symbol: String)
 
     }
 

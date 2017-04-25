@@ -107,6 +107,8 @@ class StockActivity : BaseActivity(), StockContract.View {
 
     override fun showBuyFragment() {
         val fragment: BuyDialogFragment = BuyDialogFragment()
+        fragment.arguments = Bundle()
+        fragment.arguments.putString("symbol", mSymbol)
         fragment.show(supportFragmentManager, "Stock Fragment")
     }
 
