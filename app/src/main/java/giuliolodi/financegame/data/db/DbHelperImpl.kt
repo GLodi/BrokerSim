@@ -8,6 +8,7 @@ import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.models.StockDbBought
 import giuliolodi.financegame.utils.ColorUtils
 import giuliolodi.financegame.utils.CommonUtils
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.realm.Realm
 import yahoofinance.Stock
@@ -85,24 +86,23 @@ class DbHelperImpl: DbHelper {
         }
     }
 
-    override fun sellStock(sellRequest: SellRequest) {
+    override fun sellStock(sellRequest: SellRequest): Completable {
         if (sellRequest.deleteStockDb) {
             val stockDb = mRealm.where(StockDb::class.java).equalTo("symbol", sellRequest.stockDbBought.symbol).findAll()
             mRealm.executeTransaction { stockDb.deleteFirstFromRealm() }
+            return Completable.complete()
         } else {
-            if (sellRequest.stockDbBought.amount == sellRequest.amount) {
-                val stockDbBought = mRealm.where(StockDbBought::class.java).equalTo("id", sellRequest.stockDbBought.id).findFirst()
-                mRealm.executeTransaction { stockDbBought.deleteFromRealm() }
-            } else {
-                val result = mRealm.where(StockDbBought::class.java)
-                        .equalTo("dateBought", sellRequest.stockDbBought.dateBought)
-                        .equalTo("priceWhenBought", sellRequest.stockDbBought.priceWhenBought)
-                        .findFirst()
-                mRealm.executeTransaction { realm ->
-                    result.amount = result.amount!! - sellRequest.amount
-                    realm.insertOrUpdate(result)
+            val stockDbBought = mRealm.where(StockDbBought::class.java).equalTo("id", sellRequest.stockDbBought.id).findFirst()
+            mRealm.executeTransaction { realm ->
+                if (stockDbBought.amount == sellRequest.amount && stockDbBought.isValid) {
+                    stockDbBought.deleteFromRealm()
+                }
+                else {
+                    stockDbBought.amount = stockDbBought.amount!! - sellRequest.amount
+                    realm.insertOrUpdate(stockDbBought)
                 }
             }
+            return Completable.complete()
         }
     }
 

@@ -2,6 +2,7 @@ package giuliolodi.financegame.data.db
 
 import giuliolodi.financegame.models.SellRequest
 import giuliolodi.financegame.models.StockDb
+import io.reactivex.Completable
 import io.reactivex.Observable
 import yahoofinance.Stock
 
@@ -54,6 +55,6 @@ interface DbHelper {
      * Sell stockDbBought. SellRequest holds StockDbBought, the amount
      * of stocks to sell and the original Stock.
      */
-    fun sellStock(sellRequest: SellRequest)
+    fun sellStock(sellRequest: SellRequest): Completable
 
 }

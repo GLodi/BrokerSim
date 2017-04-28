@@ -15,7 +15,7 @@ import yahoofinance.Stock
 
 class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
 
-    private var mStockDbBoughtList: MutableList<StockDbBought> = ArrayList()
+    private var mStockDbBoughtList: MutableList<StockDbBought> = arrayListOf()
     private var mCurrentStock: Stock? = null
     private val onClickSubject: PublishSubject<SellRequest> = PublishSubject.create()
 
@@ -52,17 +52,10 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
         holder.bind(mStockDbBoughtList[position], mCurrentStock!!)
         holder.itemView.item_stock_activity_sellbutton.setOnClickListener {
             if (holder.itemView.item_stock_activity_seekbar.progress > 0) {
-                if (mStockDbBoughtList.size == 1)
+                if (mStockDbBoughtList.size == 1  && holder.itemView.item_stock_activity_seekbar.progress == mStockDbBoughtList[position].amount)
                     onClickSubject.onNext(SellRequest(mStockDbBoughtList[position], holder.itemView.item_stock_activity_seekbar.progress, mCurrentStock!!, true))
                 else
                     onClickSubject.onNext(SellRequest(mStockDbBoughtList[position], holder.itemView.item_stock_activity_seekbar.progress, mCurrentStock!!))
-                if (holder.itemView.item_stock_activity_seekbar.progress == mStockDbBoughtList[position].amount) {
-                    mStockDbBoughtList.removeAt(position)
-                    notifyDataSetChanged()
-                } else {
-                    holder.itemView.item_stock_activity_seekbar.max = holder.itemView.item_stock_activity_seekbar.max - holder.itemView.item_stock_activity_seekbar.progress
-                    notifyItemChanged(position)
-                }
             }
         }
     }
@@ -78,11 +71,6 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
     fun addStockDbBoughtList(stocks: List<StockDbBought>, currentStock: Stock) {
         mStockDbBoughtList = stocks.toMutableList()
         mCurrentStock = currentStock
-        notifyDataSetChanged()
-    }
-
-    fun updateStockDbBoughtList(stocks: List<StockDbBought>) {
-        mStockDbBoughtList = stocks.toMutableList()
         notifyDataSetChanged()
     }
 

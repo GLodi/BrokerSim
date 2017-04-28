@@ -28,8 +28,8 @@ class StockActivity : BaseActivity(), StockContract.View {
     @Inject lateinit var mPresenter: StockContract.Presenter<StockContract.View>
 
     lateinit var mLoadingDialog: ProgressDialog
-    lateinit var adapter: StockAdapter
     lateinit var mSymbol: String
+    lateinit var mStock: Stock
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +50,7 @@ class StockActivity : BaseActivity(), StockContract.View {
         setSupportActionBar(stock_activity_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        adapter = StockAdapter()
-        adapter.setHasStableIds(true)
+        val adapter = StockAdapter()
 
         stock_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         stock_activity_content_rv.adapter = adapter
@@ -86,11 +85,18 @@ class StockActivity : BaseActivity(), StockContract.View {
     }
 
     override fun updateAdapter(stockDbBoughtList: List<StockDbBought>) {
-        adapter.updateStockDbBoughtList(stockDbBoughtList)
+        val adapter = StockAdapter()
+        stock_activity_content_rv.adapter = adapter
+        (stock_activity_content_rv.adapter as StockAdapter).addStockDbBoughtList(stockDbBoughtList, mStock)
+        adapter.getPositionClicks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { sellRequest -> mPresenter.sellStock(sellRequest) }
     }
 
     override fun showContent(stockDbBoughtList: List<StockDbBought>, stock: Stock) {
-        (stock_activity_content_rv.adapter as StockAdapter).addStockDbBoughtList(stockDbBoughtList, stock)
+        mStock = stock
+        (stock_activity_content_rv.adapter as StockAdapter).addStockDbBoughtList(stockDbBoughtList, mStock)
     }
 
     override fun showSuccess(message: String) {

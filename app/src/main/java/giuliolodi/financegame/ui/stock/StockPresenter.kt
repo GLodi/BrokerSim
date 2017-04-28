@@ -10,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import yahoofinance.Stock
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Presenter<V> {
@@ -83,18 +84,19 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         }))
     }
 
-    fun updateStockDbBought(symbol: String) {
+    fun updateStockDbBought(symbol: String, deleteStockDb: Boolean = false) {
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { stockDb ->
-                            getView().updateAdapter(stockDb.bought)
-                        },
+                        { stockDb -> getView().updateAdapter(stockDb.bought) },
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showError("Error retrieving stock.")
+                            if (deleteStockDb)
+                                getView().updateAdapter(arrayListOf())
+                            else
+                                getView().showError("Error retrieving stock.")
                         }))
     }
 
@@ -133,9 +135,13 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
     override fun sellStock(sellRequest: SellRequest) {
         getView().showLoading()
         getDataManager().updateMoney(sellRequest.stock.quote.price.toDouble() * sellRequest.amount)
-        getDataManager().sellStock(sellRequest)
-        getView().hideLoading()
-        getView().showSuccess("Stock sold.")
+        getCompositeDisposable().add(getDataManager().sellStock(sellRequest)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    updateStockDbBought(sellRequest.stock.symbol, sellRequest.deleteStockDb)
+                    getView().hideLoading()
+                    getView().showSuccess("Stock sold.") })
     }
 
 }

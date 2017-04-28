@@ -6,6 +6,7 @@ import giuliolodi.financegame.data.db.DbHelper
 import giuliolodi.financegame.di.scope.AppContext
 import giuliolodi.financegame.models.SellRequest
 import giuliolodi.financegame.models.StockDb
+import io.reactivex.Completable
 import io.reactivex.Observable
 import yahoofinance.Stock
 import javax.inject.Inject
@@ -71,7 +72,7 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getStockWithSymbol(symbol)
     }
 
-    override fun sellStock(sellRequest: SellRequest) {
+    override fun sellStock(sellRequest: SellRequest): Completable {
         return mDbHelper.sellStock(sellRequest)
     }
 
