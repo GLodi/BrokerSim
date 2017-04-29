@@ -1,5 +1,6 @@
 package giuliolodi.financegame.ui.market
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +25,16 @@ class MarketAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             item_market_stock_symbol.text = stock.symbol
             item_market_stock_name.text = stock.name
             item_market_stock_price.text = "$" + String.format("%.2f", stock.quote.price)
-            item_market_stock_increase.text = String.format("%.2f", stock.quote.price!!.minus(stock.quote.previousClose!!))
+            val increase = stock.quote.price!!.minus(stock.quote.previousClose!!)
+            item_market_stock_increase.text = String.format("%.2f", increase)
+            when(increase.toDouble().compareTo(0.00)) {
+                1 -> { item_market_stock_trend.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_trending_up_24dp))
+                    item_market_stock_increase.setTextColor(ContextCompat.getColor(context, R.color.greenDark)) }
+                0 -> { item_market_stock_trend.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_trending_flat_24dp))
+                    item_market_stock_increase.setTextColor(ContextCompat.getColor(context, R.color.black)) }
+                -1 -> { item_market_stock_trend.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_trending_down_24dp))
+                    item_market_stock_increase.setTextColor(ContextCompat.getColor(context, R.color.redDark)) }
+            }
         }
     }
 

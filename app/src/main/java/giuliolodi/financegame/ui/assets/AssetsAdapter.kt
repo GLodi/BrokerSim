@@ -1,5 +1,6 @@
 package giuliolodi.financegame.ui.assets
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,16 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
             item_stock_name.text = stockDb.name
             item_stock_icon.shapeColor = stockDb.iconColor
             item_stock_price.text = "$" + String.format("%.2f", stockDb.price)
-            item_stock_increase.text = String.format("%.2f", stockDb.price!!.minus(stockDb.previousClose!!))
+            val increase = stockDb.price!!.minus(stockDb.previousClose!!)
+            item_stock_increase.text = String.format("%.2f", increase)
+            when(increase.compareTo(0.00)) {
+                1 -> { item_stock_trend.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_trending_up_24dp))
+                    item_stock_increase.setTextColor(ContextCompat.getColor(context, R.color.greenDark)) }
+                0 -> { item_stock_trend.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_trending_flat_24dp))
+                    item_stock_increase.setTextColor(ContextCompat.getColor(context, R.color.black)) }
+                -1 -> { item_stock_trend.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_trending_down_24dp))
+                    item_stock_increase.setTextColor(ContextCompat.getColor(context, R.color.redDark)) }
+            }
         }
     }
 

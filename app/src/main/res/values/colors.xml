@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#455A64</color>
     <color name="colorAccent">#FF8A65</color>
     <color name="colorCardBack">#EEEEEE</color>
+    <color name="black">#000000</color>
 
     <color name="grey">#9E9E9E</color>
     <color name="greyDark">#616161</color>

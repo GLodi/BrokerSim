@@ -22,6 +22,7 @@ class MarketActivity : BaseActivity(), MarketContract.View {
 
     @Inject lateinit var mPresenter: MarketContract.Presenter<MarketContract.View>
 
+    // The following variables are used to handle the infinite scroll
     private var LOADING = false
     private var NO_MORE = false
     private var PAGE = 10
