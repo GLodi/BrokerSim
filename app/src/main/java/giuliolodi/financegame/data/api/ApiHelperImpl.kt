@@ -28,7 +28,7 @@ class ApiHelperImpl : ApiHelper {
         return Observable.defer { Observable.just(YahooFinance.get(stockList)) }
     }
 
-    override fun downloadActiveStocks(): Observable<Map<String, Stock>> {
+    override fun downloadActiveStockSymbols(): Observable<List<String>> {
         return Observable.defer {
             val symbols: MutableList<String> = arrayListOf()
             val elStrings: MutableList<String> = arrayListOf()
@@ -44,7 +44,7 @@ class ApiHelperImpl : ApiHelper {
                     }
                 }
             }
-            Observable.just(YahooFinance.get(symbols.toTypedArray()))
+            Observable.just(symbols.toList())
         }
     }
 

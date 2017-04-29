@@ -10,9 +10,9 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_market_stock.view.*
 import yahoofinance.Stock
 
-class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
+class MarketAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var mStockList: MutableList<Stock> = ArrayList()
+    private var mStockList: MutableList<Stock?> = ArrayList()
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
     fun getPositionClicks(): Observable<String> {
@@ -28,14 +28,30 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val root = (LayoutInflater.from(parent?.context).inflate(R.layout.item_market_stock, parent, false))
-        return ViewHolder(root)
+    class LoadingHolder(root: View) : RecyclerView.ViewHolder(root)
+
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+        val root: RecyclerView.ViewHolder
+        if (viewType == 1) {
+            val view = (LayoutInflater.from(parent?.context).inflate(R.layout.item_market_stock, parent, false))
+            root = ViewHolder(view)
+        } else  {
+            val view = (LayoutInflater.from(parent?.context).inflate(R.layout.item_loading, parent, false))
+            root = LoadingHolder(view)
+        }
+        return root
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(mStockList[position])
-        holder.itemView.setOnClickListener { onClickSubject.onNext(mStockList[position].symbol) }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is ViewHolder) {
+            val stock = mStockList[position]!!
+            holder.bind(stock)
+            holder.itemView.setOnClickListener { onClickSubject.onNext(stock.symbol) }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (mStockList.get(position) != null) 1 else 0
     }
 
     override fun getItemCount(): Int {
@@ -48,6 +64,18 @@ class MarketAdapter : RecyclerView.Adapter<MarketAdapter.ViewHolder>() {
 
     fun addStocks(stocks: List<Stock>) {
         mStockList = stocks.toMutableList()
+        notifyDataSetChanged()
+    }
+
+    fun addLoading() {
+        mStockList.add(null)
+        notifyItemInserted(mStockList.size - 1)
+    }
+
+    fun addMoreStocks(stocks: List<Stock>) {
+        val lastNull = mStockList.lastIndexOf(null)
+        mStockList.removeAt(mStockList.lastIndexOf(null))
+        mStockList.addAll(stocks)
         notifyDataSetChanged()
     }
 

@@ -52,8 +52,8 @@ class DataManagerImpl : DataManager {
         return mDbHelper.getMoney()
     }
 
-    override fun downloadActiveStocks(): Observable<Map<String, Stock>> {
-        return mApiHelper.downloadActiveStocks()
+    override fun downloadActiveStockSymbols(): Observable<List<String>> {
+        return mApiHelper.downloadActiveStockSymbols()
     }
 
     override fun getStocks(): Observable<List<StockDb>> {

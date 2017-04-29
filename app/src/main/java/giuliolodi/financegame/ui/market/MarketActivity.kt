@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.widget.Toast
 import es.dmoral.toasty.Toasty
@@ -16,13 +17,15 @@ import kotlinx.android.synthetic.main.market_activity.*
 import kotlinx.android.synthetic.main.market_activity_content.*
 import yahoofinance.Stock
 import javax.inject.Inject
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
-
-
 
 class MarketActivity : BaseActivity(), MarketContract.View {
 
     @Inject lateinit var mPresenter: MarketContract.Presenter<MarketContract.View>
+
+    private var LOADING = false
+    private var NO_MORE = false
+    private var PAGE = 10
+    private lateinit var mSymbols: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,15 +45,40 @@ class MarketActivity : BaseActivity(), MarketContract.View {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = "Markets"
 
+        // Setup RecyclerView
         val adapter: MarketAdapter = MarketAdapter()
         adapter.setHasStableIds(true)
-
-        market_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
+        val llm = LinearLayoutManager(applicationContext)
+        market_activity_content_rv.layoutManager = llm
         market_activity_content_rv.adapter = adapter
+        val mScrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (LOADING)
+                    return
+                val visibleItemCount = llm.childCount
+                val totalItemCount = llm.itemCount
+                val pastVisibleItems = llm.findFirstVisibleItemPosition()
+                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                    if (!NO_MORE) {
+                        LOADING = true
+                        (market_activity_content_rv.adapter as MarketAdapter).addLoading()
+                        if (mSymbols.lastIndex >= PAGE + 10)
+                            mPresenter.getMoreStocks(mSymbols.subList(PAGE, PAGE + 10))
+                        else {
+                            mPresenter.getMoreStocks(mSymbols.subList(PAGE, mSymbols.lastIndex))
+                            NO_MORE = true
+                        }
+                    }
+                }
+            }
+        }
+        market_activity_content_rv.setOnScrollListener(mScrollListener)
 
+        // Setup SwipeToRefreshLayout
         market_activity_content_srl.setColorScheme(R.color.colorAccent)
         market_activity_content_srl.setOnRefreshListener { mPresenter.subscribe() }
 
+        // Setup adapter onClickListener
         adapter.getPositionClicks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,6 +95,16 @@ class MarketActivity : BaseActivity(), MarketContract.View {
 
     override fun showContent(stocks: List<Stock>) {
         (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks)
+    }
+
+    override fun showMoreContent(stocks: List<Stock>) {
+        (market_activity_content_rv.adapter as MarketAdapter).addMoreStocks(stocks)
+        PAGE += 10
+        LOADING = false
+    }
+
+    override fun setSymbolList(symbols: List<String>) {
+        mSymbols = symbols
     }
 
     override fun showError(error: String) {

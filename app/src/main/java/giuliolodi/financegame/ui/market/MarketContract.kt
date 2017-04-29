@@ -15,7 +15,11 @@ interface MarketContract {
 
         fun showContent(stocks: List<Stock>)
 
+        fun showMoreContent(stocks: List<Stock>)
+
         fun showError(error: String)
+
+        fun setSymbolList(symbols: List<String>)
 
     }
 
@@ -23,6 +27,8 @@ interface MarketContract {
     interface Presenter<V: MarketContract.View> : BaseContract.Presenter<V> {
 
         fun subscribe()
+
+        fun getMoreStocks(symbols: List<String>)
 
     }
 

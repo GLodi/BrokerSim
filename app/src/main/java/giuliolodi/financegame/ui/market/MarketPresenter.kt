@@ -17,16 +17,37 @@ class MarketPresenter<V: MarketContract.View> : BasePresenter<V>, MarketContract
 
     override fun subscribe() {
         getView().showLoading()
-        getCompositeDisposable().add(getDataManager().downloadActiveStocks()
+        getCompositeDisposable().add(getDataManager().downloadActiveStockSymbols()
+                .flatMap { activeStockSymbols ->
+                    getView().setSymbolList(activeStockSymbols)
+                    getDataManager().downloadStockList(activeStockSymbols.toTypedArray().copyOfRange(0,10)) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { activeStocks -> getView().showContent(activeStocks.values.toList()); getView().hideLoading() },
+                        { activeStocks ->
+                            getView().showContent(activeStocks.values.toList())
+                            getView().hideLoading()
+                        },
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
                             getView().showError("Error downloading stocks.\nCheck your internet connection.")
                         }))
+    }
+
+    override fun getMoreStocks(symbols: List<String>) {
+        getCompositeDisposable().add(getDataManager().downloadStockList(symbols.toTypedArray())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { stocks ->
+                            getView().showMoreContent(stocks.values.toList())
+                        },
+                        { throwable ->
+                            Log.e(TAG, throwable.message, throwable)
+                            getView().showError("Error downloading stocks.\nCheck your internet connection.")
+                        }
+                ))
     }
 
 }

@@ -17,9 +17,9 @@ interface ApiHelper {
     fun downloadStockList(stockList: Array<String>): Observable<Map<String, Stock>>
 
     /**
-     * Connects to YahooFinance website, parses HTML and downloads symbols of most active
+     * Connects to WSJ website, parses HTML and downloads symbols of most active
      * stocks.
      */
-    fun downloadActiveStocks(): Observable<Map<String, Stock>>
+    fun downloadActiveStockSymbols(): Observable<List<String>>
 
 }
