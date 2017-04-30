@@ -98,7 +98,7 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
     }
 
     override fun updateMoney(money: String) {
-        money_view_text.text = "$" + money
+        money_view_text.text = "$$money"
     }
 
     override fun onDestroy() {

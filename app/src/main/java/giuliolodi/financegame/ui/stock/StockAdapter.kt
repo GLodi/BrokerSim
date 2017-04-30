@@ -25,17 +25,17 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         fun bind (stockDbBought: StockDbBought, currentStock: Stock) = with(itemView) {
-            item_stock_activity_price.text = "Bought for: $" + String.format("%.2f", stockDbBought.priceWhenBought)
+            item_stock_activity_price.text = "Bought for: $${String.format("%.2f", stockDbBought.priceWhenBought)}"
             item_stock_activity_amount.text = stockDbBought.amount.toString()
-            item_stock_activity_profit.text = "Profit: $" + String.format("%.2f", currentStock.quote.price.toDouble().minus(stockDbBought.priceWhenBought!!))
+            item_stock_activity_profit.text = "Profit: $${String.format("%.2f", currentStock.quote.price.toDouble().minus(stockDbBought.priceWhenBought!!))}"
             item_stock_activity_seekbar.progress = 0
             item_stock_activity_seekbar.max = stockDbBought.amount!!
             item_stock_activity_date.text = stockDbBought.dateBought
             item_stock_activity_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                     item_stock_activity_selectedamount.text = p1.toString()
-                    item_stock_activity_profit.text = "Profit: $" + String.format("%.2f", currentStock.quote.price.toDouble().minus(stockDbBought.priceWhenBought!!) * p1)
-                    if (p1 == 0) item_stock_activity_profit.text = "Profit: $" + String.format("%.2f", currentStock.quote.price.toDouble().minus(stockDbBought.priceWhenBought!!))
+                    item_stock_activity_profit.text = "Profit: $${String.format("%.2f", currentStock.quote.price.toDouble().minus(stockDbBought.priceWhenBought!!) * p1)}"
+                    if (p1 == 0) item_stock_activity_profit.text = "Profit: $${String.format("%.2f", currentStock.quote.price.toDouble().minus(stockDbBought.priceWhenBought!!))}"
                 }
                 override fun onStartTrackingTouch(p0: SeekBar?) {}
                 override fun onStopTrackingTouch(seekBar: SeekBar) {}

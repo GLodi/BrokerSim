@@ -23,6 +23,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/stock_activity_div1"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="@color/colorBackground"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/stock_activity_priceT"
+            android:text="Price:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/stock_activity_price"
             android:text="..."
@@ -31,14 +48,19 @@
             android:layout_margin="16dp"
             android:textColor="#000000"
             android:alpha="0.87"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_toLeftOf="@id/stock_activity_div1"/>
 
-        <View
-            android:id="@+id/stock_activity_div1"
-            android:layout_width="1dp"
-            android:layout_height="10dp"
-            android:background="@color/colorBackground"
-            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/stock_activity_priceavgT"
+            android:text="PriceAvg50:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp"
+            android:layout_toRightOf="@id/stock_activity_div1"/>
 
         <TextView
             android:id="@+id/stock_activity_priceavg"
@@ -49,7 +71,7 @@
             android:textColor="#000000"
             android:alpha="0.87"
             android:textSize="16sp"
-            android:layout_toRightOf="@id/stock_activity_div1"/>
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
@@ -62,6 +84,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/stock_activity_div2"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="@color/colorBackground"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/stock_activity_daylowT"
+            android:text="DayLow:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/stock_activity_daylow"
             android:text="..."
@@ -70,14 +109,19 @@
             android:layout_margin="16dp"
             android:textColor="#000000"
             android:alpha="0.87"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_toLeftOf="@id/stock_activity_div2"/>
 
-        <View
-            android:id="@+id/stock_activity_div2"
-            android:layout_width="1dp"
-            android:layout_height="10dp"
-            android:background="@color/colorBackground"
-            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/stock_activity_dayhighT"
+            android:text="DayHigh:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp"
+            android:layout_toRightOf="@id/stock_activity_div2"/>
 
         <TextView
             android:id="@+id/stock_activity_dayhigh"
@@ -88,7 +132,7 @@
             android:textColor="#000000"
             android:alpha="0.87"
             android:textSize="16sp"
-            android:layout_toRightOf="@id/stock_activity_div2"/>
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
@@ -101,6 +145,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/stock_activity_div3"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="@color/colorBackground"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/stock_activity_yearlowT"
+            android:text="YearLow:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/stock_activity_yearlow"
             android:text="..."
@@ -109,14 +170,19 @@
             android:layout_margin="16dp"
             android:textColor="#000000"
             android:alpha="0.87"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_toLeftOf="@id/stock_activity_div3"/>
 
-        <View
-            android:id="@+id/stock_activity_div3"
-            android:layout_width="1dp"
-            android:layout_height="10dp"
-            android:background="@color/colorBackground"
-            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/stock_activity_yearhighT"
+            android:text="YearHigh:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="16sp"
+            android:layout_toRightOf="@id/stock_activity_div3"/>
 
         <TextView
             android:id="@+id/stock_activity_yearhigh"
@@ -127,7 +193,7 @@
             android:textColor="#000000"
             android:alpha="0.87"
             android:textSize="16sp"
-            android:layout_toRightOf="@id/stock_activity_div3"/>
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 

@@ -24,7 +24,7 @@ class MarketAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind (stock: Stock) = with(itemView) {
             item_market_stock_symbol.text = stock.symbol
             item_market_stock_name.text = stock.name
-            item_market_stock_price.text = "$" + String.format("%.2f", stock.quote.price)
+            item_market_stock_price.text = "$${String.format("%.2f", stock.quote.price)}"
             val increase = stock.quote.price!!.minus(stock.quote.previousClose!!)
             item_market_stock_increase.text = String.format("%.2f", increase)
             when(increase.toDouble().compareTo(0.00)) {

@@ -71,12 +71,12 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_content_description.text = stockDb.name
         stock_activity_collapsing_toolbar.setContentScrimColor(stockDb.iconColor)
         stock_activity_image.setBackgroundColor(stockDb.iconColor)
-        stock_activity_price.text = "Price: $" + stockDb.price.toString()
-        stock_activity_priceavg.text = "PriceAvg50: $" + stockDb.priceAvg50.toString()
-        stock_activity_yearhigh.text = "YearHigh: $" + stockDb.yearHigh.toString()
-        stock_activity_yearlow.text = "YearLow: $" + stockDb.yearLow.toString()
-        stock_activity_dayhigh.text = "DayHigh: $" + stockDb.dayHigh.toString()
-        stock_activity_daylow.text = "DayLow: $" + stockDb.dayLow.toString()
+        stock_activity_price.text = "$${stockDb.price}"
+        stock_activity_priceavg.text = "$${stockDb.priceAvg50}"
+        stock_activity_daylow.text = "$${stockDb.dayLow}"
+        stock_activity_dayhigh.text = "$${stockDb.dayHigh}"
+        stock_activity_yearlow.text = "$${stockDb.yearLow}"
+        stock_activity_yearhigh.text = "$${stockDb.yearHigh}"
         stock_activity_div4.visibility = View.VISIBLE
 
         // Setup statusBar color if SDK > Lollipop
@@ -90,12 +90,12 @@ class StockActivity : BaseActivity(), StockContract.View {
     override fun updateViewWithStock(stock: Stock) {
         stock_activity_collapsing_toolbar.title = stock.symbol
         stock_activity_content_description.text = stock.name
-        stock_activity_price.text = "Price: $" + stock.quote.price.toString()
-        stock_activity_priceavg.text = "PriceAvg50: $" + stock.quote.priceAvg50.toString()
-        stock_activity_yearhigh.text = "YearHigh: $" + stock.quote.yearHigh.toString()
-        stock_activity_yearlow.text = "YearLow: $" + stock.quote.yearLow.toString()
-        stock_activity_dayhigh.text = "DayHigh: $" + stock.quote.dayHigh.toString()
-        stock_activity_daylow.text = "DayLow: $" + stock.quote.dayLow.toString()
+        stock_activity_price.text = "$${stock.quote.price}"
+        stock_activity_priceavg.text = "$${stock.quote.priceAvg50}"
+        stock_activity_daylow.text = "$${stock.quote.dayLow}"
+        stock_activity_dayhigh.text = "$${stock.quote.dayHigh}"
+        stock_activity_yearlow.text = "$${stock.quote.yearLow}"
+        stock_activity_yearhigh.text = "$${stock.quote.yearHigh}"
     }
 
     override fun updateAdapter(stockDbBoughtList: List<StockDbBought>) {
