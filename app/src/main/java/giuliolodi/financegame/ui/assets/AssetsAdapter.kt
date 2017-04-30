@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_stock.view.*
 
 class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
-    private var mStockDbList: MutableList<StockDb> = ArrayList()
+    private var mStockDbList: MutableList<StockDb> = arrayListOf()
     private var mStockDbListSymbols: MutableList<String> = ArrayList()
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 

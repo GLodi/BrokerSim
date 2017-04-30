@@ -13,7 +13,7 @@ import yahoofinance.Stock
 
 class MarketAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var mStockList: MutableList<Stock?> = ArrayList()
+    private var mStockList: MutableList<Stock?> = arrayListOf()
     private val onClickSubject: PublishSubject<String> = PublishSubject.create()
 
     fun getPositionClicks(): Observable<String> {

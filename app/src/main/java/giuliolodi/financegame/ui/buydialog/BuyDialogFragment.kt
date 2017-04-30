@@ -49,10 +49,13 @@ class BuyDialogFragment : BaseFragment(), BuyDialogContract.View {
         buy_fragment_max.text = (money/price).toInt().toString()
         buy_fragment_seekbar.max = (money/price).toInt()
         buy_fragment_progress.text = "0"
+        buy_fragment_price.text = "Price: $${String.format("%.2f", price)}"
+        buy_fragment_cash.text = "Cash: $${String.format("%.2f", money)}"
+        buy_fragment_seekbar.progress = 0
         buy_fragment_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 buy_fragment_progress.text = p1.toString()
-                buy_fragment_title.text = "Price: $${String.format("%.2f", (p1 * price))}"
+                buy_fragment_total.text = "Total: $${String.format("%.2f", (p1 * price))}"
                 amount = p1
             }
             override fun onStartTrackingTouch(p0: SeekBar?) {}
