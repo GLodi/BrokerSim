@@ -72,7 +72,7 @@
             android:layout_marginTop="@dimen/item_padding_top_bottom"
             android:layout_below="@id/item_market_stock_symbol"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/item_market_stock_trend" />
+            android:layout_toLeftOf="@id/item_market_stock_trend"/>
 
     </RelativeLayout>
 

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import android.view.View
 import giuliolodi.financegame.R
 import giuliolodi.financegame.models.StockDb
 import giuliolodi.financegame.ui.base.BaseActivity
@@ -70,6 +71,13 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_content_description.text = stockDb.name
         stock_activity_collapsing_toolbar.setContentScrimColor(stockDb.iconColor)
         stock_activity_image.setBackgroundColor(stockDb.iconColor)
+        stock_activity_price.text = "Price: $" + stockDb.price.toString()
+        stock_activity_priceavg.text = "PriceAvg50: $" + stockDb.priceAvg50.toString()
+        stock_activity_yearhigh.text = "YearHigh: $" + stockDb.yearHigh.toString()
+        stock_activity_yearlow.text = "YearLow: $" + stockDb.yearLow.toString()
+        stock_activity_dayhigh.text = "DayHigh: $" + stockDb.dayHigh.toString()
+        stock_activity_daylow.text = "DayLow: $" + stockDb.dayLow.toString()
+        stock_activity_div4.visibility = View.VISIBLE
 
         // Setup statusBar color if SDK > Lollipop
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -82,6 +90,12 @@ class StockActivity : BaseActivity(), StockContract.View {
     override fun updateViewWithStock(stock: Stock) {
         stock_activity_collapsing_toolbar.title = stock.symbol
         stock_activity_content_description.text = stock.name
+        stock_activity_price.text = "Price: $" + stock.quote.price.toString()
+        stock_activity_priceavg.text = "PriceAvg50: $" + stock.quote.priceAvg50.toString()
+        stock_activity_yearhigh.text = "YearHigh: $" + stock.quote.yearHigh.toString()
+        stock_activity_yearlow.text = "YearLow: $" + stock.quote.yearLow.toString()
+        stock_activity_dayhigh.text = "DayHigh: $" + stock.quote.dayHigh.toString()
+        stock_activity_daylow.text = "DayLow: $" + stock.quote.dayLow.toString()
     }
 
     override fun updateAdapter(stockDbBoughtList: List<StockDbBought>) {
