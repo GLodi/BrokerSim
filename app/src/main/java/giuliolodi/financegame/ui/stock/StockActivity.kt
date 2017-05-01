@@ -71,31 +71,31 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_content_description.text = stockDb.name
         stock_activity_collapsing_toolbar.setContentScrimColor(stockDb.iconColor)
         stock_activity_image.setBackgroundColor(stockDb.iconColor)
-        stock_activity_price.text = "$${stockDb.price}"
-        stock_activity_priceavg.text = "$${stockDb.priceAvg50}"
-        stock_activity_daylow.text = "$${stockDb.dayLow}"
-        stock_activity_dayhigh.text = "$${stockDb.dayHigh}"
-        stock_activity_yearlow.text = "$${stockDb.yearLow}"
-        stock_activity_yearhigh.text = "$${stockDb.yearHigh}"
+        stock_activity_price.text = "$${String.format("%.2f", stockDb.price)}"
+        stock_activity_priceavg.text = "$${String.format("%.2f", stockDb.priceAvg50)}"
+        stock_activity_daylow.text = "$${String.format("%.2f", stockDb.dayLow)}"
+        stock_activity_dayhigh.text = "$${String.format("%.2f", stockDb.dayHigh)}"
+        stock_activity_yearlow.text = "$${String.format("%.2f", stockDb.yearLow)}"
+        stock_activity_yearhigh.text = "$${String.format("%.2f", stockDb.yearHigh)}"
         stock_activity_div4.visibility = View.VISIBLE
 
         // Setup statusBar color if SDK > Lollipop
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.setStatusBarColor(stockDb.iconColorDark)
+            window.statusBarColor = stockDb.iconColorDark
         }
     }
 
     override fun updateViewWithStock(stock: Stock) {
         stock_activity_collapsing_toolbar.title = stock.symbol
         stock_activity_content_description.text = stock.name
-        stock_activity_price.text = "$${stock.quote.price}"
-        stock_activity_priceavg.text = "$${stock.quote.priceAvg50}"
-        stock_activity_daylow.text = "$${stock.quote.dayLow}"
-        stock_activity_dayhigh.text = "$${stock.quote.dayHigh}"
-        stock_activity_yearlow.text = "$${stock.quote.yearLow}"
-        stock_activity_yearhigh.text = "$${stock.quote.yearHigh}"
+        stock_activity_price.text = "$${String.format("%.2f", stock.quote.price)}"
+        stock_activity_priceavg.text = "$${String.format("%.2f", stock.quote.priceAvg50)}"
+        stock_activity_daylow.text = "$${String.format("%.2f", stock.quote.dayLow)}"
+        stock_activity_dayhigh.text = "$${String.format("%.2f", stock.quote.dayHigh)}"
+        stock_activity_yearlow.text = "$${String.format("%.2f", stock.quote.yearLow)}"
+        stock_activity_yearhigh.text = "$${String.format("%.2f", stock.quote.yearHigh)}"
     }
 
     override fun updateAdapter(stockDbBoughtList: List<StockDbBought>) {
