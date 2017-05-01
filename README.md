@@ -2,6 +2,16 @@ Stock exchange game - emulator.
 
 Built with Kotlin 1.1.2, MVP architecture ([boilerplate here][mvp]), RxKotlin, Dagger and other good stuff.
 
+## Screenshots
+
+![](https://raw.githubusercontent.com/GLodi/FinanceGame/master/gfx/device-2017-05-01-184249.png)
+
+![](https://raw.githubusercontent.com/GLodi/FinanceGame/master/gfx/device-2017-05-01-184429.png)
+
+![](https://raw.githubusercontent.com/GLodi/FinanceGame/master/gfx/device-2017-05-01-184502.png)
+
+![](https://raw.githubusercontent.com/GLodi/FinanceGame/master/gfx/device-2017-05-01-184537.png)
+
 ## Libraries used:
 
  - [YahooFinanceAPI][yf]
