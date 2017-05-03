@@ -4,6 +4,10 @@ Built with Kotlin 1.1.2, MVP architecture ([boilerplate here][mvp]), RxKotlin, D
 
 ## Screenshots
 
+![](https://raw.githubusercontent.com/GLodi/FinanceGame/master/gfx/Screen1.png)
+
+![](https://raw.githubusercontent.com/GLodi/FinanceGame/master/gfx/Screen2.png)
+
 ## Libraries used:
 
  - [YahooFinanceAPI][yf]
