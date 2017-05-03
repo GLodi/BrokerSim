@@ -77,7 +77,6 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_dayhigh.text = "$${String.format("%.2f", stockDb.dayHigh)}"
         stock_activity_yearlow.text = "$${String.format("%.2f", stockDb.yearLow)}"
         stock_activity_yearhigh.text = "$${String.format("%.2f", stockDb.yearHigh)}"
-        stock_activity_div4.visibility = View.VISIBLE
 
         // Setup statusBar color if SDK > Lollipop
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -113,32 +112,21 @@ class StockActivity : BaseActivity(), StockContract.View {
         (stock_activity_content_rv.adapter as StockAdapter).addStockDbBoughtList(stockDbBoughtList, mStock)
     }
 
-    override fun showSuccess(message: String) {
-        Toasty.success(applicationContext, message, Toast.LENGTH_LONG).show()
-    }
+    override fun showSuccess(message: String) { Toasty.success(applicationContext, message, Toast.LENGTH_LONG).show() }
 
-    override fun showError(error: String) {
-        Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show()
-    }
+    override fun showError(error: String) { Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show() }
 
-    override fun showLoading() {
-        mLoadingDialog = CommonUtils.showLoadingDialog(this)
-    }
+    override fun showLoading() { mLoadingDialog = CommonUtils.showLoadingDialog(this) }
+
+    override fun hideLoading() { if (mLoadingDialog.isShowing) mLoadingDialog.cancel() }
+
+    override fun showFab() { stock_activity_fab.show() }
 
     override fun showBuyFragment() {
         val fragment: BuyDialogFragment = BuyDialogFragment()
         fragment.arguments = Bundle()
         fragment.arguments.putString("symbol", mSymbol)
         fragment.show(supportFragmentManager, "Stock Fragment")
-    }
-
-    override fun hideLoading() {
-        if (mLoadingDialog.isShowing)
-            mLoadingDialog.cancel()
-    }
-
-    override fun showFab() {
-        stock_activity_fab.show()
     }
 
     companion object {

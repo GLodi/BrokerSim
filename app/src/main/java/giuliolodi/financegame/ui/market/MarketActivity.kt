@@ -86,31 +86,21 @@ class MarketActivity : BaseActivity(), MarketContract.View {
                 .subscribe { symbol -> startActivity(StockActivity.getIntent(applicationContext).putExtra("symbol", symbol)) }
     }
 
-    override fun showLoading() {
-        market_activity_content_srl.isRefreshing = true
-    }
-
-    override fun hideLoading() {
-        market_activity_content_srl.isRefreshing = false
-    }
-
-    override fun showContent(stocks: List<Stock>) {
-        (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks)
-    }
-
     override fun showMoreContent(stocks: List<Stock>) {
         (market_activity_content_rv.adapter as MarketAdapter).addMoreStocks(stocks)
         PAGE += 10
         LOADING = false
     }
 
-    override fun setSymbolList(symbols: List<String>) {
-        mSymbols = symbols
-    }
+    override fun showLoading() { market_activity_content_srl.isRefreshing = true }
 
-    override fun showError(error: String) {
-        Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show()
-    }
+    override fun hideLoading() { market_activity_content_srl.isRefreshing = false }
+
+    override fun showContent(stocks: List<Stock>) { (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks) }
+
+    override fun setSymbolList(symbols: List<String>) { mSymbols = symbols }
+
+    override fun showError(error: String) { Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show() }
 
     companion object {
         fun getIntent(context: Context): Intent {

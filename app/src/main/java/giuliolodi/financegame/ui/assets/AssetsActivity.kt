@@ -69,37 +69,21 @@ class AssetsActivity : BaseActivity(), AssetsContract.View {
                 .subscribe { symbol -> startActivity(StockActivity.getIntent(applicationContext).putExtra("symbol", symbol)) }
     }
 
-    override fun showContent(stocks: List<StockDb>) {
-        (assets_activity_content_rv.adapter as AssetsAdapter).addStocks(stocks)
-    }
+    override fun showContent(stocks: List<StockDb>) { (assets_activity_content_rv.adapter as AssetsAdapter).addStocks(stocks) }
 
-    override fun clearAdapter() {
-        (assets_activity_content_rv.adapter as AssetsAdapter).clearAdapter()
-    }
+    override fun clearAdapter() { (assets_activity_content_rv.adapter as AssetsAdapter).clearAdapter() }
 
-    override fun showLoading() {
-        assets_activity_content_srl.isRefreshing = true
-    }
+    override fun showLoading() { assets_activity_content_srl.isRefreshing = true }
 
-    override fun hideLoading() {
-        assets_activity_content_srl.isRefreshing = false
-    }
+    override fun hideLoading() { assets_activity_content_srl.isRefreshing = false }
 
-    override fun showNoStocksMessage() {
-        assets_activity_content_nostocks.visibility = View.VISIBLE
-    }
+    override fun showNoStocksMessage() { assets_activity_content_nostocks.visibility = View.VISIBLE }
 
-    override fun hideNoStocksMessage() {
-        assets_activity_content_nostocks.visibility = View.GONE
-    }
+    override fun hideNoStocksMessage() { assets_activity_content_nostocks.visibility = View.GONE }
 
-    override fun showError(error: String) {
-        Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show()
-    }
+    override fun showError(error: String) { Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show() }
 
-    override fun updateMoney(money: String) {
-        money_view_text.text = "$$money"
-    }
+    override fun updateMoney(money: String) { money_view_text.text = "$$money" }
 
     override fun onDestroy() {
         mPresenter.onDetach()

@@ -198,20 +198,13 @@
     </RelativeLayout>
 
     <View
-        android:id="@+id/stock_activity_div4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorBackground"
-        android:visibility="gone" />
+        android:background="@color/colorBackground" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/stock_activity_content_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorBackground" />
 
 </LinearLayout>

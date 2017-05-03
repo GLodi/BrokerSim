@@ -74,21 +74,15 @@ class BuyDialogFragment : BaseFragment(), BuyDialogContract.View {
         mPresenter.subscribe(mSymbol)
     }
 
-    override fun showLoading() {
-        mProgressDialog = CommonUtils.showLoadingDialog(context)
-    }
+    override fun showLoading() { mProgressDialog = CommonUtils.showLoadingDialog(context) }
 
     override fun hideLoading() {
         if (mProgressDialog.isShowing)
             mProgressDialog.cancel()
     }
 
-    override fun hideDialog() {
-        dialog.dismiss()
-    }
+    override fun hideDialog() { dialog.dismiss() }
 
-    override fun showError(error: String) {
-        Toasty.error(context, error, Toast.LENGTH_LONG).show()
-    }
+    override fun showError(error: String) { Toasty.error(context, error, Toast.LENGTH_LONG).show() }
 
 }
