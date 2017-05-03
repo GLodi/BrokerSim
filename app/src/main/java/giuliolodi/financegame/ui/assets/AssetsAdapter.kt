@@ -51,14 +51,6 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
         holder.itemView.setOnClickListener { onClickSubject.onNext(mStockDbListSymbols[position]) }
     }
 
-    override fun getItemCount(): Int {
-        return mStockDbList.size
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
     fun addStocks(stocks: List<StockDb>) {
         mStockDbList = stocks.toMutableList()
         mStockDbListSymbols.clear()
@@ -71,5 +63,9 @@ class AssetsAdapter : RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
         mStockDbListSymbols.clear()
         notifyDataSetChanged()
     }
+
+    override fun getItemCount(): Int { return mStockDbList.size }
+
+    override fun getItemId(position: Int): Long { return position.toLong() }
 
 }

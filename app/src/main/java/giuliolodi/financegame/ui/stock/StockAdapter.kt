@@ -60,18 +60,14 @@ class StockAdapter : RecyclerView.Adapter<StockAdapter.ViewHolder>() {
         }
     }
 
-    override fun getItemCount(): Int {
-        return mStockDbBoughtList.size
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
     fun addStockDbBoughtList(stocks: List<StockDbBought>, currentStock: Stock) {
         mStockDbBoughtList = stocks.toMutableList()
         mCurrentStock = currentStock
         notifyDataSetChanged()
     }
+
+    override fun getItemCount(): Int { return mStockDbBoughtList.size }
+
+    override fun getItemId(position: Int): Long { return position.toLong() }
 
 }

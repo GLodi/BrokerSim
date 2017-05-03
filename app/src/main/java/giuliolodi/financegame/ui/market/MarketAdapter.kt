@@ -60,18 +60,6 @@ class MarketAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (mStockList.get(position) != null) 1 else 0
-    }
-
-    override fun getItemCount(): Int {
-        return mStockList.size
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
     fun addStocks(stocks: List<Stock>) {
         mStockList = stocks.toMutableList()
         notifyDataSetChanged()
@@ -88,5 +76,11 @@ class MarketAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         mStockList.addAll(stocks)
         notifyDataSetChanged()
     }
+
+    override fun getItemViewType(position: Int): Int { return if (mStockList.get(position) != null) 1 else 0 }
+
+    override fun getItemCount(): Int { return mStockList.size }
+
+    override fun getItemId(position: Int): Long { return position.toLong() }
 
 }
