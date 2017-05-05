@@ -34,7 +34,7 @@ kapt {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.6.0'
+    compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.6.1'
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
