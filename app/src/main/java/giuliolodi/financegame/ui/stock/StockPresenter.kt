@@ -111,7 +111,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         getDataManager().updateMoney(-stockDb.price!!.toDouble() * amount)
                         updateStockDbBought(symbol)
                         getView().hideLoading()
-                        getView().showSuccess("Another stock bought.")
+                        getView().showSuccess("Stock bought.")
                     },
                     { getDataManager().downloadStock(symbol)
                             .subscribeOn(Schedulers.newThread())
