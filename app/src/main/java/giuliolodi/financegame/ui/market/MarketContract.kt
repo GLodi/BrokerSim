@@ -21,6 +21,8 @@ interface MarketContract {
 
         fun setSymbolList(symbols: List<String>)
 
+        fun updateMoney(money: String)
+
     }
 
     @PerActivity
@@ -29,6 +31,8 @@ interface MarketContract {
         fun subscribe()
 
         fun getMoreStocks(symbols: List<String>)
+
+        fun getMoney()
 
     }
 

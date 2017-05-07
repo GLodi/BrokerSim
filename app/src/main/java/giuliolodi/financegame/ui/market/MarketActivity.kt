@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.Gravity
 import android.view.MenuItem
 import android.widget.Toast
 import es.dmoral.toasty.Toasty
@@ -15,6 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.market_activity.*
 import kotlinx.android.synthetic.main.market_activity_content.*
+import kotlinx.android.synthetic.main.money_view.*
 import yahoofinance.Stock
 import javax.inject.Inject
 
@@ -43,6 +46,7 @@ class MarketActivity : BaseActivity(), MarketContract.View {
 
     fun initLayout() {
         setSupportActionBar(market_activity_toolbar)
+        market_activity_toolbar.addView(layoutInflater.inflate(R.layout.money_view, null), Toolbar.LayoutParams(Gravity.RIGHT))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = "Markets"
 
@@ -99,6 +103,8 @@ class MarketActivity : BaseActivity(), MarketContract.View {
     override fun showContent(stocks: List<Stock>) { (market_activity_content_rv.adapter as MarketAdapter).addStocks(stocks) }
 
     override fun setSymbolList(symbols: List<String>) { mSymbols = symbols }
+
+    override fun updateMoney(money: String) { money_view_text.text = "$$money" }
 
     override fun showError(error: String) { Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show() }
 

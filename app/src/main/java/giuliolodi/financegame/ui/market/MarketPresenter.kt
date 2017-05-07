@@ -17,6 +17,7 @@ class MarketPresenter<V: MarketContract.View> : BasePresenter<V>, MarketContract
 
     override fun subscribe() {
         getView().showLoading()
+        getMoney()
         getCompositeDisposable().add(getDataManager().downloadActiveStockSymbols()
                 .flatMap { activeStockSymbols ->
                     getView().setSymbolList(activeStockSymbols)
@@ -48,6 +49,13 @@ class MarketPresenter<V: MarketContract.View> : BasePresenter<V>, MarketContract
                             getView().showError("Error downloading stocks.\nCheck your internet connection.")
                         }
                 ))
+    }
+
+    override fun getMoney() {
+        getCompositeDisposable().add(getDataManager().getMoney()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { money -> getView().updateMoney(String.format("%.2f", money)) })
     }
 
 }
