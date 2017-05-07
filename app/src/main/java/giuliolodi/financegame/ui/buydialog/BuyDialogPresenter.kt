@@ -25,7 +25,7 @@ class BuyDialogPresenter<V: BuyDialogContract.View> : BasePresenter<V>, BuyDialo
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showError("Error retrieving money from assets.") }))
+                            getView().showError("Error retrieving money from assets") }))
     }
 
     fun getStockToUpdateSeekbar(symbol: String, money: Double) {
@@ -37,7 +37,7 @@ class BuyDialogPresenter<V: BuyDialogContract.View> : BasePresenter<V>, BuyDialo
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showError("Error downloading stock.\nCheck you internet connection.") }))
+                            getView().showError("Error downloading stock\nCheck you internet connection") }))
     }
 
 }

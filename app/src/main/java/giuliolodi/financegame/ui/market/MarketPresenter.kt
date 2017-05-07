@@ -32,7 +32,7 @@ class MarketPresenter<V: MarketContract.View> : BasePresenter<V>, MarketContract
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showError("Error downloading stocks.\nCheck your internet connection.")
+                            getView().showError("Error downloading stocks\nCheck your internet connection")
                         }))
     }
 
@@ -46,7 +46,7 @@ class MarketPresenter<V: MarketContract.View> : BasePresenter<V>, MarketContract
                         },
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
-                            getView().showError("Error downloading stocks.\nCheck your internet connection.")
+                            getView().showError("Error downloading stocks\nCheck your internet connection")
                         }
                 ))
     }

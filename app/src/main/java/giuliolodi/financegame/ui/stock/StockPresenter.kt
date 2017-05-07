@@ -41,7 +41,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                                         { throwable ->
                                             Log.e(TAG, throwable.message, throwable)
                                             getView().hideLoading()
-                                            getView().showError("Error downloading stock.\nCheck your internet connection.")
+                                            getView().showError("Error downloading stock\nCheck your internet connection")
                                         })
                         }))
     }
@@ -57,7 +57,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showError("Error downloading stock.\nCheck you internet connection.")
+                            getView().showError("Error downloading stock\nCheck you internet connection")
                         }))
     }
 
@@ -80,7 +80,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         { throwable ->
                             Log.e(TAG, throwable.message, throwable)
                             getView().hideLoading()
-                            getView().showError("Error retrieving stock.")
+                            getView().showError("Error retrieving stock")
                         }))
     }
 
@@ -96,7 +96,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                             if (deleteStockDb)
                                 getView().updateAdapter(arrayListOf())
                             else
-                                getView().showError("Error retrieving stock.")
+                                getView().showError("Error retrieving stock")
                         }))
     }
 
@@ -111,7 +111,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         getDataManager().updateMoney(-stockDb.price!!.toDouble() * amount)
                         updateStockDbBought(symbol)
                         getView().hideLoading()
-                        getView().showSuccess("Stock bought.")
+                        getView().showSuccess("Stock bought")
                     },
                     { getDataManager().downloadStock(symbol)
                             .subscribeOn(Schedulers.newThread())
@@ -122,12 +122,12 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                                         getDataManager().storeFirstStock(stock, amount, stock.quote.price.toDouble(), CommonUtils.getDate())
                                         getDataManager().updateMoney(-stock.quote!!.price.toDouble() * amount)
                                         getStock(stock.symbol)
-                                        getView().showSuccess("Stock bought.")
+                                        getView().showSuccess("Stock bought")
                                     },
                                     { throwable ->
                                         Log.e(TAG, throwable.message, throwable)
                                         getView().hideLoading()
-                                        getView().showError("Error buying stock.")
+                                        getView().showError("Error buying stock")
                                     })
                     }))
     }
@@ -141,7 +141,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                 .subscribe {
                     updateStockDbBought(sellRequest.stock.symbol, sellRequest.deleteStockDb)
                     getView().hideLoading()
-                    getView().showSuccess("Stock sold.") })
+                    getView().showSuccess("Stock sold") })
     }
 
 }
