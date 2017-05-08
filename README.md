@@ -1,3 +1,5 @@
+# BrokerSim
+
 Stock exchange game - emulator.
 
 Built with Kotlin 1.1.2, MVP architecture ([boilerplate here][mvp]), RxKotlin, Dagger and other good stuff.

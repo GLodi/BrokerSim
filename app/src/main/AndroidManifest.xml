@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="giuliolodi.financegame">
+    package="giuliolodi.brokersim">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name="giuliolodi.brokersim.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.assets.AssetsActivity">
+        <activity android:name="giuliolodi.brokersim.ui.assets.AssetsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +21,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.stock.StockActivity"
+        <activity android:name="giuliolodi.brokersim.ui.stock.StockActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".ui.market.MarketActivity">
+        <activity android:name="giuliolodi.brokersim.ui.market.MarketActivity">
         </activity>
 
 

@@ -8,7 +8,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "giuliolodi.financegame"
+        applicationId 'giuliolodi.brokersim'
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
@@ -25,6 +25,8 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    productFlavors {
+    }
 }
 
 kapt {
@@ -32,9 +34,9 @@ kapt {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile group: 'com.yahoofinance-api', name: 'YahooFinanceAPI', version: '3.6.1'
+    compile 'com.yahoofinance-api:YahooFinanceAPI:3.6.1'
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -80,5 +82,4 @@ dependencies {
 repositories {
     mavenCentral()
     maven { url "http://dl.bintray.com/jetbrains/spek" }
-
 }
