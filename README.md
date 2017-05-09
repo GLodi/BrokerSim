@@ -23,7 +23,6 @@ Built with Kotlin 1.1.2, MVP architecture ([boilerplate here][mvp]), RxKotlin, D
  - [Dagger2][dagger]
  - [ImageLetterIcon][ili]
  - [AVLoadingIndicatorView][avliv]
- - [RecyclerView-FlexibleDivider][rv]
  - [Toasty][toasty]
 
 [yf]: https://github.com/sstrickx/yahoofinance-api
@@ -33,6 +32,5 @@ Built with Kotlin 1.1.2, MVP architecture ([boilerplate here][mvp]), RxKotlin, D
 [dagger]: https://github.com/square/dagger
 [ili]: https://github.com/akashandroid90/ImageLetterIcon
 [avliv]: https://github.com/81813780/AVLoadingIndicatorView
-[rv]: https://github.com/yqritc/RecyclerView-FlexibleDivider
 [toasty]: https://github.com/GrenderG/Toasty
 [mvp]: https://github.com/MindorksOpenSource/android-mvp-architecture

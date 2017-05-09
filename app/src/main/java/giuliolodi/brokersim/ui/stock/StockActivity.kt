@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.stock_activity.*
 import javax.inject.Inject
 import android.view.WindowManager
 import android.widget.Toast
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import es.dmoral.toasty.Toasty
 import giuliolodi.brokersim.models.StockDbBought
 import giuliolodi.brokersim.ui.buydialog.BuyDialogFragment
@@ -55,7 +54,6 @@ class StockActivity : BaseActivity(), StockContract.View {
         stock_activity_content_rv.layoutManager = LinearLayoutManager(applicationContext)
         stock_activity_content_rv.adapter = adapter
         stock_activity_content_rv.isNestedScrollingEnabled = false
-        stock_activity_content_rv.addItemDecoration(HorizontalDividerItemDecoration.Builder(this).build())
 
         stock_activity_fab.setOnClickListener { showBuyFragment() }
 
