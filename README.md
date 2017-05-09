@@ -4,6 +4,10 @@ Stock exchange game - emulator.
 
 Built with Kotlin 1.1.2, MVP architecture ([boilerplate here][mvp]), RxKotlin, Dagger and other good stuff.
 
+<div align="center">
+	<img src="https://raw.githubusercontent.com/GLodi/BrokerSim/master/gfx/web_hi_res_512.png" width="128">
+</div>
+
 ## Screenshots
 
 ![](https://raw.githubusercontent.com/GLodi/BrokerSim/master/gfx/Screen1.png)
