@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017 GLodi
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package giuliolodi.brokersim.ui.assets
 
 import android.util.Log
@@ -26,7 +42,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
         var storredStocks: List<StockDb> = ArrayList()
         var storredStocksStrings: ArrayList<String> = ArrayList()
         getCompositeDisposable().add(getDataManager().getStocks()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { getMoney() }
                 .subscribe(
@@ -56,7 +72,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
     fun downloadStocks(storredStocksStrings: Array<String>, storredStocks: List<StockDb>) {
         var downloadedStocks: List<Stock>? = null
         getCompositeDisposable().add(getDataManager().downloadStockList(storredStocksStrings)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { checkStocks(storredStocks, downloadedStocks!!) }
                 .subscribe(
@@ -82,7 +98,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
      */
     fun getStocksUpdateView() {
         getCompositeDisposable().add(getDataManager().getStocks()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { stockDbList -> getView().showContent(stockDbList); getView().hideLoading() },
@@ -92,7 +108,7 @@ class AssetsPresenter<V: AssetsContract.View> : BasePresenter<V>, AssetsContract
 
     override fun getMoney() {
         getCompositeDisposable().add(getDataManager().getMoney()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { money -> getView().updateMoney(String.format("%.2f", money)) })
     }

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017 GLodi
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package giuliolodi.brokersim.ui.stock
 
 import android.util.Log
@@ -23,13 +39,13 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
         getView().showLoading()
         var storredStocks: StockDb? = null
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { downloadStocks(storredStocks) }
                 .subscribe(
                         { stockDb -> storredStocks = stockDb },
                         { getDataManager().downloadStock(symbol)
-                                .subscribeOn(Schedulers.newThread())
+                                .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(
                                         { stock ->
@@ -48,7 +64,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
     fun downloadStocks(storredStock: StockDb?) {
         var downloadedStock: Stock? = null
         getCompositeDisposable().add(getDataManager().downloadStock(storredStock!!.symbol)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { checkStock(storredStock, downloadedStock) }
                 .subscribe(
@@ -67,7 +83,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
 
     fun getStockDbUpdateView(symbol: String, downloadedStock: Stock) {
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { stockDb ->
@@ -85,7 +101,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
 
     fun updateStockDbBought(symbol: String, deleteStockDb: Boolean = false) {
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { stockDb -> getView().updateAdapter(stockDb.bought) },
@@ -102,7 +118,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
     override fun buyStock(symbol: String, amount: Int) {
         getView().showLoading()
         getCompositeDisposable().add(getDataManager().getStockWithSymbol(symbol)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                     { stockDb ->
@@ -113,7 +129,7 @@ class StockPresenter<V: StockContract.View> : BasePresenter<V>, StockContract.Pr
                         getView().showSuccess("Stock bought")
                     },
                     { getDataManager().downloadStock(symbol)
-                            .subscribeOn(Schedulers.newThread())
+                            .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     { stock ->
