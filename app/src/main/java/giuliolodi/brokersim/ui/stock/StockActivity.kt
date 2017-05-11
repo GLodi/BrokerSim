@@ -45,6 +45,7 @@ class StockActivity : BaseActivity(), StockContract.View {
     lateinit var mLoadingDialog: ProgressDialog
     lateinit var mSymbol: String
     lateinit var mStock: Stock
+    var mLoaded: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,9 +130,17 @@ class StockActivity : BaseActivity(), StockContract.View {
 
     override fun showError(error: String) { Toasty.error(applicationContext, error, Toast.LENGTH_LONG).show() }
 
-    override fun showLoading() { mLoadingDialog = CommonUtils.showLoadingDialog(this) }
+    override fun showLoading() {
+        mLoadingDialog = CommonUtils.showLoadingDialog(this)
+        mLoadingDialog.setOnCancelListener { if (!mLoaded) super.onBackPressed() }
+    }
 
-    override fun hideLoading() { if (mLoadingDialog.isShowing) mLoadingDialog.cancel() }
+    override fun hideLoading() {
+        if (mLoadingDialog.isShowing) {
+            mLoadingDialog.cancel()
+            mLoaded = true
+        }
+    }
 
     override fun showFab() { stock_activity_fab.show() }
 

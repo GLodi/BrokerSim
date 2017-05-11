@@ -34,9 +34,7 @@ class CommonUtils {
         fun showLoadingDialog(context: Context): ProgressDialog {
             val progressDialog = ProgressDialog(context)
             progressDialog.show()
-            if (progressDialog.getWindow() != null) {
-                progressDialog.getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            }
+            if (progressDialog.getWindow() != null) progressDialog.getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             progressDialog.setContentView(R.layout.progress_dialog)
             progressDialog.setIndeterminate(true)
             progressDialog.setCancelable(true)
