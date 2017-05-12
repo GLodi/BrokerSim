@@ -1,5 +1,7 @@
 # BrokerSim
 
+[GooglePlay Link][gp]
+
 Stock exchange game - emulator.
 
 Built with Kotlin 1.1.2, MVP architecture ([boilerplate here][mvp]), RxKotlin, Dagger and other good stuff.
@@ -34,3 +36,4 @@ Built with Kotlin 1.1.2, MVP architecture ([boilerplate here][mvp]), RxKotlin, D
 [avliv]: https://github.com/81813780/AVLoadingIndicatorView
 [toasty]: https://github.com/GrenderG/Toasty
 [mvp]: https://github.com/MindorksOpenSource/android-mvp-architecture
+[gp]: https://play.google.com/store/apps/details?id=giuliolodi.brokersim
